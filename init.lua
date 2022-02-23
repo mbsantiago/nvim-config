@@ -1,0 +1,5 @@
+require("core.utils")
+require("modules").setup()
+require("core.options")
+require("core.keymaps")
+require("core.autocmd")
