@@ -30,6 +30,7 @@ return function()
           { key = 'I', cb = map 'toggle_ignored' },
           { key = 'l', cb = map 'edit' },
           { key = 'r', cb = map 'rename' },
+          { key = 'R', cb = map 'refresh' },
           { key = 's', cb = map 'split' },
           { key = 'v', cb = map 'vsplit' },
           { key = 'Y', cb = map 'copy_path' },

@@ -1,8 +1,6 @@
 return function()
   local telescope = safe_require("telescope")
 
-  telescope.load_extension("fzy_native")
-
   telescope.load_extension("projects")
 
   if not telescope then
@@ -42,5 +40,15 @@ return function()
         n = { ["<C-c>"] = actions.close },
       },
     },
+    extensions = {
+      fzf = {
+        fuzzy = true,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+        case_mode = "smart_case",
+      },
+    },
   })
+
+  telescope.load_extension("fzf")
 end

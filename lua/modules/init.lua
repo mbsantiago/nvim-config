@@ -3,23 +3,13 @@ local function conf(name)
 end
 
 local plugins = {
-  { -- Colorschemes
-    "folke/tokyonight.nvim",
-    "olimorris/onedarkpro.nvim",
-    "EdenEast/nightfox.nvim",
-    "Mofiqul/vscode.nvim",
-    "morhetz/gruvbox",
-    "preservim/vim-colors-pencil",
-    "rafamadriz/neon",
-    "sainnhe/sonokai",
-    "savq/melange",
-    "shaunsingh/nord.nvim",
-    "tjdevries/colorbuddy.nvim",
-    { "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } },
-  },
   {
     "themercorp/themer.lua",
     config = conf("themer"),
+  },
+  { -- HTML
+    "windwp/nvim-ts-autotag",
+    config = conf("nvim-ts-autotag"),
   },
   { -- Treesiter
     "nvim-treesitter/nvim-treesitter",
@@ -27,11 +17,19 @@ local plugins = {
     requires = {
       "nvim-treesitter/playground",
       "p00f/nvim-ts-rainbow",
-      "windwp/nvim-ts-autotag",
-      "nvim-treesitter/nvim-treesitter-textobjects",
       "JoosepAlviste/nvim-ts-context-commentstring",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "David-Kunz/treesitter-unit",
       "lewis6991/spellsitter.nvim",
     },
+  },
+  { -- fzf wrapper
+    "nvim-telescope/telescope-fzf-native.nvim",
+    run = "make",
+  },
+  { -- Fuzzy finder tools
+    "tzachar/fuzzy.nvim",
+    requires = { "nvim-telescope/telescope-fzf-native.nvim" },
   },
   { -- Finder
     "nvim-telescope/telescope.nvim",
@@ -39,7 +37,7 @@ local plugins = {
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-lua/popup.nvim",
-      "nvim-telescope/telescope-fzy-native.nvim",
+      "stevearc/dressing.nvim",
     },
   },
   { -- Icons
@@ -50,9 +48,7 @@ local plugins = {
     "neovim/nvim-lspconfig",
     config = conf("lsp"),
     requires = {
-      "nvim-lua/lsp-status.nvim",
       "tjdevries/lsp_extensions.nvim",
-      "tjdevries/nlua.nvim",
       "folke/trouble.nvim",
       "ray-x/lsp_signature.nvim",
       "tami5/lspsaga.nvim",
@@ -68,10 +64,12 @@ local plugins = {
     requires = {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-emoji",
+      "hrsh7th/cmp-omni",
       "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
+      "tzachar/cmp-fuzzy-buffer",
+      "tzachar/cmp-fuzzy-path",
     },
   },
   { -- Snippets
@@ -85,6 +83,9 @@ local plugins = {
   { -- Bufferline / tabs
     "akinsho/bufferline.nvim",
     config = conf("nvim-bufferline"),
+  },
+  { -- LSP status in status bar
+    "arkav/lualine-lsp-progress",
   },
   { -- Status line
     "nvim-lualine/lualine.nvim",
@@ -103,10 +104,9 @@ local plugins = {
   { -- Make folds prettier
     "anuvyklack/pretty-fold.nvim",
     config = conf("pretty-fold"),
-  },
-  { -- Orgmode for agenda and todos
-    "nvim-orgmode/orgmode",
-    config = conf("org-mode"),
+    requires = {
+      "anuvyklack/nvim-keymap-amend",
+    },
   },
   { -- Notes
     "renerocksai/telekasten.nvim",
@@ -119,7 +119,7 @@ local plugins = {
     "mzlogin/vim-markdown-toc",
     "vim-pandoc/vim-pandoc-syntax",
     "vim-pandoc/vim-pandoc",
-    { "iamcco/markdown-preview.nvim", run = "cd app && yarn install" },
+    "davidgranstrom/nvim-markdown-preview",
     config = conf("markdown"),
   },
   { -- Tag Bar
@@ -163,18 +163,9 @@ local plugins = {
   { -- See the Undo Tree
     "mbbill/undotree",
   },
-  { -- Get a minimap of the current buffer
-    "wfxr/minimap.vim",
-  },
-  { -- Align tables
-    "godlygeek/tabular",
-  },
   { -- Start
     "goolord/alpha-nvim",
     config = conf("alpha-nvim"),
-  },
-  { -- Load custom configurations from local directories
-    "klen/nvim-config-local",
   },
   { -- Autopairs
     "windwp/nvim-autopairs",
@@ -207,9 +198,6 @@ local plugins = {
     "folke/twilight.nvim",
     config = conf("zen-mode"),
   },
-  { -- Optimizations
-    "dstein64/vim-startuptime",
-  },
   { -- Run snippets of code
     "michaelb/sniprun",
     run = "bash ./install.sh",
@@ -229,6 +217,9 @@ local plugins = {
     branch = "stable",
     config = conf("nvim-r"),
   },
+  { -- Keymap finder
+    "mrjones2014/legendary.nvim",
+  },
   { -- Keymap menu
     "folke/which-key.nvim",
     config = conf("which-key"),
@@ -237,21 +228,27 @@ local plugins = {
     "ahmedkhalf/project.nvim",
     config = conf("project"),
   },
-  { -- Game to train vim motions
-    "ThePrimeagen/vim-be-good",
-  },
   { -- Testing
     "rcarriga/vim-ultest",
     requires = { "vim-test/vim-test" },
     run = ":UpdateRemotePlugins",
     config = conf("vim-test"),
   },
-  { -- HTML
-    "windwp/nvim-ts-autotag",
-    config = conf("nvim-ts-autotag"),
+  { -- Debugging
+    "mfussenegger/nvim-dap",
+    requires = {
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
+      "nvim-telescope/telescope-dap.nvim",
+      "mfussenegger/nvim-dap-python",
+    },
+    config = conf("nvim-dap"),
   },
   {
     "mattn/emmet-vim",
+  },
+  { -- Symbols bar
+    "simrat39/symbols-outline.nvim",
   },
 }
 

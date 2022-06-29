@@ -38,7 +38,7 @@ M.setup = function()
         cat(output)
         close(con)
       ]],
-      }),
+      }, "stylermd"),
       to_stdin = true,
     },
     factory = helpers.formatter_factory,
@@ -46,19 +46,41 @@ M.setup = function()
 
   null_ls.setup({
     sources = {
+      -- Diagnostics
       diagnostic.eslint,
-      format.prettierd,
-      format.stylua,
+      diagnostic.proselint,
+      diagnostic.write_good,
       diagnostic.vale.with({
         command = "/home/linuxbrew/.linuxbrew/bin/vale",
       }),
-      diagnostic.proselint,
-      actions.proselint,
-      diagnostic.write_good,
-      format.prettier,
+      -- Formatting
       format.isort,
       format.black,
       format.latexindent,
+      format.djhtml,
+      format.fish_indent,
+      format.shfmt,
+      format.stylua,
+      format.prettierd.with({
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "vue",
+          "css",
+          "scss",
+          "less",
+          "html",
+          "json",
+          "yaml",
+          "markdown",
+          "graphql",
+          "pandoc",
+        },
+      }),
+      -- Actions
+      actions.proselint,
       stylermd,
     },
   })

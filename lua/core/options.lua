@@ -2,6 +2,7 @@ local o = vim.opt
 
 vim.cmd("filetype plugin on")
 vim.cmd("filetype indent on")
+vim.cmd("syntax enable")
 
 -- Local/per project configuration
 o.exrc = true
@@ -108,11 +109,12 @@ vim.g.maplocalleader = "\\"
 -- Remove builtin plugins
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_zipPlugin = 1
-vim.g.loaded_zip = 1
+-- vim.g.loaded_zipPlugin = 0
+-- vim.g.loaded_zip = 0
 
 -- Python
-vim.g.python3_host_prog = "/home/santiago/Software/vendor/miniconda3/envs/nvim/bin/python"
+vim.g.python3_host_prog =
+  "/home/santiago/Software/vendor/miniconda3/envs/nvim/bin/python"
 
 -- Translation
 vim.g.translator_target_lang = "en"

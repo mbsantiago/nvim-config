@@ -5,6 +5,12 @@ return function()
     return
   end
 
+  -- local legendary = safe_require("legendary")
+  --
+  -- if legendary then
+  --   legendary.setup()
+  -- end
+
   local setup = {
     plugins = {
       marks = true, -- shows a list of your marks on ' and `
@@ -97,14 +103,7 @@ return function()
 
   local mappings = {
     ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-    ["b"] = {
-      "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-      "Buffers",
-    },
-    ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-    ["u"] = { "<cmd>UndotreeToggle<cr>", "Undo Tree" },
-    ["T"] = { "<cmd>TagbarToggle<cr>", "Tag Bar" },
-    ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
+    ["c"] = { "<cmd>bd<CR>", "Close Buffer" },
     ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
     ["f"] = {
       "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
@@ -120,14 +119,26 @@ return function()
       "Projects",
     },
 
-    o = {
-      name = "Organization",
-      a = { "Agenda" },
-      c = { "Capture" },
+    d = {
+      name = "Debug",
+      c = { "<cmd>lua require('dap').continue()<cr>", "Continue" },
+      b = {
+        "<cmd>lua require('dap').toggle_breakpoint()<cr>",
+        "Toggle Breakpoint",
+      },
+      r = { "<cmd>lua require('dap').repl.open()<cr>", "Open REPL" },
+      l = { "<cmd>lua require('dap').run_last()<cr>", "Run Last" },
+      n = { "<cmd>lua require('dap').step_over()<cr>", "Next" },
+      i = { "<cmd>lua require('dap').step_into()<cr>", "Step Into" },
+      o = { "<cmd>lua require('dap').step_out()<cr>", "Step Out" },
+      m = { "<cmd>lua require('dap-python').test_method()<cr>", "Test Method" },
+      k = { "<cmd>lua require('dap-python').test_class()<cr>", "Test Class" },
+      v = { "<cmd>lua require('dap-python').debug_selection()<cr>", "Debug Selection" },
+      t = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" },
     },
 
-    d = {
-      name = "Display",
+    v = {
+      name = "View",
       c = { "<cmd>Telescope colorscheme<cr>", "Colorschemes" },
       t = { "<cmd>Telescope themes<cr>", "Themes" },
       z = { "<cmd>ZenMode<cr>", "Zen Mode" },
@@ -181,13 +192,14 @@ return function()
       a = { "<cmd>Lspsaga code_action<cr>", "Code Action" },
       d = {
         "<cmd>lua vim.lsp.buf.definition()<cr>",
-        "Definition",
+        "Go To Definition",
       },
       w = {
         "<cmd>Telescope lsp_workspace_diagnostics<cr>",
         "Workspace Diagnostics",
       },
       f = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
+      F = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
       i = { "<cmd>LspInfo<cr>", "Info" },
       I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
       h = { "<cmd>Lspsaga hover_doc<cr>", "Hover Docs" },
@@ -209,9 +221,14 @@ return function()
         "<cmd>Lspsaga diagnostic_jump_prev<cr>",
         "Prev Diagnostic",
       },
+      k = {
+        "<cmd>lua vim.lsp.client.stop()<cr>",
+        "Kill LSP",
+      },
       l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
       q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
       r = { "<cmd>Lspsaga rename<cr>", "Rename" },
+      R = { "<cmd>Telescope lsp_references<cr>", "References" },
       s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
       S = {
         "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
@@ -222,15 +239,17 @@ return function()
     s = {
       name = "Search",
       B = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-      c = { "<cmd>Telescope theme<cr>", "Colorscheme" },
+      c = { "<cmd>Telescope themes<cr>", "Colorscheme" },
       h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
       M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
       f = { "<cmd>Telescope find_files<cr>", "Files" },
       b = { "<cmd>Telescope buffers<cr>", "Buffers" },
       R = { "<cmd>Telescope registers<cr>", "Registers" },
-      k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-      C = { "<cmd>Telescope commands<cr>", "Commands" },
+      L = { "<cmd>Legendary<cr>", "Legendary" },
+      k = { "<cmd>Legendary keymaps<cr>", "Keymaps" },
+      C = { "<cmd>Legendary commands<cr>", "Commands" },
+      a = { "<cmd>Legendary autocmds<cr>", "Commands" },
       m = { "<cmd>Telescope marks<cr>", "Marks" },
       t = { "<cmd>Telescope tags<cr>", "Tags" },
       T = { "<cmd>Telescope current_buffer_tags<cr>", "Tags in Buffer" },
@@ -273,15 +292,16 @@ return function()
       },
       t = { ":lua require('telekasten').toggle_todo()<cr>", "Toggle To Do" },
       T = { ":lua require('telekasten').show_tags()<cr>", "Show Tags" },
-      r = { ":lua require('telekasten').rename_note()<cr>", "Rename Note" },
+      y = { ":lua require('telekasten').rename_note()<cr>", "Rename Note" },
       z = { ":lua require('telekasten').panel()<cr>", "Panel" },
     },
 
-    t = {
+    T = {
       name = "Terminal",
       n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
       u = { "<cmd>lua _NCDU_TOGGLE()<cr>", "NCDU" },
-      t = { "<cmd>lua _HTOP_TOGGLE()<cr>", "Htop" },
+      t = { "<cmd>lua _TASK_TOGGLE()<cr>", "Tasks" },
+      m = { "<cmd>lua _HTOP_TOGGLE()<cr>", "Monitor" },
       p = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
       f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
       h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
@@ -292,7 +312,7 @@ return function()
       name = "Trouble",
       x = { "<cmd>TroubleToggle<cr>", "Toggle" },
       w = {
-        "<cmd>TroubleToggle workpace_diagnostics<cr>",
+        "<cmd>TroubleToggle workspace_diagnostics<cr>",
         "Workspace Diagnostics",
       },
       d = {
@@ -312,6 +332,7 @@ return function()
       L = { "<cmd>HopLineStart<cr>", "Line Start" },
       c = { "<cmd>HopChar1<cr>", "Character" },
       C = { "<cmd>HopChar2<cr>", "Characters [2]" },
+      a = { "<cmd>HopAnywhere<cr>", "Anywhere" },
     },
 
     r = {
@@ -321,8 +342,28 @@ return function()
       k = { "<cmd>SnipReset<cr>", "Reset" },
       c = { "<cmd>SnipClose<cr>", "Close" },
       f = { "<cmd>lua require('sniprun').run_file()<cr>", "File" },
-      t = { "<cmd>Ultest<cr>", "Tests" },
+    },
+
+    t = {
+      name = "Tests",
+      r = { "<cmd>Ultest<cr>", "Run Tests" },
+      f = { "<cmd>Ultest<cr>", "File Tests" },
+      c = { "<cmd>UltestClear<cr>", "Clear Results" },
+      n = { "<cmd>UltestNearest<cr>", "Nearest Test" },
+      l = { "<cmd>UltestLast<cr>", "Last Test" },
       s = { "<cmd>UltestSummary<cr>", "Test Summary" },
+      S = { "<cmd>UltestStop<cr>", "Stop Tests" },
+      d = { "<Plug>(ultest-debug-nearest)", "Debug Nearest Test" },
+      D = { "<cmd>UltestDebug<cr>", "Debug File" },
+      a = { "<cmd>UltestAttach<cr>", "Attach to Runner" },
+      o = { "<cmd>UltestOutput<cr>", "Show Output" },
+    },
+
+    b = {
+      name = "Bars",
+      t = { "<cmd>TagbarToggle<cr>", "Tag Bar" },
+      e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+      u = { "<cmd>UndotreeToggle<cr>", "Undo Tree" },
     },
 
     m = {
@@ -503,7 +544,47 @@ return function()
     prefix = "<localleader>",
   }
 
+  local plugin = {
+    l = {
+      name = "VimTeX",
+      i = { "Info" },
+      I = { "Full Info" },
+      t = { "Open Table of Contents" },
+      T = { "Toggle Table of Contents" },
+      q = { "Log" },
+      v = { "View" },
+      r = { "Reverse Search" },
+      l = { "Compile" },
+      L = { "Compile Selected" },
+      k = { "Stop" },
+      K = { "Stop All" },
+      e = { "Errors" },
+      o = { "Compile Output" },
+      g = { "Status" },
+      G = { "Status All" },
+      c = { "Clean" },
+      C = { "Full Clean" },
+      m = { "Insert Maps List" },
+      x = { "Reload" },
+      X = { "Reload State" },
+      s = { "Toggle Main" },
+      a = { "Context Menu" },
+    },
+    ["\\"] = {
+      name = "Multi Cursor",
+      ["/"] = { "Regex Search" },
+      ["\\"] = { "Insert at cursor" },
+      ["A"] = { "Select All" },
+      gs = { "Go to last" },
+    },
+  }
+  which_key.register(plugin, opts)
+
   -- Register text objects
+  vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=true})
+  vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+  vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
+  vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
 
   local objects = {
     a = { name = "around" },
@@ -554,7 +635,8 @@ return function()
     ["iC"] = [[inner function call]],
     ["aC"] = [[outer function call]],
     ["iS"] = [[inner comment]],
-    ["aS"] = [[outer comment]],
+    ["iu"] = [[inner unit]],
+    ["au"] = [[outer unit]],
   }
   -- Text objects
   which_key.register(objects, { mode = "o", prefix = "" })

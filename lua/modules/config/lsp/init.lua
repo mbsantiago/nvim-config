@@ -9,9 +9,11 @@ return function()
 
   handlers.setup()
 
-  handlers.enable_format_on_save()
+  -- handlers.enable_format_on_save()
 
   require("modules.config.lsp.null-ls").setup()
+
+  local ltex = require("modules.config.lsp.ltex")
 
   local servers = {
     sumneko_lua = {
@@ -45,12 +47,16 @@ return function()
 
         pylsp = {
           plugins = {
+            pylint = {
+              enabled = false,
+            },
+
             pyls_mypy = {
-              enabled = true,
+              enabled = false,
             },
 
             flake8 = {
-              enabled = true,
+              enabled = false,
             },
 
             pydocstyle = {
@@ -60,6 +66,7 @@ return function()
         },
       },
     },
+    ltex = ltex.default_settings(),
     texlab = {
       settings = {
         texlab = {
@@ -86,10 +93,16 @@ return function()
     },
   }
 
+  local flags = {
+    debounce_text_changes = 500,
+  }
+
   require("nvim-lsp-installer").on_server_ready(function(server)
     local config = servers[server.name] or {}
     config.capabilities = handlers.capabilities
     config.on_attach = handlers.on_attach
+    config.flags = flags
     server:setup(config)
+    ltex.setup()
   end)
 end

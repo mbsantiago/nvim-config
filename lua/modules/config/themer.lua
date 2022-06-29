@@ -6,7 +6,7 @@ return function()
   end
 
   themer.setup({
-    colorscheme = "tokyonight", -- default colorscheme
+    colorscheme = "everforest", -- default colorscheme
 
     transparent = false,
 
@@ -16,8 +16,7 @@ return function()
 
     -- disable_telescope_themes = {},
 
-    styles = {
-      --   heading = {
+    styles = { --   heading = {
       --     h1 = {},
       --     h2 = {},
       --   },

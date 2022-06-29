@@ -1,16 +1,13 @@
 local M = {}
 
-local lsp_status = require("lsp-status")
-
 M.setup = function()
-  local saga = require("lspsaga")
+  local saga = safe_require("lspsaga")
 
-  saga.init_lsp_saga({
-    border_style = "round",
-  })
-
-  -- Register the progress handler
-  lsp_status.register_progress()
+  if saga then
+    saga.init_lsp_saga({
+      border_style = "round",
+    })
+  end
 end
 
 function M.on_attach(client, bufnr)
@@ -18,10 +15,6 @@ function M.on_attach(client, bufnr)
 
   if lsp_signature then
     lsp_signature.on_attach()
-  end
-
-  if lsp_status then
-    lsp_status.on_attach(client)
   end
 
   if client.name ~= "null-ls" then
@@ -69,6 +62,8 @@ function M.toggle_format_on_save()
   end
 end
 
-vim.cmd([[command! LspToggleAutoFormat execute 'lua require("modules.config.lsp.handlers").toggle_format_on_save()']])
+vim.cmd(
+  [[command! LspToggleAutoFormat execute 'lua require("modules.config.lsp.handlers").toggle_format_on_save()']]
+)
 
 return M

@@ -7,22 +7,18 @@ return function()
     return
   end
 
-  treesitter.setup({
-    ensure_installed = "maintained",
+  local config = {
+    ensure_installed = "all",
 
-    sync_install = false,
+    sync_install = true,
 
     highlight = {
       enable = true, -- false will disable the whole extension
-
-      disable = { "org" },
-
-      additional_vim_regex_highlighting = { "org" },
     },
 
     indent = { enable = false },
 
-    rainbow = { enable = true },
+    rainbow = { enable = false },
 
     autotag = { enable = true },
 
@@ -31,6 +27,10 @@ return function()
     textobjects = {
       select = {
         enable = true,
+
+        disable = {
+          "latex",
+        },
 
         -- Automatically jump forward to textobj, similar to targets.vim
         lookahead = true,
@@ -59,11 +59,22 @@ return function()
           -- String
           ["aS"] = "@comment.outer",
           ["iS"] = "@comment.inner",
+
+          -- Loop
+          ["al"] = "@loop.outer",
+          ["il"] = "@loop.inner",
+
+          -- Statement
+          ["a="] = "@statement.outer",
         },
       },
 
       move = {
         enable = true,
+
+        disable = {
+          "latex",
+        },
 
         set_jumps = true, -- whether to set jumps in the jumplist
 
@@ -90,6 +101,10 @@ return function()
 
       swap = {
         enable = true,
+
+        disable = {
+          "latex",
+        },
 
         swap_next = {
           ["<leader>a"] = "@parameter.inner",
@@ -123,5 +138,7 @@ return function()
         show_help = "?",
       },
     },
-  })
+  }
+
+  treesitter.setup(config)
 end

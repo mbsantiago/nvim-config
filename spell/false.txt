@@ -1,0 +1,2 @@
+{"rule":"EN_COMPOUNDS","sentence":"^\\QBy adopting a multi-task training approach we can expand supervision to the development of bat call detectors and classifiers.\\E$"}
+{"rule":"EN_COMPOUNDS","sentence":"^\\QBy using multi-task training we exploit location information of the different annotation types to develop bat call detectors and measure their performance.\\E$"}
