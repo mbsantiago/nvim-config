@@ -1,4 +1,4 @@
-local lyaml = require("lyaml")
+-- local lyaml = require("lyaml")
 
 local colorscheme = {}
 
@@ -99,12 +99,12 @@ end
 
 local function read_config()
   local serialized = read_file(PATH)
-  local config = lyaml.load(serialized)
+  -- local config = lyaml.load(serialized)
   return config
 end
 
 local function write_config(config)
-  local serialized = lyaml.dump(config)
+  -- local serialized = lyaml.dump(config)
   print(serialized)
   -- write_to_file(PATH, serialized)
 end
@@ -112,8 +112,10 @@ end
 colorscheme.update = function()
   local config = read_config()
   local colors = generate_config()
-  config["colors"] = colors
-  write_config(config)
+  return  colors
+  --
+  -- config["colors"] = colors
+  -- write_config(config)
 end
 
 return colorscheme

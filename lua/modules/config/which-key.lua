@@ -131,9 +131,15 @@ return function()
       n = { "<cmd>lua require('dap').step_over()<cr>", "Next" },
       i = { "<cmd>lua require('dap').step_into()<cr>", "Step Into" },
       o = { "<cmd>lua require('dap').step_out()<cr>", "Step Out" },
-      m = { "<cmd>lua require('dap-python').test_method()<cr>", "Test Method" },
+      m = {
+        "<cmd>lua require('dap-python').test_method()<cr>",
+        "Test Method",
+      },
       k = { "<cmd>lua require('dap-python').test_class()<cr>", "Test Class" },
-      v = { "<cmd>lua require('dap-python').debug_selection()<cr>", "Debug Selection" },
+      v = {
+        "<cmd>lua require('dap-python').debug_selection()<cr>",
+        "Debug Selection",
+      },
       t = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" },
     },
 
@@ -198,7 +204,7 @@ return function()
         "<cmd>Telescope lsp_workspace_diagnostics<cr>",
         "Workspace Diagnostics",
       },
-      f = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
+      f = { "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", "Format" },
       F = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
       i = { "<cmd>LspInfo<cr>", "Info" },
       I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
@@ -221,7 +227,7 @@ return function()
         "<cmd>Lspsaga diagnostic_jump_prev<cr>",
         "Prev Diagnostic",
       },
-      k = {
+      K = {
         "<cmd>lua vim.lsp.client.stop()<cr>",
         "Kill LSP",
       },
@@ -246,10 +252,6 @@ return function()
       f = { "<cmd>Telescope find_files<cr>", "Files" },
       b = { "<cmd>Telescope buffers<cr>", "Buffers" },
       R = { "<cmd>Telescope registers<cr>", "Registers" },
-      L = { "<cmd>Legendary<cr>", "Legendary" },
-      k = { "<cmd>Legendary keymaps<cr>", "Keymaps" },
-      C = { "<cmd>Legendary commands<cr>", "Commands" },
-      a = { "<cmd>Legendary autocmds<cr>", "Commands" },
       m = { "<cmd>Telescope marks<cr>", "Marks" },
       t = { "<cmd>Telescope tags<cr>", "Tags" },
       T = { "<cmd>Telescope current_buffer_tags<cr>", "Tags in Buffer" },
@@ -257,43 +259,9 @@ return function()
       l = { "<cmd>Telescope locfix<cr>", "Location List" },
       s = { "<cmd>Telescope search_history<cr>", "Search History" },
       d = {
-        "<cmd>lua require'telescope.builtin'.find_files{ search_dirs = { configs = '~/.config/nvim' } }<cr>",
+        "<cmd>lua require'telescope.builtin'.find_files{ search_dirs = { '~/.config/nvim' } }<cr>",
         "Dot files",
       },
-    },
-
-    z = {
-      name = "Notes",
-      f = { ":lua require('telekasten').find_notes()<cr>", "Find Notes" },
-      n = { ":lua require('telekasten').new_note()<cr>", "New Note" },
-      N = {
-        ":lua require('telekasten').new_templated_note()<cr>",
-        "New Templated Note",
-      },
-      d = {
-        ":lua require('telekasten').find_daily_notes()<cr>",
-        "Find Daily Notes",
-      },
-      w = {
-        ":lua require('telekasten').find_weekly_notes()<cr>",
-        "Find Weekly Notes",
-      },
-      D = { ":lua require('telekasten').goto_today()<cr>", "Go To Today" },
-      W = {
-        ":lua require('telekasten').goto_thisweek()<cr>",
-        "Go To This Week",
-      },
-      s = { ":lua require('telekasten').search_notes()<cr>", "Search Notes" },
-      i = { ":lua require('telekasten').insert_link()<cr>", "Insert Link" },
-      g = { ":lua require('telekasten').follow_link()<cr>", "Follow Link" },
-      c = {
-        ":lua require('telekasten').show_calendar()<cr>",
-        "Show Calendar",
-      },
-      t = { ":lua require('telekasten').toggle_todo()<cr>", "Toggle To Do" },
-      T = { ":lua require('telekasten').show_tags()<cr>", "Show Tags" },
-      y = { ":lua require('telekasten').rename_note()<cr>", "Rename Note" },
-      z = { ":lua require('telekasten').panel()<cr>", "Panel" },
     },
 
     T = {
@@ -342,26 +310,57 @@ return function()
       k = { "<cmd>SnipReset<cr>", "Reset" },
       c = { "<cmd>SnipClose<cr>", "Close" },
       f = { "<cmd>lua require('sniprun').run_file()<cr>", "File" },
+      r = { "<cmd>RustRun<cr>", "Rust run" },
     },
 
     t = {
       name = "Tests",
-      r = { "<cmd>Ultest<cr>", "Run Tests" },
-      f = { "<cmd>Ultest<cr>", "File Tests" },
-      c = { "<cmd>UltestClear<cr>", "Clear Results" },
-      n = { "<cmd>UltestNearest<cr>", "Nearest Test" },
-      l = { "<cmd>UltestLast<cr>", "Last Test" },
-      s = { "<cmd>UltestSummary<cr>", "Test Summary" },
-      S = { "<cmd>UltestStop<cr>", "Stop Tests" },
-      d = { "<Plug>(ultest-debug-nearest)", "Debug Nearest Test" },
-      D = { "<cmd>UltestDebug<cr>", "Debug File" },
-      a = { "<cmd>UltestAttach<cr>", "Attach to Runner" },
-      o = { "<cmd>UltestOutput<cr>", "Show Output" },
+      A = {
+        "<cmd>lua require('neotest').run.run({ suite = true })<cr>",
+        "Run All",
+      },
+      r = { "<cmd>lua require('neotest').run.run()<cr>", "Run Tests" },
+      f = {
+        "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>",
+        "File Tests",
+      },
+      n = {
+        "<cmd>lua require('neotest').run.run()<cr>",
+        "Nearest Test",
+      },
+      l = { "<cmd>lua require('neotest').run.run_last()<cr>", "Last Test" },
+      L = {
+        "<cmd>lua require('neotest').run.run_last({ strategy = 'dap' })<cr>",
+        "Debug Last Test",
+      },
+      j = { "<cmd>lua require('neotest').jump.next()<cr>", "Jump Next Test" },
+      k = { "<cmd>lua require('neotest').jump.prev()<cr>", "Jump Prev Test" },
+      s = {
+        "<cmd>lua require('neotest').summary.toggle()<cr>",
+        "Test Summary",
+      },
+      S = { "<cmd>lua require('neotest').run.stop()<cr>", "Stop Tests" },
+      d = {
+        "<cmd>lua require('neotest').run.run({strategy = 'dap'})<cr>",
+        "Debug Nearest Test",
+      },
+      D = {
+        "<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), strategy = 'dap' })<cr>",
+        "Debug File",
+      },
+      a = {
+        "<cmd>lua require('neotest').run.attach()<cr>",
+        "Attach to Runner",
+      },
+      o = {
+        "<cmd>lua require('neotest').output.open({ enter = true })<cr>",
+        "Show Output",
+      },
     },
 
     b = {
       name = "Bars",
-      t = { "<cmd>TagbarToggle<cr>", "Tag Bar" },
+      s = { "<cmd>SymbolsOutline<cr>", "Symbols" },
       e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
       u = { "<cmd>UndotreeToggle<cr>", "Undo Tree" },
     },
@@ -581,10 +580,30 @@ return function()
   which_key.register(plugin, opts)
 
   -- Register text objects
-  vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=true})
-  vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
-  vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
-  vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+  vim.api.nvim_set_keymap(
+    "x",
+    "iu",
+    ':lua require"treesitter-unit".select()<CR>',
+    { noremap = true }
+  )
+  vim.api.nvim_set_keymap(
+    "x",
+    "au",
+    ':lua require"treesitter-unit".select(true)<CR>',
+    { noremap = true }
+  )
+  vim.api.nvim_set_keymap(
+    "o",
+    "iu",
+    ':<c-u>lua require"treesitter-unit".select()<CR>',
+    { noremap = true }
+  )
+  vim.api.nvim_set_keymap(
+    "o",
+    "au",
+    ':<c-u>lua require"treesitter-unit".select(true)<CR>',
+    { noremap = true }
+  )
 
   local objects = {
     a = { name = "around" },

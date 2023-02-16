@@ -1,10 +1,20 @@
 return function()
-  vim.g.cursorline_disabled_filetypes = {
-    "help",
-    "xls",
-  }
+  local cursorline = safe_require("nvim-cursorline")
 
-  vim.g.cursorword_disabled_filetypes = {
-    "help",
-  }
+  if not cursorline then
+    return
+  end
+
+  cursorline.setup({
+    cursorline = {
+      enable = true,
+      timeout = 1000,
+      number = false,
+    },
+    cursorword = {
+      enable = true,
+      min_length = 3,
+      hl = { underline = true },
+    },
+  })
 end

@@ -1,13 +1,15 @@
 local M = {}
 
 M.setup = function()
+  local mason_null_ls = safe_require("mason-null-ls")
+
   local null_ls = safe_require("null-ls")
 
   local helpers = safe_require("null-ls.helpers")
 
   local methods = safe_require("null-ls.methods")
 
-  if not null_ls or not helpers or not methods then
+  if not null_ls or not helpers or not methods or not mason_null_ls then
     return
   end
 
@@ -17,6 +19,7 @@ M.setup = function()
 
   local actions = null_ls.builtins.code_actions
 
+  -- Make formater for R markdown
   local stylermd = helpers.make_builtin({
     name = "stylermd",
     method = { methods.internal.FORMATTING },
@@ -45,14 +48,14 @@ M.setup = function()
   })
 
   null_ls.setup({
+    debug = true,
     sources = {
       -- Diagnostics
-      diagnostic.eslint,
       diagnostic.proselint,
       diagnostic.write_good,
-      diagnostic.vale.with({
-        command = "/home/linuxbrew/.linuxbrew/bin/vale",
-      }),
+      -- diagnostic.vale.with({
+      --   command = "/home/linuxbrew/.linuxbrew/bin/vale",
+      -- }),
       -- Formatting
       format.isort,
       format.black,
@@ -61,7 +64,8 @@ M.setup = function()
       format.fish_indent,
       format.shfmt,
       format.stylua,
-      format.prettierd.with({
+      format.rustfmt,
+      format.prettier.with({
         filetypes = {
           "javascript",
           "javascriptreact",
@@ -78,11 +82,18 @@ M.setup = function()
           "graphql",
           "pandoc",
         },
+        command = "/usr/local/bin/prettier",
       }),
       -- Actions
       actions.proselint,
       stylermd,
     },
+  })
+
+  mason_null_ls.setup({
+    ensure_installed = nil,
+    automatic_installation = true,
+    automatic_setup = true,
   })
 end
 

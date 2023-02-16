@@ -11,14 +11,8 @@ M.setup = function()
 end
 
 function M.on_attach(client, bufnr)
-  local lsp_signature = safe_require("lsp_signature")
-
-  if lsp_signature then
-    lsp_signature.on_attach()
-  end
-
   if client.name ~= "null-ls" then
-    client.resolved_capabilities.document_formatting = false
+    client.server_capabilities.document_formatting = false
   end
 
   if client.name == "tsserver" then
@@ -38,7 +32,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 local cmp_nvim_lsp = safe_require("cmp_nvim_lsp")
 
 if cmp_nvim_lsp then
-  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+  capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
 M.capabilities = capabilities

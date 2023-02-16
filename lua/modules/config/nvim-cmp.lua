@@ -1,10 +1,12 @@
 return function()
   local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+
     return col ~= 0
-      and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-          :sub(col, col)
-          :match("%s")
+        and vim.api
+        .nvim_buf_get_lines(0, line - 1, line, true)[1]
+        :sub(col, col)
+        :match("%s")
         == nil
   end
 
@@ -12,18 +14,17 @@ return function()
 
   local compare = safe_require("cmp.config.compare")
 
-  local fzf_compare = require("cmp_fuzzy_buffer.compare")
+  local fzf_compare = safe_require("cmp_fuzzy_buffer.compare")
 
   local luasnip = safe_require("luasnip")
 
   local lspkind = safe_require("lspkind")
 
-  if
-    not cmp
-    or not luasnip
-    or not lspkind
-    or not compare
-    or not fzf_compare
+  if not cmp
+      or not luasnip
+      or not lspkind
+      or not compare
+      or not fzf_compare
   then
     return
   end
@@ -37,9 +38,7 @@ return function()
 
     mapping = {
       ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-
       ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-
       ["<C-space>"] = cmp.mapping(
         cmp.mapping.confirm({
           behavior = cmp.ConfirmBehavior.Insert,
@@ -47,12 +46,10 @@ return function()
         }),
         { "i", "c" }
       ),
-
       ["<C-e>"] = cmp.mapping({
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
       }),
-
       ["<C-n>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -64,7 +61,6 @@ return function()
           fallback()
         end
       end, { "i", "s" }),
-
       ["<C-p>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
@@ -78,6 +74,7 @@ return function()
 
     -- Sources order are actually their priority order
     sources = {
+      { name = "nvim_lsp_signature_help" },
       { name = "nvim_lsp", keyword_length = 2 },
       { name = "luasnip", keyword_length = 2 },
       { name = "path" },
@@ -99,16 +96,16 @@ return function()
           luasnip = "[snip]",
           cmp_tabnine = "[tabnine]",
         },
-        -- before = function(entry, vim_item)
-        --     vim_item.abbr = vim_item.abbr:gsub("%b()", "")
-        --     return vim_item
-        -- end,
       }),
+    },
+
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
     },
 
     experimental = {
       native_menu = false,
-
       ghost_text = true,
     },
 
@@ -128,10 +125,13 @@ return function()
     },
   })
 
+  -- Setup completion on search mode
   cmp.setup.cmdline("/", {
-    sources = {
-      { name = "fuzzy_buffer", keyword_length = 3 },
-    },
+    sources = cmp.config.sources({
+      { name = "nvim_lsp_document_symbol" },
+    }, {
+      { name = "buffer" },
+    }),
   })
 
   -- Setup completion on command mode

@@ -1,8 +1,6 @@
 return function()
   local telescope = safe_require("telescope")
 
-  telescope.load_extension("projects")
-
   if not telescope then
     return
   end

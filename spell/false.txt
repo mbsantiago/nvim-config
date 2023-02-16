@@ -1,2 +1,3 @@
 {"rule":"EN_COMPOUNDS","sentence":"^\\QBy adopting a multi-task training approach we can expand supervision to the development of bat call detectors and classifiers.\\E$"}
 {"rule":"EN_COMPOUNDS","sentence":"^\\QBy using multi-task training we exploit location information of the different annotation types to develop bat call detectors and measure their performance.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\Q[1]Santiago Martínez Balvanera [2]Everardo Gustavo Robredo Esquivelzeta [3]Veronica Zamora-Gutiérrez [4]Maria Cristina Mac Swiney Gonzalez [5]Oisin Mac Aodha [1]Kate E. Jones\\E$"}

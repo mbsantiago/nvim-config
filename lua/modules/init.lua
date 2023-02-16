@@ -19,6 +19,7 @@ local plugins = {
       "p00f/nvim-ts-rainbow",
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "RRethy/nvim-treesitter-textsubjects",
       "David-Kunz/treesitter-unit",
       "lewis6991/spellsitter.nvim",
     },
@@ -44,18 +45,28 @@ local plugins = {
     "kyazdani42/nvim-web-devicons",
     config = conf("nvim-web-devicons"),
   },
+  {
+    'folke/neodev.nvim',
+    config = function()
+      require('neodev').setup({
+        library = { plugins = { "nvim-dap-ui" }, types = true },
+      })
+    end
+  },
   { -- Lsp
     "neovim/nvim-lspconfig",
     config = conf("lsp"),
     requires = {
+      "williamboman/mason.nvim",
       "tjdevries/lsp_extensions.nvim",
       "folke/trouble.nvim",
-      "ray-x/lsp_signature.nvim",
       "tami5/lspsaga.nvim",
       "jose-elias-alvarez/nvim-lsp-ts-utils",
       "jose-elias-alvarez/null-ls.nvim",
-      "williamboman/nvim-lsp-installer",
       "onsails/lspkind-nvim",
+      "j-hui/fidget.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "jayp0521/mason-null-ls.nvim",
     },
   },
   { -- Autocompletion plugin
@@ -65,11 +76,19 @@ local plugins = {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-omni",
-      "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "hrsh7th/cmp-nvim-lsp-document-symbol",
       "tzachar/cmp-fuzzy-buffer",
       "tzachar/cmp-fuzzy-path",
+      "github/copilot.vim",
+      {
+        "tzachar/cmp-tabnine",
+        run = "./install.sh",
+        requires = "hrsh7th/nvim-cmp",
+      },
     },
   },
   { -- Snippets
@@ -84,9 +103,6 @@ local plugins = {
     "akinsho/bufferline.nvim",
     config = conf("nvim-bufferline"),
   },
-  { -- LSP status in status bar
-    "arkav/lualine-lsp-progress",
-  },
   { -- Status line
     "nvim-lualine/lualine.nvim",
     config = conf("lualine"),
@@ -95,10 +111,22 @@ local plugins = {
     "kyazdani42/nvim-tree.lua",
     config = conf("nvim-tree"),
   },
+  { -- Run snippets of code
+    "michaelb/sniprun",
+    config = conf("sniprun"),
+    run = "bash ./install.sh",
+  },
   { -- Comments
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
+    end,
+  },
+  {
+    "anuvyklack/fold-preview.nvim",
+    requires = "anuvyklack/keymap-amend.nvim",
+    config = function()
+      require("fold-preview").setup()
     end,
   },
   { -- Make folds prettier
@@ -108,25 +136,12 @@ local plugins = {
       "anuvyklack/nvim-keymap-amend",
     },
   },
-  { -- Notes
-    "renerocksai/telekasten.nvim",
-    config = conf("notes"),
-    requires = {
-      "renerocksai/calendar-vim",
-    },
-  },
   { -- Markdown
     "mzlogin/vim-markdown-toc",
     "vim-pandoc/vim-pandoc-syntax",
     "vim-pandoc/vim-pandoc",
     "davidgranstrom/nvim-markdown-preview",
     config = conf("markdown"),
-  },
-  { -- Tag Bar
-    "majutsushi/tagbar",
-    requires = {
-      "ludovicchabant/vim-gutentags",
-    },
   },
   { -- Terminal Support / Multiple terminal
     "akinsho/toggleterm.nvim",
@@ -173,7 +188,6 @@ local plugins = {
   },
   { -- Cursor line
     "Hrle97/nvim-cursorline",
-    branch = "feature/disable-conditionally",
     config = conf("nvim-cursorline"),
   },
   { -- Colorizer
@@ -190,24 +204,6 @@ local plugins = {
     "lukas-reineke/indent-blankline.nvim",
     config = conf("indent-blankline"),
   },
-  { -- Multiple cursors
-    "mg979/vim-visual-multi",
-  },
-  { -- Zen Mode
-    "folke/zen-mode.nvim",
-    "folke/twilight.nvim",
-    config = conf("zen-mode"),
-  },
-  { -- Run snippets of code
-    "michaelb/sniprun",
-    run = "bash ./install.sh",
-    config = conf("sniprun"),
-  },
-  { -- Run python code in remote IPython kernel
-    "dccsillag/magma-nvim",
-    run = ":UpdateRemotePlugins",
-    config = conf("magma-nvim"),
-  },
   { -- Notifications
     "rcarriga/nvim-notify",
     config = conf("nvim-notify"),
@@ -217,21 +213,23 @@ local plugins = {
     branch = "stable",
     config = conf("nvim-r"),
   },
-  { -- Keymap finder
-    "mrjones2014/legendary.nvim",
-  },
   { -- Keymap menu
     "folke/which-key.nvim",
     config = conf("which-key"),
   },
-  { -- Project Management
-    "ahmedkhalf/project.nvim",
-    config = conf("project"),
+  { -- Rust
+    "simrat39/rust-tools.nvim",
+    config = conf("rust-tools"),
   },
   { -- Testing
-    "rcarriga/vim-ultest",
-    requires = { "vim-test/vim-test" },
-    run = ":UpdateRemotePlugins",
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-neotest/neotest-python",
+      "haydenmeade/neotest-jest",
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+    },
     config = conf("vim-test"),
   },
   { -- Debugging
@@ -247,18 +245,30 @@ local plugins = {
   {
     "mattn/emmet-vim",
   },
-  { -- Symbols bar
+  {
     "simrat39/symbols-outline.nvim",
+    config = function()
+      require("symbols-outline").setup({
+        auto_close = true,
+        auto_preview = true,
+        autofold_depth = 1,
+        lsp_blacklist = { "pylsp" },
+      })
+    end,
   },
+  {
+    -- DBML syntax
+    "jidn/vim-dbml",
+  }
 }
 
 local M = {}
 
 function M:setup()
   local install_path = vim.fn.stdpath("data")
-    .. "/site/pack/packer/start/packer.nvim"
+      .. "/site/pack/packer/start/packer.nvim"
   local compile_path = vim.fn.stdpath("data")
-    .. "/site/plugin/packer_compiled.lua"
+      .. "/site/plugin/packer_compiled.lua"
   local package_root = vim.fn.stdpath("data") .. "/site/pack"
 
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then

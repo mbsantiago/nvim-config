@@ -8,7 +8,7 @@ return function()
   sniprun.setup({
     selected_interpreters = { "Python3_jupyter" }, --# use those instead of the default for the current filetype
 
-    repl_enable = { "Python3_jupyter" }, --# enable REPL-like behavior for the given interpreters
+    repl_enable = { "Python3_jupyter", "Python3_original" }, --# enable REPL-like behavior for the given interpreters
 
     repl_disable = {}, --# disable REPL-like behavior for the given interpreters
 
@@ -21,14 +21,13 @@ return function()
 
     --# you can combo different display modes as desired
     display = {
-      "Classic", --# display results in the command-line  area
-      "NvimNotify", --# display ok results as virtual text (multiline is shortened)
-
+      -- "Classic", --# display results in the command-line  area
+      -- "NvimNotify", --# display ok results as virtual text (multiline is shortened)
       -- "VirtualTextErr",          --# display error results as virtual text
       -- "TempFloatingWindow",      --# display results in a floating window
       -- "LongTempFloatingWindow",  --# same as above, but only long results. To use with VirtualText__
       -- "Terminal",                --# display results in a vertical split
-      -- "TerminalWithCode",        --# display results and code history in a vertical split
+      "TerminalWithCode",        --# display results and code history in a vertical split
       -- "NvimNotify",              --# display with the nvim-notify plugin
       -- "Api"                      --# return output to a programming interface
     },
@@ -63,11 +62,16 @@ return function()
     live_mode_toggle = "off", --# live mode toggle, see Usage - Running for more info
   })
 
+  local sa = safe_require("sniprun.api")
+
+  if not sa then
+    return
+  end
+
   function sniprun.run_file()
     -- clean cache
     sniprun.reset()
-
     local range_end = vim.api.nvim_buf_line_count(0)
-    sniprun.notify("run", 1, range_end, sniprun.config_values, vim.g.sniprun_cli_args or "")
+    sa.run_range(1, range_end)
   end
 end
