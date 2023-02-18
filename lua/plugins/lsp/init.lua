@@ -174,5 +174,37 @@ return {
       "neovim/nvim-lspconfig",
       "nvim-tree/nvim-web-devicons",
     },
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>TroubleToggle<cr>",
+        desc = "Trouble Toggle",
+      },
+      {
+        "<leader>xw",
+        "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>",
+        desc = "Trouble Workspace Diagnostics",
+      },
+      {
+        "<leader>xd",
+        "<cmd>TroubleToggle lsp_document_diagnostics<cr>",
+        desc = "Trouble Document Diagnostics",
+      },
+      {
+        "<leader>xl",
+        "<cmd>TroubleToggle loclist<cr>",
+        desc = "Trouble Location List",
+      },
+      {
+        "<leader>xq",
+        "<cmd>TroubleToggle quickfix<cr>",
+        desc = "Trouble Quickfix List",
+      },
+      {
+        "<leader>xr",
+        "<cmd>TroubleToggle lsp_references<cr>",
+        desc = "Trouble LSP References",
+      },
+    },
   },
 }

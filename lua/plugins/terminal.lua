@@ -59,5 +59,43 @@ return {
         taskwarrior:toggle()
       end
     end,
+    cmd = "ToggleTerm",
+    keys = {
+      {
+        "<leader>tt",
+        "<cmd>lua _TASK_TOGGLE()<cr>",
+        desc = "Terminal Tasks",
+      },
+      {
+        "<leader>tm",
+        "<cmd>lua _HTOP_TOGGLE()<cr>",
+        desc = "Terminal Monitor",
+      },
+      {
+        "<leader>tp",
+        "<cmd>lua _PYTHON_TOGGLE()<cr>",
+        desc = "Terminal Python",
+      },
+      {
+        "<leader>tf",
+        "<cmd>ToggleTerm direction=float<cr>",
+        desc = "Terminal Float",
+      },
+      {
+        "<leader>th",
+        "<cmd>ToggleTerm size=10 direction=horizontal<cr>",
+        desc = "Terminal Horizontal",
+      },
+      {
+        "<leader>tv",
+        "<cmd>ToggleTerm size=80 direction=vertical<cr>",
+        desc = "Terminal Vertical",
+      },
+      {
+        "<leader>gg",
+        "<cmd>lua _LAZYGIT_TOGGLE()<CR>",
+        desc = "Terminal Lazygit",
+      },
+    },
   },
 }
