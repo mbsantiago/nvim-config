@@ -12,9 +12,4 @@ vim.cmd([[
       au!
       au TextYankPost * silent! lua vim.highlight.on_yank { timeout = 150 }
     augroup END
-
-    augroup packer_user_config
-      autocmd!
-      autocmd BufWritePost init.lua source <afile> | PackerCompile
-    augroup end
 ]])

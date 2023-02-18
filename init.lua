@@ -1,5 +1,5 @@
 require("core.utils")
-require("modules").setup()
 require("core.options")
+require("modules")
 require("core.keymaps")
 require("core.autocmd")

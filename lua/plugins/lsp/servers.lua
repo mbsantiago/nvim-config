@@ -1,9 +1,10 @@
 local M = {}
 
 M.servers = function()
-  local ltex = require("modules.config.lsp.ltex")
+  local ltex = require("plugins.lsp.ltex")
+
   local servers = {
-    sumneko_lua = {
+    lua_ls = {
       Lua = {
         diagnostics = {
           globals = { "vim" },
