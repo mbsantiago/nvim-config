@@ -1,6 +1,7 @@
 return {
   { -- Terminal Support / Multiple terminal
     "akinsho/toggleterm.nvim",
+    lazy = true,
     config = function()
       local toggleterm = require("toggleterm")
 

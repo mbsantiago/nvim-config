@@ -5,6 +5,7 @@ return {
       "nvim-telescope/telescope-dap.nvim",
       "mfussenegger/nvim-dap-python",
     },
+    lazy = true,
     init = function()
       -- Icons
       vim.fn.sign_define("DapBreakpoint", { text = "🚩" })

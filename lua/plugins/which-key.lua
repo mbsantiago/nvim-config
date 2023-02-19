@@ -53,77 +53,14 @@ return {
 
       local mappings = {
         ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-
         l = {
           name = "LSP",
-          a = { "<cmd>Lspsaga code_action<cr>", "Code Action" },
-          d = {
-            "<cmd>lua vim.lsp.buf.definition()<cr>",
-            "Go To Definition",
-          },
-          w = {
-            "<cmd>Telescope lsp_workspace_diagnostics<cr>",
-            "Workspace Diagnostics",
-          },
-          f = {
-            "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
-            "Format",
-          },
-          F = { "<cmd>Lspsaga lsp_finder<cr>", "Finder" },
           i = { "<cmd>LspInfo<cr>", "Info" },
-          I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-          h = { "<cmd>Lspsaga hover_doc<cr>", "Hover Docs" },
-          H = { "<cmd>Lspsaga signature_help<cr>", "Signature Help" },
-          p = { "<cmd>Lspsaga preview_definition<cr>", "Preview Definition" },
-          c = {
-            "<cmd>Lspsaga show_cursor_diagnostics<cr>",
-            "Show Cursor Diagnostics",
-          },
-          L = {
-            "<cmd>Lspsaga show_line_diagnostics<cr>",
-            "Show Line Diagnostics",
-          },
-          j = {
-            "<cmd>Lspsaga diagnostic_jump_next<CR>",
-            "Next Diagnostic",
-          },
-          k = {
-            "<cmd>Lspsaga diagnostic_jump_prev<cr>",
-            "Prev Diagnostic",
-          },
           K = {
             "<cmd>lua vim.lsp.client.stop()<cr>",
             "Kill LSP",
           },
           l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-          q = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Quickfix" },
-          r = { "<cmd>Lspsaga rename<cr>", "Rename" },
-          R = { "<cmd>Telescope lsp_references<cr>", "References" },
-          s = {
-            "<cmd>Telescope lsp_document_symbols<cr>",
-            "Document Symbols",
-          },
-          S = {
-            "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-            "Workspace Symbols",
-          },
-        },
-
-        r = {
-          name = "Run",
-          l = { "<Plug>SnipRun", "Run Line" },
-          o = { "<Plug>SnipRunOperator", "Run Operator" },
-          k = { "<cmd>SnipReset<cr>", "Reset" },
-          c = { "<cmd>SnipClose<cr>", "Close" },
-          f = { "<cmd>lua require('sniprun').run_file()<cr>", "File" },
-          r = { "<cmd>RustRun<cr>", "Rust run" },
-        },
-
-        b = {
-          name = "Bars",
-          s = { "<cmd>SymbolsOutline<cr>", "Symbols" },
-          e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-          u = { "<cmd>UndotreeToggle<cr>", "Undo Tree" },
         },
       }
 
@@ -139,221 +76,152 @@ return {
 
       which_key.register(mappings, opts)
 
-      -- Register tab motions
-      local other = {
-        ["<A-1>"] = { ":BufferLineGoToBuffer 1<CR>", "Go to buffer 1" },
-        ["<A-2>"] = { ":BufferLineGoToBuffer 2<CR>", "Go to buffer 2" },
-        ["<A-3>"] = { ":BufferLineGoToBuffer 3<CR>", "Go to buffer 3" },
-        ["<A-4>"] = { ":BufferLineGoToBuffer 4<CR>", "Go to buffer 4" },
-        ["<A-5>"] = { ":BufferLineGoToBuffer 5<CR>", "Go to buffer 5" },
-        ["<A-6>"] = { ":BufferLineGoToBuffer 6<CR>", "Go to buffer 6" },
-        ["<A-7>"] = { ":BufferLineGoToBuffer 7<CR>", "Go to buffer 7" },
-        ["<A-8>"] = { ":BufferLineGoToBuffer 8<CR>", "Go to buffer 8" },
-        ["<A-9>"] = { ":BufferLineGoToBuffer 9<CR>", "Go to buffer 9" },
-        ["<A-b>"] = { ":BufferLinePick<CR>", "Pick Buffer" },
-        ["<A-,>"] = { ":BufferLineCycleNext<CR>", "Next Buffer" },
-        ["<A-.>"] = { ":BufferLineCyclePrev<CR>", "Previous Buffer" },
-        ["<A->>"] = { ":BufferLineMoveNext<CR>", "Move Buffer Next" },
-        ["<A-<>"] = { ":BufferLineMovePrev<CR>", "Move Buffer Prev" },
-        ["<A-s>e"] = {
-          ":BufferLineSortByExtension<CR>",
-          "Sort Buffers by Extension",
-        },
-        ["<A-s>d"] = {
-          ":BufferLineSortByDirectory<CR>",
-          "Sort Buffers by Directory",
-        },
-
-        ["["] = {
-          name = "Move Prev",
-          a = { ":previous" },
-          A = { ":first" },
-          b = { ":bprevious" },
-          B = { ":bfirst" },
-          l = { ":lprevious" },
-          L = { ":lfirst" },
-          ["<C-L>"] = { ":lpfile" },
-          q = { ":cprevious" },
-          Q = { ":cfirst" },
-          ["<C-Q>"] = { ":cpfile" },
-          t = { ":tprevious" },
-          T = { ":tfirst" },
-          ["<C-T>"] = { ":ptprevious" },
-          f = { "Previous File (Alphabetical Order)" },
-          n = { "Previous Conflict Hunk" },
-          ["<space>"] = { "Add Blank Line Above" },
-          e = { "Exchange Line With Above" },
-          o = {
-            name = "Option Unset",
-            b = { "Background" },
-            c = { "Cursorline" },
-            d = { "Diff" },
-            h = { "Search Highlight" },
-            i = { "Search Ignore Case" },
-            l = { "Character list" },
-            n = { "Numbers" },
-            r = { "Relative Numbers" },
-            u = { "Cursor Column" },
-            v = { "Virtual Edit" },
-            w = { "Wrap" },
-            x = { "Crosshairs" },
-            z = { "Spell" },
-          },
-
-          ["xx"] = { "XML Encode" },
-          ["uu"] = { "URL Encode" },
-          ["yy"] = { "C String Encode" },
-          ["CC"] = { "C String Encode" },
-        },
-
-        ["]"] = {
-          name = "Move Next",
-          a = { ":next" },
-          A = { ":last" },
-          b = { ":bnext" },
-          B = { ":blast" },
-          l = { ":lnext" },
-          L = { ":llast" },
-          ["<C-L>"] = { ":lnfile" },
-          q = { ":cnext" },
-          Q = { ":clast" },
-          ["<C-Q>"] = { ":cnfile" },
-          t = { ":tnext" },
-          T = { ":tlast" },
-          ["<C-T>"] = { ":ptnext" },
-          f = { "Next File (Alphabetical Order)" },
-          n = { "Next Conflict Hunk" },
-          ["<space>"] = { "Add Blank Line Bellow" },
-          e = { "Exchange Line With Bellow" },
-          o = {
-            name = "Option Set",
-            b = { "Background" },
-            c = { "Cursorline" },
-            d = { "Diff" },
-            h = { "Search Highlight" },
-            i = { "Search Ignore Case" },
-            l = { "Character list" },
-            n = { "Numbers" },
-            r = { "Relative Numbers" },
-            u = { "Cursor Column" },
-            v = { "Virtual Edit" },
-            w = { "Wrap" },
-            x = { "Crosshairs" },
-            z = { "Spell" },
-          },
-          ["xx"] = { "XML Decode" },
-          ["uu"] = { "URL Decode" },
-          ["yy"] = { "C String Decode" },
-          ["CC"] = { "C String Decode" },
-        },
-
-        ["<C-\\>"] = { "Toggle Terminal" },
-        ["<C-Down>"] = { "Add Cursor Down" },
-        ["<C-Up>"] = { "Add Cursor Up" },
-      }
-
-      opts = {
-        mode = "n", -- NORMAL mode.
-        buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-        silent = true, -- use `silent` when creating keymaps
-        noremap = true, -- use `noremap` when creating keymaps
-        nowait = true, -- use `nowait` when creating keymaps
-      }
-
-      which_key.register(other, opts)
-
-      local visual = {
-        m = {
-          name = "magma",
-          r = { ":<C-u>MagmaEvaluateVisual<cr>", "Run Visual" },
-        },
-      }
-
-      opts = {
-        mode = "x", -- Visual mode.
-        buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-        silent = true, -- use `silent` when creating keymaps
-        noremap = true, -- use `noremap` when creating keymaps
-        nowait = true, -- use `nowait` when creating keymaps
-      }
-
-      which_key.register(visual, opts)
+      -- -- Register tab motions
+      -- local other = {
+      --   ["["] = {
+      --     name = "Move Prev",
+      --     a = { ":previous" },
+      --     A = { ":first" },
+      --     b = { ":bprevious" },
+      --     B = { ":bfirst" },
+      --     l = { ":lprevious" },
+      --     L = { ":lfirst" },
+      --     ["<C-L>"] = { ":lpfile" },
+      --     q = { ":cprevious" },
+      --     Q = { ":cfirst" },
+      --     ["<C-Q>"] = { ":cpfile" },
+      --     t = { ":tprevious" },
+      --     T = { ":tfirst" },
+      --     ["<C-T>"] = { ":ptprevious" },
+      --     f = { "Previous File (Alphabetical Order)" },
+      --     n = { "Previous Conflict Hunk" },
+      --     ["<space>"] = { "Add Blank Line Above" },
+      --     e = { "Exchange Line With Above" },
+      --     o = {
+      --       name = "Option Unset",
+      --       b = { "Background" },
+      --       c = { "Cursorline" },
+      --       d = { "Diff" },
+      --       h = { "Search Highlight" },
+      --       i = { "Search Ignore Case" },
+      --       l = { "Character list" },
+      --       n = { "Numbers" },
+      --       r = { "Relative Numbers" },
+      --       u = { "Cursor Column" },
+      --       v = { "Virtual Edit" },
+      --       w = { "Wrap" },
+      --       x = { "Crosshairs" },
+      --       z = { "Spell" },
+      --     },
+      --
+      --     ["xx"] = { "XML Encode" },
+      --     ["uu"] = { "URL Encode" },
+      --     ["yy"] = { "C String Encode" },
+      --     ["CC"] = { "C String Encode" },
+      --   },
+      --
+      --   ["]"] = {
+      --     name = "Move Next",
+      --     a = { ":next" },
+      --     A = { ":last" },
+      --     b = { ":bnext" },
+      --     B = { ":blast" },
+      --     l = { ":lnext" },
+      --     L = { ":llast" },
+      --     ["<C-L>"] = { ":lnfile" },
+      --     q = { ":cnext" },
+      --     Q = { ":clast" },
+      --     ["<C-Q>"] = { ":cnfile" },
+      --     t = { ":tnext" },
+      --     T = { ":tlast" },
+      --     ["<C-T>"] = { ":ptnext" },
+      --     f = { "Next File (Alphabetical Order)" },
+      --     n = { "Next Conflict Hunk" },
+      --     ["<space>"] = { "Add Blank Line Bellow" },
+      --     e = { "Exchange Line With Bellow" },
+      --     o = {
+      --       name = "Option Set",
+      --       b = { "Background" },
+      --       c = { "Cursorline" },
+      --       d = { "Diff" },
+      --       h = { "Search Highlight" },
+      --       i = { "Search Ignore Case" },
+      --       l = { "Character list" },
+      --       n = { "Numbers" },
+      --       r = { "Relative Numbers" },
+      --       u = { "Cursor Column" },
+      --       v = { "Virtual Edit" },
+      --       w = { "Wrap" },
+      --       x = { "Crosshairs" },
+      --       z = { "Spell" },
+      --     },
+      --     ["xx"] = { "XML Decode" },
+      --     ["uu"] = { "URL Decode" },
+      --     ["yy"] = { "C String Decode" },
+      --     ["CC"] = { "C String Decode" },
+      --   },
+      --
+      --   ["<C-\\>"] = { "Toggle Terminal" },
+      --   ["<C-Down>"] = { "Add Cursor Down" },
+      --   ["<C-Up>"] = { "Add Cursor Up" },
+      -- }
+      --
+      -- opts = {
+      --   mode = "n", -- NORMAL mode.
+      --   buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+      --   silent = true, -- use `silent` when creating keymaps
+      --   noremap = true, -- use `noremap` when creating keymaps
+      --   nowait = true, -- use `nowait` when creating keymaps
+      -- }
+      --
+      -- which_key.register(other, opts)
 
       -- Local leader
-      opts = {
-        mode = "n", -- NORMAL mode
-        buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-        silent = true, -- use `silent` when creating keymaps
-        noremap = true, -- use `noremap` when creating keymaps
-        nowait = true, -- use `nowait` when creating keymaps
-        prefix = "<localleader>",
-      }
+      -- opts = {
+      --   mode = "n", -- NORMAL mode
+      --   buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+      --   silent = true, -- use `silent` when creating keymaps
+      --   noremap = true, -- use `noremap` when creating keymaps
+      --   nowait = true, -- use `nowait` when creating keymaps
+      --   prefix = "<localleader>",
+      -- }
 
-      local plugin = {
-        l = {
-          name = "VimTeX",
-          i = { "Info" },
-          I = { "Full Info" },
-          t = { "Open Table of Contents" },
-          T = { "Toggle Table of Contents" },
-          q = { "Log" },
-          v = { "View" },
-          r = { "Reverse Search" },
-          l = { "Compile" },
-          L = { "Compile Selected" },
-          k = { "Stop" },
-          K = { "Stop All" },
-          e = { "Errors" },
-          o = { "Compile Output" },
-          g = { "Status" },
-          G = { "Status All" },
-          c = { "Clean" },
-          C = { "Full Clean" },
-          m = { "Insert Maps List" },
-          x = { "Reload" },
-          X = { "Reload State" },
-          s = { "Toggle Main" },
-          a = { "Context Menu" },
-        },
-        ["\\"] = {
-          name = "Multi Cursor",
-          ["/"] = { "Regex Search" },
-          ["\\"] = { "Insert at cursor" },
-          ["A"] = { "Select All" },
-          gs = { "Go to last" },
-        },
-      }
+      -- local plugin = {
+      --   l = {
+      --     name = "VimTeX",
+      --     i = { "Info" },
+      --     I = { "Full Info" },
+      --     t = { "Open Table of Contents" },
+      --     T = { "Toggle Table of Contents" },
+      --     q = { "Log" },
+      --     v = { "View" },
+      --     r = { "Reverse Search" },
+      --     l = { "Compile" },
+      --     L = { "Compile Selected" },
+      --     k = { "Stop" },
+      --     K = { "Stop All" },
+      --     e = { "Errors" },
+      --     o = { "Compile Output" },
+      --     g = { "Status" },
+      --     G = { "Status All" },
+      --     c = { "Clean" },
+      --     C = { "Full Clean" },
+      --     m = { "Insert Maps List" },
+      --     x = { "Reload" },
+      --     X = { "Reload State" },
+      --     s = { "Toggle Main" },
+      --     a = { "Context Menu" },
+      --   },
+      --   ["\\"] = {
+      --     name = "Multi Cursor",
+      --     ["/"] = { "Regex Search" },
+      --     ["\\"] = { "Insert at cursor" },
+      --     ["A"] = { "Select All" },
+      --     gs = { "Go to last" },
+      --   },
+      -- }
 
-      which_key.register(plugin, opts)
-
-      -- Register text objects
-      vim.api.nvim_set_keymap(
-        "x",
-        "iu",
-        ':lua require"treesitter-unit".select()<CR>',
-        { noremap = true }
-      )
-
-      vim.api.nvim_set_keymap(
-        "x",
-        "au",
-        ':lua require"treesitter-unit".select(true)<CR>',
-        { noremap = true }
-      )
-
-      vim.api.nvim_set_keymap(
-        "o",
-        "iu",
-        ':<c-u>lua require"treesitter-unit".select()<CR>',
-        { noremap = true }
-      )
-
-      vim.api.nvim_set_keymap(
-        "o",
-        "au",
-        ':<c-u>lua require"treesitter-unit".select(true)<CR>',
-        { noremap = true }
-      )
+      -- which_key.register(plugin, opts)
 
       -- local objects = {
       --   a = { name = "around" },
@@ -409,7 +277,7 @@ return {
       -- }
 
       -- Text objects
-      which_key.register(objects, { mode = "o", prefix = "" })
+      -- which_key.register(objects, { mode = "o", prefix = "" })
     end,
   },
 }

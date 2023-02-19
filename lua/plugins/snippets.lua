@@ -6,6 +6,8 @@ return {
       "rafamadriz/friendly-snippets",
       "hrsh7th/nvim-cmp",
     },
+    lazy = true,
+    event = "InsertEnter",
     config = function()
       local luasnip = require("luasnip")
 

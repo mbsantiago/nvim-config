@@ -2,6 +2,20 @@ return {
   { -- Run snippets of code
     "michaelb/sniprun",
     build = "bash ./install.sh",
+    lazy = true,
+    cmd = "SnipRun",
+    keys = {
+      { "<leader>Rl", "<Plug>SnipRun", desc = "Run Line" },
+      { "<leader>Ro", "<Plug>SnipRunOperator", desc = "Run Operator" },
+      { "<leader>Rk", "<cmd>SnipReset<cr>", desc = "Reset" },
+      { "<leader>Rc", "<cmd>SnipClose<cr>", desc = "Close" },
+      {
+        "<leader>Rf",
+        "<cmd>lua require('sniprun').run_file()<cr>",
+        desc = "File",
+      },
+      { "<leader>Rr", "<cmd>RustRun<cr>", desc = "Rust run" },
+    },
     config = function()
       local sniprun = require("sniprun")
 
@@ -22,7 +36,7 @@ return {
         display = {
           -- "Classic", --# display results in the command-line  area
           -- "NvimNotify", --# display ok results as virtual text (multiline is shortened)
-          "VirtualTextErr",          --# display error results as virtual text
+          "VirtualTextErr", --# display error results as virtual text
           -- "TempFloatingWindow",      --# display results in a floating window
           -- "LongTempFloatingWindow",  --# same as above, but only long results. To use with VirtualText__
           -- "Terminal",                --# display results in a vertical split

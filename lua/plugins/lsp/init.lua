@@ -1,15 +1,78 @@
 return {
   {
     "williamboman/mason.nvim",
+    lazy = true,
+    cmd = "Mason",
     opts = {
       PATH = "append",
     },
   },
   {
-    "tami5/lspsaga.nvim",
-    config = function()
-      require("lspsaga").init_lsp_saga()
-    end,
+    "glepnir/lspsaga.nvim",
+    config = true,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "nvim-treesitter/nvim-treesitter",
+      "folke/lsp-colors.nvim",
+    },
+    lazy = true,
+    cmd = "Lspsaga",
+    keys = {
+      { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
+      { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
+      {
+        "<leader>lR",
+        "<cmd>Lspsaga rename ++project<cr>",
+        desc = "Rename Project",
+      },
+      { "<leader>lF", "<cmd>Lspsaga lsp_finder<cr>", desc = "Finder" },
+      {
+        "<leader>ld",
+        "<cmd>Lspsaga goto_definition<cr>",
+        desc = "Go To Definition",
+      },
+      {
+        "<leader>lp",
+        "<cmd>Lspsaga peek_definition<cr>",
+        desc = "Peek Definition",
+      },
+      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Docs" },
+      {
+        "<leader>lj",
+        "<cmd>Lspsaga diagnostic_jump_next<CR>",
+        desc = "Next Diagnostic",
+      },
+      {
+        "<leader>lk",
+        "<cmd>Lspsaga diagnostic_jump_prev<cr>",
+        desc = "Prev Diagnostic",
+      },
+      {
+        "<leader>lc",
+        "<cmd>Lspsaga show_cursor_diagnostics<cr>",
+        desc = "Show Cursor Diagnostics",
+      },
+      {
+        "<leader>lL",
+        "<cmd>Lspsaga show_line_diagnostics<cr>",
+        desc = "Show Line Diagnostics",
+      },
+      {
+        "<leader>lo",
+        "<cmd>Lspsaga otline<cr>",
+        desc = "Show Outline",
+      },
+      {
+        "<leader>li",
+        "<cmd>Lspsaga incoming_calls<cr>",
+        desc = "Incoming calls",
+      },
+      {
+        "<leader>lI",
+        "<cmd>Lspsaga outgoing_calls<cr>",
+        desc = "Outgoing calls",
+      },
+    },
   },
   {
     "neovim/nvim-lspconfig",
@@ -32,7 +95,7 @@ return {
       capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
       -- On attach functions
-      function on_attach(client, bufnr)
+      function OnAttach(client, bufnr)
         if client.name ~= "null-ls" then
           client.server_capabilities.document_formatting = false
         end
@@ -43,10 +106,14 @@ return {
         end
       end
 
+      local flags = {
+        debounce_text_changes = 150,
+      }
+
       -- Setup all servers
       for k, v in pairs(servers) do
         lspconfig[k].setup({
-          on_attach = on_attach,
+          on_attach = OnAttach,
           capabilities = capabilities,
           flags = flags,
           settings = v,
@@ -73,6 +140,14 @@ return {
     "jose-elias-alvarez/null-ls.nvim",
     dependencies = {
       "neovim/nvim-lspconfig",
+    },
+    lazy = true,
+    keys = {
+      {
+        "<leader>lf",
+        "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
+        desc = "Format",
+      },
     },
     config = function()
       local null_ls = require("null-ls")

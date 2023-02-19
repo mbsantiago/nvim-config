@@ -5,6 +5,8 @@ return {
   },
   { -- Nvim lua development tools
     "folke/neodev.nvim",
+    ft = "lua",
+    lazy = true,
     opts = {
       library = { plugins = { "nvim-dap-ui" }, types = true },
     },
@@ -18,19 +20,49 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
+    lazy = false,
     config = true,
     keys = {
       { "<leader>c", "<cmd>bd<cr>", "Close Buffer" },
+      { "<A-1>", ":BufferLineGoToBuffer 1<CR>", desc = "Go to buffer 1" },
+      { "<A-2>", ":BufferLineGoToBuffer 2<CR>", desc = "Go to buffer 2" },
+      { "<A-3>", ":BufferLineGoToBuffer 3<CR>", desc = "Go to buffer 3" },
+      { "<A-4>", ":BufferLineGoToBuffer 4<CR>", desc = "Go to buffer 4" },
+      { "<A-5>", ":BufferLineGoToBuffer 5<CR>", desc = "Go to buffer 5" },
+      { "<A-6>", ":BufferLineGoToBuffer 6<CR>", desc = "Go to buffer 6" },
+      { "<A-7>", ":BufferLineGoToBuffer 7<CR>", desc = "Go to buffer 7" },
+      { "<A-8>", ":BufferLineGoToBuffer 8<CR>", desc = "Go to buffer 8" },
+      { "<A-9>", ":BufferLineGoToBuffer 9<CR>", desc = "Go to buffer 9" },
+      { "<A-b>", ":BufferLinePick<CR>", desc = "Pick Buffer" },
+      { "<A-,>", ":BufferLineCycleNext<CR>", desc = "Next Buffer" },
+      { "<A-.>", ":BufferLineCyclePrev<CR>", desc = "Previous Buffer" },
+      { "<A->>", ":BufferLineMoveNext<CR>", desc = "Move Buffer Next" },
+      { "<A-<>", ":BufferLineMovePrev<CR>", desc = "Move Buffer Prev" },
+      {
+        "<A-s>e",
+        ":BufferLineSortByExtension<CR>",
+        desc = "Sort Buffers by Extension",
+      },
+      {
+        "<A-s>d",
+        ":BufferLineSortByDirectory<CR>",
+        desc = "Sort Buffers by Directory",
+      },
     },
   },
   { -- Status line
     "nvim-lualine/lualine.nvim",
+    lazy = false,
     config = true,
   },
   { -- File tree
     "kyazdani42/nvim-tree.lua",
     cmd = "NvimTreeToggle",
+    lazy = true,
     config = true,
+    keys = {
+      { "<leader>be", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },
+    },
   },
   { -- Comments
     "numToStr/Comment.nvim",
@@ -40,78 +72,23 @@ return {
     "anuvyklack/fold-preview.nvim",
     dependencies = { "anuvyklack/keymap-amend.nvim" },
     config = true,
+    event = "BufRead",
+    lazy = true,
   },
   { -- Make folds prettier
     "anuvyklack/pretty-fold.nvim",
     config = true,
   },
-  { -- Git integration
-    "lewis6991/gitsigns.nvim",
-    config = true,
-    cmd = "Gitsigns",
-    keys = {
-      {
-        "<leader>gj",
-        "<cmd>lua require('gitsigns').next_hunk()<cr>",
-        desc = "Git Next Hunk",
-      },
-      {
-        "<leader>gk",
-        "<cmd>lua require('gitsigns').prev_hunk()<cr>",
-        desc = "Git Prev Hunk",
-      },
-      {
-        "<leader>gb",
-        "<cmd>lua require('gitsigns').blame_line()<cr>",
-        desc = "Git Blame Line",
-      },
-      {
-        "<leader>gp",
-        "<cmd>lua require('gitsigns').preview_hunk()<cr>",
-        desc = "Git Preview Hunk",
-      },
-      {
-        "<leader>gr",
-        "<cmd>lua require('gitsigns').reset_hunk()<cr>",
-        desc = "Git Reset Hunk",
-      },
-      {
-        "<leader>gR",
-        "<cmd>lua require('gitsigns').reset_buffer()<cr>",
-        desc = "Git Reset Buffer",
-      },
-      {
-        "<leader>gs",
-        "<cmd>lua require('gitsigns').stage_hunk()<cr>",
-        desc = "Git Stage Hunk",
-      },
-      {
-        "<leader>gu",
-        "<cmd>lua require('gitsigns').undo_stage_hunk()<cr>",
-        desc = "Git Undo Stage Hunk",
-      },
-      {
-        "<leader>gS",
-        "<cmd>lua require('gitsigns').stage_buffer()<cr>",
-        desc = "Git Stage Buffer",
-      },
-      {
-        "<leader>gP",
-        "<cmd>lua require('gitsigns').preview_buffer()<cr>",
-        desc = "Git Preview Buffer",
-      },
-      {
-        "<leader>gB",
-        "<cmd>lua require('gitsigns').blame_buffer()<cr>",
-        desc = "Git Blame Buffer",
-      },
-      { "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", desc = "Git Diff" },
-    },
+  {
+    -- Python indentation
+    "Vimjas/vim-python-pep8-indent",
+    ft = "python",
+    lazy = true,
   },
-  -- Python indentation
-  "Vimjas/vim-python-pep8-indent",
   { -- Python folding
     "tmhedberg/simpylfold",
+    ft = "python",
+    lazy = true,
     config = function(--[[  ]])
       vim.g["SimpylFold_fold_level"] = 0
       vim.g.simpylfold_fold_docstrings = 1
@@ -123,28 +100,13 @@ return {
   "tpope/vim-unimpaired",
   "tpope/vim-dispatch",
   -- See the Undo Tree
-  "mbbill/undotree",
-  { -- Autopairs
-    "windwp/nvim-autopairs",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
+  {
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
+    lazy = true,
+    keys = {
+      { "<leader>bu", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
     },
-    config = function()
-      local npairs = require("nvim-autopairs")
-      npairs.setup({
-        check_ts = true,
-        enable_check_bracket_line = true,
-        map_bs = false,
-      })
-
-      -- Make it play nice with nvim-cmp
-      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-      local cmp = require("cmp")
-      cmp.event:on(
-        "confirm_done",
-        cmp_autopairs.on_confirm_done({ map_char = { tex = "" } })
-      )
-    end,
   },
   { -- Cursor line
     "yamatsum/nvim-cursorline",
@@ -153,44 +115,6 @@ return {
   { -- Colorizer
     "norcalli/nvim-colorizer.lua",
     config = true,
-  },
-  { -- Motion plugin
-    "phaazon/hop.nvim",
-    config = true,
-    keys = {
-      { "n", "<leader><leader>w", "<cmd>HopWord<cr>", desc = "Hop to Word" },
-      {
-        "n",
-        "<leader><leader>p",
-        "<cmd>HopPattern<cr>",
-        desc = "Hop to Pattern",
-      },
-      { "n", "<leader><leader>l", "<cmd>HopLine<cr>", desc = "Hop to Line" },
-      {
-        "n",
-        "<leader><leader>L",
-        "<cmd>HopLineStart<cr>",
-        desc = "Hop to Line Start",
-      },
-      {
-        "n",
-        "<leader><leader>c",
-        "<cmd>HopChar1<cr>",
-        desc = "Hop to Character",
-      },
-      {
-        "n",
-        "<leader><leader>C",
-        "<cmd>HopChar2<cr>",
-        desc = "Hop to Characters [2]",
-      },
-      {
-        "n",
-        "<leader><leader>a",
-        "<cmd>HopAnywhere<cr>",
-        desc = "Hop Anywhere",
-      },
-    },
   },
   { -- Indentation guide lines
     "lukas-reineke/indent-blankline.nvim",
@@ -207,14 +131,121 @@ return {
       background_colour = "#1e222a",
     },
   },
-  "mattn/emmet-vim",
   {
-    "simrat39/symbols-outline.nvim",
-    opts = {
-      auto_close = true,
-      auto_preview = true,
-      autofold_depth = 1,
-      lsp_blacklist = { "pylsp" },
+    "mattn/emmet-vim",
+    ft = {
+      "html",
+      "css",
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "vue",
+      "svelte",
+      "markdown",
+    },
+    lazy = true,
+  },
+  {
+    "roobert/search-replace.nvim",
+    config = function()
+      require("search-replace").setup({
+        -- optionally override defaults
+        default_replace_single_buffer_options = "gcI",
+        default_replace_multi_buffer_options = "egcI",
+      })
+    end,
+    keys = {
+      {
+        "<C-r>",
+        "<CMD>SearchReplaceSingleBufferVisualSelection<CR>",
+        mode = "v",
+        desc = "Search and replace [visual selection]",
+      },
+      {
+        "<C-s>",
+        "<CMD>SearchReplaceWithinVisualSelection<CR>",
+        mode = "v",
+        desc = "Search and replace within visual selection",
+      },
+      {
+        "<C-b>",
+        "<CMD>SearchReplaceWithinVisualSelectionCWord<CR>",
+        mode = "v",
+        desc = "Search and replace within visual selection [word]",
+      },
+      {
+        "<leader>rs",
+        "<CMD>SearchReplaceSingleBufferSelections<CR>",
+        mode = "n",
+        desc = "Search and replace [buffer]",
+      },
+      {
+        "<leader>ro",
+        "<CMD>SearchReplaceSingleBufferOpen<CR>",
+        desc = "Search and replace [buffer]",
+        mode = "n",
+      },
+      {
+        "<leader>rw",
+        "<CMD>SearchReplaceSingleBufferCWord<CR>",
+        mode = "n",
+        desc = "Search and replace [word]",
+      },
+      {
+        "<leader>rW",
+        "<CMD>SearchReplaceSingleBufferCWORD<CR>",
+        mode = "n",
+        desc = "Search and replace [CWORD]",
+      },
+      {
+        "<leader>re",
+        "<CMD>SearchReplaceSingleBufferCExpr<CR>",
+        mode = "n",
+        desc = "Search and replace [CExpr]",
+      },
+      {
+        "<leader>rf",
+        "<CMD>SearchReplaceSingleBufferCFile<CR>",
+        mode = "n",
+        desc = "Search and replace [CFile]",
+      },
+      {
+        "<leader>rbs",
+        "<CMD>SearchReplaceMultiBufferSelections<CR>",
+        mode = "n",
+        desc = "Search and replace [buffer]",
+      },
+      {
+        "<leader>rbo",
+        "<CMD>SearchReplaceMultiBufferOpen<CR>",
+        desc = "Search and replace Mulple Buffer",
+        mode = "n",
+      },
+      {
+        "<leader>rbw",
+        "<CMD>SearchReplaceMultiBufferCWord<CR>",
+        mode = "n",
+        desc = "Search and replace Multi Buffer [word]",
+      },
+      {
+        "<leader>rbW",
+        "<CMD>SearchReplaceMultiBufferCWORD<CR>",
+        mode = "n",
+        desc = "Search and replace Multi Buffer [CWORD]",
+      },
+      {
+        "<leader>rbe",
+        "<CMD>SearchReplaceMultiBufferCExpr<CR>",
+        mode = "n",
+        desc = "Search and replace Multi Buffer [CExpr]",
+      },
+      {
+        "<leader>rbf",
+        "<CMD>SearchReplaceMultiBufferCFile<CR>",
+        mode = "n",
+        desc = "Search and replace Multi Buffer [CFile]",
+      },
     },
   },
 }

@@ -28,6 +28,7 @@ return {
         },
       },
     },
+    lazy = true,
     cmd = "Telescope",
     keys = {
       {
@@ -128,6 +129,14 @@ return {
         "<leader>c",
         "<cmd>Telescope git_commits<cr>",
         desc = "Git Checkout commit",
+      },
+      s = {
+        "<cmd>Telescope lsp_document_symbols<cr>",
+        "Document Symbols",
+      },
+      S = {
+        "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+        "Workspace Symbols",
       },
     },
   },

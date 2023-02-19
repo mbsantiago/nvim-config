@@ -1,6 +1,7 @@
 return {
   { -- Autocompletion plugin
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-emoji",
@@ -155,6 +156,30 @@ return {
       -- TODO: Move this configuration to autoparis setup
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
+      cmp.event:on(
+        "confirm_done",
+        cmp_autopairs.on_confirm_done({ map_char = { tex = "" } })
+      )
+    end,
+  },
+  { -- Autopairs
+    "windwp/nvim-autopairs",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+    },
+    lazy = true,
+    event = "InsertEnter",
+    config = function()
+      local npairs = require("nvim-autopairs")
+      npairs.setup({
+        check_ts = true,
+        enable_check_bracket_line = true,
+        map_bs = false,
+      })
+
+      -- Make it play nice with nvim-cmp
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      local cmp = require("cmp")
       cmp.event:on(
         "confirm_done",
         cmp_autopairs.on_confirm_done({ map_char = { tex = "" } })

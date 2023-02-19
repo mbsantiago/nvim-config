@@ -1,6 +1,8 @@
 return {
   { -- Latex plugins
     "lervag/vimtex",
+    lazy = true,
+    ft = "tex",
     config = function()
       -- TODO: update to use lua autocommands API
       vim.cmd([[
@@ -58,6 +60,7 @@ return {
   },
   {
     "voldikss/vim-translator", -- Translator,
+    lazy = true,
     keys = {
       { "<leader>wt", "<Plug>Translate<cr>", desc = "Translate" },
       { "<leader>ww", "<Plug>TranslateW<cr>", desc = "Translate Window" },
@@ -67,6 +70,7 @@ return {
   },
   {
     "ron89/thesaurus_query.vim", -- Thesaurus
+    lazy = true,
     config = function()
       vim.g.tq_enabled_backends = {
         "openoffice_en",
@@ -88,7 +92,8 @@ return {
   { -- Markdown
     "ellisonleao/glow.nvim",
     config = true,
-    cmd = "Glow",
+    lazy = true,
+    ft = "markdown",
     dependencies = {
       "mzlogin/vim-markdown-toc",
       "vim-pandoc/vim-pandoc-syntax",
