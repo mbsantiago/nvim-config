@@ -82,7 +82,11 @@ return {
         "<cmd>Telescope find_files<cr>",
         desc = "Search Files",
       },
-      { "<leader>sb", "<cmd>Telescope buffers<cr>", desc = "Search Buffers" },
+      {
+        "<leader>sb",
+        "<cmd>Telescope buffers<cr>",
+        desc = "Search Buffers",
+      },
       {
         "<leader>sR",
         "<cmd>Telescope registers<cr>",
@@ -130,13 +134,20 @@ return {
         "<cmd>Telescope git_commits<cr>",
         desc = "Git Checkout commit",
       },
-      s = {
+      {
+        "<leader>ss",
         "<cmd>Telescope lsp_document_symbols<cr>",
-        "Document Symbols",
+        desc = "Document Symbols",
       },
-      S = {
+      {
+        "<leader>sS",
         "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-        "Workspace Symbols",
+        desc = "Workspace Symbols",
+      },
+      {
+        "<leader>sd",
+        "<cmd>lua require'telescope.builtin'.find_files{ search_dirs = { '~/.config/nvim' } }<cr>",
+        desc = "Dot files",
       },
     },
   },
