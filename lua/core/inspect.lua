@@ -81,7 +81,12 @@ for i = 0, 31 do
 end
 
 local function escape(str)
-  return (str:gsub("\\", "\\\\"):gsub("(%c)%f[0-9]", longControlCharEscapes):gsub("%c", shortControlCharEscapes))
+  return (
+      str
+        :gsub("\\", "\\\\")
+        :gsub("(%c)%f[0-9]", longControlCharEscapes)
+        :gsub("%c", shortControlCharEscapes)
+    )
 end
 
 local function isIdentifier(str)
@@ -193,13 +198,28 @@ local function processRecursive(process, item, path, visited)
     local processedKey
 
     for k, v in rawpairs(processed) do
-      processedKey = processRecursive(process, k, makePath(path, k, inspect.KEY), visited)
+      processedKey = processRecursive(
+        process,
+        k,
+        makePath(path, k, inspect.KEY),
+        visited
+      )
       if processedKey ~= nil then
-        processedCopy[processedKey] = processRecursive(process, v, makePath(path, processedKey), visited)
+        processedCopy[processedKey] = processRecursive(
+          process,
+          v,
+          makePath(path, processedKey),
+          visited
+        )
       end
     end
 
-    local mt = processRecursive(process, getmetatable(processed), makePath(path, inspect.METATABLE), visited)
+    local mt = processRecursive(
+      process,
+      getmetatable(processed),
+      makePath(path, inspect.METATABLE),
+      visited
+    )
     if type(mt) ~= "table" then
       mt = nil
     end
@@ -272,7 +292,10 @@ function Inspector:putTable(t)
       self:puts("<", self:getId(t), ">")
     end
 
-    local nonSequentialKeys, nonSequentialKeysLength, sequenceLength = getNonSequentialKeys(t)
+    local nonSequentialKeys, nonSequentialKeysLength, sequenceLength =
+      getNonSequentialKeys(
+        t
+      )
     local mt = getmetatable(t)
 
     self:puts("{")
@@ -323,7 +346,13 @@ function Inspector:putValue(v)
   local tv = type(v)
   if tv == "string" then
     self:puts(smartQuote(escape(v)))
-  elseif tv == "number" or tv == "boolean" or tv == "nil" or tv == "cdata" or tv == "ctype" then
+  elseif
+    tv == "number"
+    or tv == "boolean"
+    or tv == "nil"
+    or tv == "cdata"
+    or tv == "ctype"
+  then
     self:puts(tostring(v))
   elseif tv == "table" then
     self:putTable(v)

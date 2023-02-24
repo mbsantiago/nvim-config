@@ -59,7 +59,7 @@ return {
       },
       {
         "<leader>lo",
-        "<cmd>Lspsaga otline<cr>",
+        "<cmd>Lspsaga outline<cr>",
         desc = "Show Outline",
       },
       {

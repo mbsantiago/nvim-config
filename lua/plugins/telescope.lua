@@ -115,7 +115,7 @@ return {
         desc = "Search History",
       },
       {
-        "<leader>wz",
+        "<leader>swz",
         "<cmd>Telescope spell_sugest<cr>",
         desc = "Search Spelling Suggestions",
       },
@@ -130,7 +130,7 @@ return {
         desc = "Git Checkout branch",
       },
       {
-        "<leader>c",
+        "<leader>gc",
         "<cmd>Telescope git_commits<cr>",
         desc = "Git Checkout commit",
       },

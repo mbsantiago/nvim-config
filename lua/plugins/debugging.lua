@@ -11,6 +11,16 @@ return {
       vim.fn.sign_define("DapBreakpoint", { text = "🚩" })
       vim.fn.sign_define("DapStopped", { text = "🟡" })
     end,
+    cmd = {
+      "DapBreakpoint",
+      "DapStopped",
+      "DapContinue",
+      "DapStepOver",
+      "DapStepInto",
+      "DapStepOut",
+      "DapToggleRepl",
+      "DapRunLast",
+    },
     keys = {
       {
         "<leader>dc",
@@ -54,6 +64,8 @@ return {
     dependencies = {
       "mfussenegger/nvim-dap",
     },
+    ft = "python",
+    lazy = true,
     config = function()
       local dap_python = require("dap-python")
       local dap = require("dap")
@@ -90,6 +102,12 @@ return {
       "mfussenegger/nvim-dap",
     },
     config = true,
+    lazy = true,
+    cmd = {
+      "DapUI",
+      "DapUIFloat",
+      "DapUIVirtualText",
+    },
     keys = {
       {
         "<leader>dt",
@@ -100,6 +118,7 @@ return {
   },
   {
     "theHamsta/nvim-dap-virtual-text",
+    lazy = true,
     dependencies = {
       "mfussenegger/nvim-dap",
     },

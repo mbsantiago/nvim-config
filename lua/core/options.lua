@@ -59,7 +59,7 @@ vim.opt.list = true
 -- vim.opt.listchars:append("space:⋅")
 
 -- Performance
-o.lazyredraw = true
+o.lazyredraw = false
 
 -- Search
 o.inccommand = "nosplit" -- show substitutions incrementally

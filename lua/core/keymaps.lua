@@ -50,63 +50,11 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "Resize window right" }
 )
 
--- Move text up and down
-vim.api.nvim_set_keymap(
-  "n",
-  "<A-j>",
-  "<Esc>:m .+1<CR>==gi",
-  { noremap = true, silent = true, desc = "Move line down" }
-)
-vim.api.nvim_set_keymap(
-  "n",
-  "<A-k>",
-  "<Esc>:m .-2<CR>==gi",
-  { noremap = true, silent = true, desc = "Move line up" }
-)
-vim.api.nvim_set_keymap(
-  "v",
-  "<A-j>",
-  ":m .+1<CR>==",
-  { noremap = true, silent = true, desc = "Move line down" }
-)
-vim.api.nvim_set_keymap(
-  "v",
-  "<A-k>",
-  ":m .-2<CR>==",
-  { noremap = true, silent = true, desc = "Move line up" }
-)
 vim.api.nvim_set_keymap(
   "v",
   "p",
   '"_dP',
   { noremap = true, silent = true, desc = "Paste from clipboard" }
-)
--- Visual Block --
-
--- Move text up and down
-vim.api.nvim_set_keymap(
-  "x",
-  "J",
-  ":move '>+1<CR>gv-gv",
-  { noremap = true, silent = true, desc = "Move line down" }
-)
-vim.api.nvim_set_keymap(
-  "x",
-  "K",
-  ":move '<-2<CR>gv-gv",
-  { noremap = true, silent = true, desc = "Move line up" }
-)
-vim.api.nvim_set_keymap(
-  "x",
-  "<A-j>",
-  ":move '>+1<CR>gv-gv",
-  { noremap = true, silent = true, desc = "Move line down" }
-)
-vim.api.nvim_set_keymap(
-  "x",
-  "<A-k>",
-  ":move '<-2<CR>gv-gv",
-  { noremap = true, silent = true, desc = "Move line up" }
 )
 
 -- Search
@@ -137,12 +85,4 @@ vim.api.nvim_set_keymap(
   "<Esc>",
   "<C-\\><C-n>",
   { noremap = true, silent = true, desc = "Interrupt command in terminal" }
-)
-
--- Special files
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>vrc",
-  ":vsp $MYVIMRC<CR>",
-  { noremap = true, silent = true, desc = "Go to vimrc" }
 )

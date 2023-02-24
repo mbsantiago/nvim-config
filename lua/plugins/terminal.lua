@@ -6,26 +6,26 @@ return {
       local toggleterm = require("toggleterm")
 
       toggleterm.setup({
-        size = 20,
+        -- size = 20,
         open_mapping = [[<c-\>]],
-        hide_numbers = true,
-        shade_filetypes = {},
-        shade_terminals = true,
-        shading_factor = 2,
-        start_in_insert = true,
-        insert_mappings = true,
-        persist_size = true,
-        direction = "float",
-        close_on_exit = true,
-        shell = vim.o.shell,
-        float_opts = {
-          border = "curved",
-          winblend = 0,
-          highlights = {
-            border = "Normal",
-            background = "Normal",
-          },
-        },
+        -- hide_numbers = true,
+        -- shade_filetypes = {},
+        -- shade_terminals = true,
+        -- shading_factor = 2,
+        -- start_in_insert = true,
+        -- insert_mappings = true,
+        -- persist_size = true,
+        -- direction = "float",
+        -- close_on_exit = true,
+        -- shell = vim.o.shell,
+        -- float_opts = {
+        --   border = "curved",
+        --   winblend = 0,
+        --   highlights = {
+        --     border = "Normal",
+        --     background = "Normal",
+        --   },
+        -- },
       })
 
       _G.set_terminal_keymaps = function()
@@ -63,32 +63,37 @@ return {
     cmd = "ToggleTerm",
     keys = {
       {
-        "<leader>tt",
+        "<c-\\>",
+        "<cmd>ToggleTerm<cr>",
+        desc = "Terminal Toggle",
+      },
+      {
+        "<leader>Tt",
         "<cmd>lua _TASK_TOGGLE()<cr>",
         desc = "Terminal Tasks",
       },
       {
-        "<leader>tm",
+        "<leader>Tm",
         "<cmd>lua _HTOP_TOGGLE()<cr>",
         desc = "Terminal Monitor",
       },
       {
-        "<leader>tp",
+        "<leader>Tp",
         "<cmd>lua _PYTHON_TOGGLE()<cr>",
         desc = "Terminal Python",
       },
       {
-        "<leader>tf",
+        "<leader>Tf",
         "<cmd>ToggleTerm direction=float<cr>",
         desc = "Terminal Float",
       },
       {
-        "<leader>th",
+        "<leader>Th",
         "<cmd>ToggleTerm size=10 direction=horizontal<cr>",
         desc = "Terminal Horizontal",
       },
       {
-        "<leader>tv",
+        "<leader>Tv",
         "<cmd>ToggleTerm size=80 direction=vertical<cr>",
         desc = "Terminal Vertical",
       },

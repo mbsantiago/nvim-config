@@ -13,7 +13,6 @@ return {
       "hrsh7th/cmp-nvim-lsp-document-symbol",
       "tzachar/cmp-fuzzy-buffer",
       "tzachar/cmp-fuzzy-path",
-      "github/copilot.vim",
       "onsails/lspkind-nvim",
     },
     config = function()
@@ -21,9 +20,9 @@ return {
         local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
 
         return col ~= 0
-          and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-              :sub(col, col)
-              :match("%s")
+            and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+            :sub(col, col)
+            :match("%s")
             == nil
       end
 
@@ -41,9 +40,8 @@ return {
             require("luasnip").lsp_expand(args.body)
           end,
         },
-
         mapping = {
-          ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+          ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs( -4), { "i", "c" }),
           ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
           ["<C-space>"] = cmp.mapping(
             cmp.mapping.confirm({
@@ -72,26 +70,24 @@ return {
             if cmp.visible() then
               cmp.select_prev_item()
               -- TODO: refactor luasnip
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            elseif luasnip.jumpable( -1) then
+              luasnip.jump( -1)
             else
               fallback()
             end
           end, { "i", "s" }),
         },
-
         -- Sources order are actually their priority order
         sources = {
           { name = "nvim_lsp_signature_help" },
-          { name = "nvim_lsp", keyword_length = 2 },
-          { name = "luasnip", keyword_length = 2 },
+          { name = "nvim_lsp",               keyword_length = 2 },
+          { name = "luasnip",                keyword_length = 2 },
           { name = "path" },
           { name = "cmp_tabnine" },
-          { name = "buffer", keyword_length = 5 },
+          { name = "buffer",                 keyword_length = 5 },
           { name = "emoji" },
           { name = "nvim_lua" },
         },
-
         formatting = {
           -- TODO: refactor lspkind
           format = lspkind.cmp_format({
@@ -107,17 +103,14 @@ return {
             },
           }),
         },
-
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
-
         experimental = {
           native_menu = false,
           ghost_text = true,
         },
-
         sorting = {
           priority_weight = 2,
           comparators = {
@@ -147,7 +140,7 @@ return {
       cmp.setup.cmdline(":", {
         sources = cmp.config.sources({
           { name = "fuzzy_path", keyword_length = 3 },
-          { name = "cmdline", keyword_length = 3 },
+          { name = "cmdline",    keyword_length = 3 },
         }),
       })
 
@@ -184,6 +177,15 @@ return {
         "confirm_done",
         cmp_autopairs.on_confirm_done({ map_char = { tex = "" } })
       )
+    end,
+  },
+  {
+    "github/copilot.vim",
+    config = function()
+      vim.g.copilot_filetypes = {
+        TelescopePrompt = false,
+        TeleScopeResults = false,
+      }
     end,
   },
 }
