@@ -15,9 +15,22 @@ return {
       local neotest_jest = require("neotest-jest")
 
       neotest.setup({
-        output = {
+        icons = {
+          expanded = "",
+          child_prefix = "",
+          child_indent = "",
+          final_child_prefix = "",
+          non_collapsible = "",
+          collapsed = "",
+
+          passed = "",
+          running = "",
+          failed = "",
+          unknown = "",
+        },
+        quickfix = {
           enabled = true,
-          open_on_run = "false",
+          open = false,
         },
         adapters = {
           neotest_python({
@@ -100,6 +113,16 @@ return {
         "<cmd>lua require('neotest').output.open({ enter = true })<cr>",
         desc = "Test Output",
       },
+    },
+  },
+  {
+    "folke/neodev.nvim",
+    opts = {
+      library = { plugins = { "neotest", "nvimd-dap-ui" }, types = true },
+    },
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
     },
   },
 }

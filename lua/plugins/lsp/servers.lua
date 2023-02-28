@@ -24,7 +24,7 @@ M.servers = function()
         },
       },
     },
-    -- pyright = {},
+    pyright = {},
     pylsp = {
       cmd = { "pylsp" },
       python = {
@@ -34,14 +34,14 @@ M.servers = function()
         plugins = {
           autopep8 = { enabled = false },
           yapf = { enabled = false },
-          pylint = { enabled = true },
-          pyls_mypy = { enabled = true },
-          flake8 = { enabled = false },
+          pylint = { enabled = false },
+          flake8 = { enabled = true },
           pydocstyle = { enabled = false },
           pycodestyle = { enabled = false },
           mccabe = { enabled = false },
-          rope_autoimport = { enabled = true },
+          rope_autoimport = { enabled = false },
           rope_completion = { enabled = true },
+          pyls_mypy = { enabled = false },
         },
       },
     },

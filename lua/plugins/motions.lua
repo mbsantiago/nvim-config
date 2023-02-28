@@ -5,30 +5,30 @@ return {
     cmd = "Hop",
     lazy = true,
     keys = {
-      { "<leader><leader>w", "<cmd>HopWord<cr>", desc = "Hop to Word" },
+      { "<leader>hw", "<cmd>HopWord<cr>", desc = "Hop to Word" },
       {
-        "<leader><leader>p",
+        "<leader>hp",
         "<cmd>HopPattern<cr>",
         desc = "Hop to Pattern",
       },
-      { "<leader><leader>l", "<cmd>HopLine<cr>", desc = "Hop to Line" },
+      { "<leader>hl", "<cmd>HopLine<cr>", desc = "Hop to Line" },
       {
-        "<leader><leader>L",
+        "<leader>hL",
         "<cmd>HopLineStart<cr>",
         desc = "Hop to Line Start",
       },
       {
-        "<leader><leader>c",
+        "<leader>hc",
         "<cmd>HopChar1<cr>",
         desc = "Hop to Character",
       },
       {
-        "<leader><leader>C",
+        "<leader>hC",
         "<cmd>HopChar2<cr>",
         desc = "Hop to Characters [2]",
       },
       {
-        "<leader><leader>a",
+        "<leader>ha",
         "<cmd>HopAnywhere<cr>",
         desc = "Hop Anywhere",
       },

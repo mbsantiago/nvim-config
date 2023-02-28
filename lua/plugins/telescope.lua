@@ -32,123 +32,125 @@ return {
     cmd = "Telescope",
     keys = {
       {
-        "<leader>f",
-        "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-        desc = "Find Text",
+        "<leader>ff",
+        "<cmd>Telescope find_files<cr>",
+        desc = "Files",
       },
       {
-        "<leader>F",
+        "<leader>ft",
         "<cmd>Telescope live_grep theme=ivy<cr>",
-        desc = "Find Text",
+        desc = "Text",
       },
       {
         "<leader>/",
-        "<cmd>Telescope live_grep theme=ivy<cr>",
-        desc = "Find in Buffer",
+        "<cmd>Telescope current_buffer_fuzzy_find theme=ivy<cr>",
+        desc = "Text in Buffer",
       },
       {
-        "<leader>vc",
-        "<cmd>Telescope colorscheme<cr>",
-        desc = "Find Colorscheme",
-      },
-      {
-        "<leader>vt",
+        "<leader>fc",
         "<cmd>Telescope themes<cr>",
-        desc = "Find Theme",
+        desc = "Colorscheme/Theme",
       },
       {
-        "<leader>sB",
-        "<cmd>Telescope git_branches<cr>",
-        desc = "Search Checkout branch",
+        "<leader>fC",
+        "<cmd>Telescope commands<cr>",
+        desc = "Command",
       },
+      { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
       {
-        "<leader>sc",
-        "<cmd>Telescope themes<cr>",
-        desc = "Search Colorscheme",
-      },
-      { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Search Help" },
-      {
-        "<leader>sM",
-        "<cmd>Telescope man_pages<cr>",
-        desc = "Search Man Pages",
-      },
-      {
-        "<leader>sr",
+        "<leader>fr",
         "<cmd>Telescope oldfiles<cr>",
-        desc = "Search Open Recent File",
+        desc = "Recent File",
       },
       {
-        "<leader>sf",
-        "<cmd>Telescope find_files<cr>",
-        desc = "Search Files",
-      },
-      {
-        "<leader>sb",
+        "<leader>fb",
         "<cmd>Telescope buffers<cr>",
-        desc = "Search Buffers",
+        desc = "Buffers",
       },
       {
-        "<leader>sR",
+        "<leader>fR",
         "<cmd>Telescope registers<cr>",
-        desc = "Search Registers",
+        desc = "Registers",
       },
-      { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Search Marks" },
-      { "<leader>st", "<cmd>Telescope tags<cr>", desc = "Search Tags" },
+      { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Mark" },
       {
-        "<leader>sT",
-        "<cmd>Telescope current_buffer_tags<cr>",
-        desc = "Search Tag in Buffer",
-      },
-      {
-        "<leader>sq",
-        "<cmd>Telescope quickfix<cr>",
-        desc = "Search in Quickfix List",
-      },
-      {
-        "<leader>sl",
-        "<cmd>Telescope locfix<cr>",
-        desc = "Search in Location List",
-      },
-      {
-        "<leader>ss",
-        "<cmd>Telescope search_history<cr>",
-        desc = "Search History",
-      },
-      {
-        "<leader>swz",
+        "<leader>fz",
         "<cmd>Telescope spell_sugest<cr>",
-        desc = "Search Spelling Suggestions",
+        desc = "Spelling Suggestions",
       },
       {
-        "<leader>go",
-        "<cmd>Telescope git_status<cr>",
-        desc = "Git Open changed file",
+        "<leader>fd",
+        "<cmd>lua require'telescope.builtin'.find_files{ search_dirs = { '~/.config/nvim' } }<cr>",
+        desc = "Config File",
       },
+      -- LSP COMMANDS
       {
-        "<leader>gb",
-        "<cmd>Telescope git_branches<cr>",
-        desc = "Git Checkout branch",
-      },
-      {
-        "<leader>gc",
-        "<cmd>Telescope git_commits<cr>",
-        desc = "Git Checkout commit",
-      },
-      {
-        "<leader>ss",
+        "<leader>fs",
         "<cmd>Telescope lsp_document_symbols<cr>",
         desc = "Document Symbols",
       },
       {
-        "<leader>sS",
+        "<leader>fS",
         "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
         desc = "Workspace Symbols",
       },
+      -- GIT COMMANDS
       {
-        "<leader>sd",
-        "<cmd>lua require'telescope.builtin'.find_files{ search_dirs = { '~/.config/nvim' } }<cr>",
-        desc = "Dot files",
+        "<leader>gff",
+        "<cmd>Telescope git_files<cr>",
+        desc = "Git File",
+      },
+      {
+        "<leader>gfb",
+        "<cmd>Telescope git_branches<cr>",
+        desc = "Git Branch",
+      },
+      {
+        "<leader>gfs",
+        "<cmd>Telescope git_status<cr>",
+        desc = "Git File Status",
+      },
+      {
+        "<leader>gfc",
+        "<cmd>Telescope git_commits<cr>",
+        desc = "Git Commit",
       },
     },
+  },
+  {
+    "nvim-telescope/telescope-dap.nvim",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("telescope").load_extension("dap")
+    end,
+  },
+  {
+    "keyvchan/telescope-find-pickers.nvim",
+    config = function()
+      require("telescope").load_extension("find_pickers")
+    end,
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    lazy = true,
+    keys = {
+      {
+        "<leader>fp",
+        "<CMD>lua require 'telescope'.extensions.find_pickers.find_pickers()<CR>",
+        desc = "Find Pickers",
+      },
+    },
+  },
+  {
+    "debugloop/telescope-undo.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("telescope").load_extension("undo")
+    end,
   },
 }

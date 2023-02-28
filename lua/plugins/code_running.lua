@@ -5,16 +5,15 @@ return {
     lazy = true,
     cmd = "SnipRun",
     keys = {
-      { "<leader>Rl", "<Plug>SnipRun", desc = "Run Line" },
-      { "<leader>Ro", "<Plug>SnipRunOperator", desc = "Run Operator" },
-      { "<leader>Rk", "<cmd>SnipReset<cr>", desc = "Reset" },
-      { "<leader>Rc", "<cmd>SnipClose<cr>", desc = "Close" },
+      { "<leader>rl", "<Plug>SnipRun", desc = "Run Line" },
+      { "<leader>ro", "<Plug>SnipRunOperator", desc = "Run Operator" },
+      { "<leader>rr", "<cmd>SnipReset<cr>", desc = "Reset" },
+      { "<leader>rc", "<cmd>SnipClose<cr>", desc = "Close" },
       {
-        "<leader>Rf",
+        "<leader>rf",
         "<cmd>lua require('sniprun').run_file()<cr>",
         desc = "File",
       },
-      { "<leader>Rr", "<cmd>RustRun<cr>", desc = "Rust run" },
     },
     config = function()
       local sniprun = require("sniprun")

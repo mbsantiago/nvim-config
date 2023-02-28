@@ -57,25 +57,17 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = "Paste from clipboard" }
 )
 
--- Search
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>ch",
-  ":noh<CR>",
-  { noremap = true, silent = true, desc = "Clear search highlight" }
-)
-
 -- Spelling
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>sp",
+  "<leader>we",
   ":set spell<CR>",
   { noremap = true, silent = true, desc = "Enable spell check" }
 )
 
 vim.api.nvim_set_keymap(
   "n",
-  "<leader>nsp",
+  "<leader>wd",
   ":set nospell<CR>",
   { noremap = true, silent = true, desc = "Disable spell check" }
 )

@@ -16,16 +16,6 @@ return {
       "onsails/lspkind-nvim",
     },
     config = function()
-      local has_words_before = function()
-        local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
-
-        return col ~= 0
-            and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-            :sub(col, col)
-            :match("%s")
-            == nil
-      end
-
       local cmp = require("cmp")
       local compare = require("cmp.config.compare")
       local fzf_compare = require("cmp_fuzzy_buffer.compare")
@@ -37,54 +27,26 @@ return {
       cmp.setup({
         snippet = {
           expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
           end,
         },
         mapping = {
-          ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs( -4), { "i", "c" }),
-          ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-          ["<C-space>"] = cmp.mapping(
-            cmp.mapping.confirm({
-              behavior = cmp.ConfirmBehavior.Insert,
-              select = true,
-            }),
-            { "i", "c" }
-          ),
-          ["<C-e>"] = cmp.mapping({
-            i = cmp.mapping.abort(),
-            c = cmp.mapping.close(),
-          }),
-          ["<C-n>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-              -- TODO: refactor luasnip
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            elseif has_words_before() then
-              cmp.complete()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<C-p>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-              -- TODO: refactor luasnip
-            elseif luasnip.jumpable( -1) then
-              luasnip.jump( -1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+          ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
         },
         -- Sources order are actually their priority order
         sources = {
           { name = "nvim_lsp_signature_help" },
-          { name = "nvim_lsp",               keyword_length = 2 },
-          { name = "luasnip",                keyword_length = 2 },
+          { name = "nvim_lsp", keyword_length = 2 },
+          { name = "luasnip", keyword_length = 2 },
           { name = "path" },
           { name = "cmp_tabnine" },
-          { name = "buffer",                 keyword_length = 5 },
+          { name = "buffer", keyword_length = 5 },
           { name = "emoji" },
           { name = "nvim_lua" },
         },
@@ -140,7 +102,7 @@ return {
       cmp.setup.cmdline(":", {
         sources = cmp.config.sources({
           { name = "fuzzy_path", keyword_length = 3 },
-          { name = "cmdline",    keyword_length = 3 },
+          { name = "cmdline", keyword_length = 3 },
         }),
       })
 

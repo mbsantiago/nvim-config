@@ -62,16 +62,6 @@ return {
         "<cmd>Lspsaga outline<cr>",
         desc = "Show Outline",
       },
-      {
-        "<leader>li",
-        "<cmd>Lspsaga incoming_calls<cr>",
-        desc = "Incoming calls",
-      },
-      {
-        "<leader>lI",
-        "<cmd>Lspsaga outgoing_calls<cr>",
-        desc = "Outgoing calls",
-      },
     },
   },
   {
@@ -107,7 +97,7 @@ return {
       end
 
       local flags = {
-        debounce_text_changes = 150,
+        debounce_text_changes = 1000,
       }
 
       -- Setup all servers
@@ -187,7 +177,8 @@ return {
       })
 
       null_ls.setup({
-        debug = true,
+        debounce = 1000,
+        update_in_insert = false,
         sources = {
           -- Diagnostics
           diagnostic.proselint,
@@ -251,35 +242,19 @@ return {
     },
     keys = {
       {
-        "<leader>xx",
-        "<cmd>TroubleToggle<cr>",
+        "<leader>lt",
+        "<cmd>TroubleToggle document_diagnostics<cr>",
         desc = "Trouble Toggle",
       },
       {
-        "<leader>xw",
-        "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>",
+        "<leader>lw",
+        "<cmd>TroubleToggle workspace_diagnostics<cr>",
         desc = "Trouble Workspace Diagnostics",
       },
-      {
-        "<leader>xd",
-        "<cmd>TroubleToggle lsp_document_diagnostics<cr>",
-        desc = "Trouble Document Diagnostics",
-      },
-      {
-        "<leader>xl",
-        "<cmd>TroubleToggle loclist<cr>",
-        desc = "Trouble Location List",
-      },
-      {
-        "<leader>xq",
-        "<cmd>TroubleToggle quickfix<cr>",
-        desc = "Trouble Quickfix List",
-      },
-      {
-        "<leader>xr",
-        "<cmd>TroubleToggle lsp_references<cr>",
-        desc = "Trouble LSP References",
-      },
     },
+  },
+  {
+    "adoyle-h/lsp-toggle.nvim",
+    config = true,
   },
 }

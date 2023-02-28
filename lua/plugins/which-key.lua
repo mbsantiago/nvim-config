@@ -16,15 +16,12 @@ return {
             suggestions = 20, -- how many suggestions should be shown in the list?
           },
         },
-
         -- add operators that will trigger motion and text object completion
         -- to enable all native operators, set the preset / operators plugin above
         operators = {
           gc = "Comments",
         },
-
         ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-
         hidden = {
           "<silent>",
           "<cmd>",
@@ -35,11 +32,8 @@ return {
           "^:",
           "^ ",
         }, -- hide mapping boilerplate
-
         show_help = true, -- show help message on the command line when the popup is visible
-
         triggers = "auto", -- automatically setup triggers
-
         triggers_blacklist = {
           -- list of mode / prefixes that should never be hooked by WhichKey
           -- this is mostly relevant for key maps that start with a native binding
@@ -53,15 +47,16 @@ return {
 
       local mappings = {
         ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-        l = {
-          name = "LSP",
-          i = { "<cmd>LspInfo<cr>", "Info" },
-          K = {
-            "<cmd>lua vim.lsp.client.stop()<cr>",
-            "Kill LSP",
-          },
-          l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
-        },
+        l = { name = "LSP" },
+        f = { name = "Find" },
+        t = { name = "Test" },
+        r = { name = "Run" },
+        g = { name = "Git", f = { name = "Find" } },
+        b = { name = "Buffers" },
+        d = { name = "Debug" },
+        w = { name = "Writing" },
+        T = { name = "Terminal" },
+        u = { name = "UI" },
       }
 
       -- Register normal mappings first

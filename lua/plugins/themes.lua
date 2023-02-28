@@ -7,9 +7,8 @@ return {
     },
     config = function()
       local themer = require("themer")
-
       themer.setup({
-        colorscheme = "amora",
+        colorscheme = "everforest",
         styles = {
           ["function"] = { style = "italic" },
           functionbuiltin = { style = "italic" },

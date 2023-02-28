@@ -63,4 +63,27 @@ return {
       { "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", desc = "Git Diff" },
     },
   },
+  {
+    "sindrets/diffview.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    lazy = true,
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewToggleFiles",
+      "DiffviewFocusFiles",
+      "DiffviewFileHistory",
+    },
+    -- TODO: Add keybindings
+  },
+  {
+    "paopaol/telescope-git-diffs.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+    },
+    config = function()
+      require("telescope").load_extension("git_diffs")
+    end,
+    -- TODO: Add keybindings
+  },
 }
