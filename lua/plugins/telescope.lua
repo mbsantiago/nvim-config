@@ -6,30 +6,33 @@ return {
       "nvim-lua/popup.nvim",
       "stevearc/dressing.nvim",
       "tzachar/fuzzy.nvim",
+      "themercorp/themer.lua",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
-        config = function()
-          require("telescope").load_extension("fzf")
-        end,
       },
     },
-    opts = {
-      defaults = {
-        sorting_strategy = "ascending",
-        file_ignore_patterns = { "node_modules/.*", "%.env" },
-      },
-      extensions = {
-        fzf = {
-          fuzzy = true,
-          override_generic_sorter = true,
-          override_file_sorter = true,
-          case_mode = "smart_case",
+    config = function()
+      require("telescope").setup({
+        defaults = {
+          sorting_strategy = "ascending",
+          file_ignore_patterns = { "node_modules/.*", "%.env" },
         },
-      },
-    },
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+          },
+        },
+      })
+
+      require("telescope").load_extension("fzf")
+      require("telescope").load_extension("themes")
+    end,
     lazy = true,
-    cmd = "Telescope",
+    event = "VeryLazy",
     keys = {
       {
         "<leader>ff",
@@ -123,6 +126,8 @@ return {
       "mfussenegger/nvim-dap",
       "nvim-telescope/telescope.nvim",
     },
+    lazy = true,
+    event = "VeryLazy",
     config = function()
       require("telescope").load_extension("dap")
     end,
@@ -136,6 +141,7 @@ return {
       "nvim-telescope/telescope.nvim",
     },
     lazy = true,
+    event = "VeryLazy",
     keys = {
       {
         "<leader>fp",
@@ -149,6 +155,8 @@ return {
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },
+    lazy = true,
+    event = "VeryLazy",
     config = function()
       require("telescope").load_extension("undo")
     end,

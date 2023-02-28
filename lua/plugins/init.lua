@@ -299,4 +299,10 @@ return {
     "nvim-zh/colorful-winsep.nvim",
     config = true,
   },
+  {
+    "m4xshen/smartcolumn.nvim",
+    opts = {
+      disabled_filetypes = { "help", "text", "markdown", "dashboard" },
+    },
+  },
 }

@@ -24,7 +24,6 @@ M.servers = function()
         },
       },
     },
-    pyright = {},
     pylsp = {
       cmd = { "pylsp" },
       python = {
@@ -44,6 +43,9 @@ M.servers = function()
           pyls_mypy = { enabled = false },
         },
       },
+    },
+    pyright = {
+      navic_disable = true,
     },
     ltex = ltex.default_settings()["settings"],
     texlab = {

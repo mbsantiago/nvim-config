@@ -43,5 +43,7 @@ return {
     config = function()
       require("telescope").load_extension("tmux")
     end,
+    lazy = true,
+    event = "VeryLazy",
   },
 }

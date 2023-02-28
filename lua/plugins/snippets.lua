@@ -55,5 +55,7 @@ return {
     config = function()
       require("telescope").load_extension("luasnip")
     end,
+    lazy = true,
+    event = "VeryLazy",
   },
 }

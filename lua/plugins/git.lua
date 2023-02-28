@@ -81,9 +81,10 @@ return {
       "nvim-lua/plenary.nvim",
       "sindrets/diffview.nvim",
     },
+    lazy = true,
+    event = "VeryLazy",
     config = function()
       require("telescope").load_extension("git_diffs")
     end,
-    -- TODO: Add keybindings
   },
 }

@@ -8,6 +8,19 @@ return {
     },
   },
   {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("barbecue").setup({
+        attach_navic = false,
+      })
+    end,
+  },
+  {
     "glepnir/lspsaga.nvim",
     config = true,
     dependencies = {
@@ -70,6 +83,8 @@ return {
       "tjdevries/lsp_extensions.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "jose-elias-alvarez/nvim-lsp-ts-utils",
+      "SmiteshP/nvim-navic",
+      "utilyre/barbecue.nvim",
     },
     config = function()
       local lspconfig = require("lspconfig")
@@ -88,6 +103,14 @@ return {
       function OnAttach(client, bufnr)
         if client.name ~= "null-ls" then
           client.server_capabilities.document_formatting = false
+        end
+
+        if
+          client.server_capabilities["documentSymbolProvider"]
+          and not client.config.settings.navic_disable
+        then
+          print(client.name)
+          require("nvim-navic").attach(client, bufnr)
         end
 
         if client.name == "tsserver" then
@@ -118,6 +141,8 @@ return {
       "neovim/nvim-lspconfig",
     },
     config = true,
+    lazy = true,
+    event = "VeryLazy",
   },
   {
     "j-hui/fidget.nvim",
@@ -125,6 +150,8 @@ return {
       "neovim/nvim-lspconfig",
     },
     config = true,
+    lazy = true,
+    event = "VeryLazy",
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
@@ -232,6 +259,8 @@ return {
       automatic_installation = true,
       automatic_setup = true,
     },
+    lazy = true,
+    event = "VeryLazy",
   },
   {
     "folke/trouble.nvim",
@@ -240,6 +269,8 @@ return {
       "neovim/nvim-lspconfig",
       "nvim-tree/nvim-web-devicons",
     },
+    lazy = true,
+    cmd = "TroubleToggle",
     keys = {
       {
         "<leader>lt",
@@ -256,5 +287,7 @@ return {
   {
     "adoyle-h/lsp-toggle.nvim",
     config = true,
+    lazy = true,
+    event = "VeryLazy",
   },
 }

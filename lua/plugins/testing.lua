@@ -107,6 +107,8 @@ return {
     opts = {
       library = { plugins = { "neotest", "nvimd-dap-ui" }, types = true },
     },
+    lazy = true,
+    event = "VeryLazy",
     dependencies = {
       "mfussenegger/nvim-dap",
       "rcarriga/nvim-dap-ui",
