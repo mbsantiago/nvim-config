@@ -6,11 +6,6 @@ return {
       "mfussenegger/nvim-dap-python",
     },
     lazy = true,
-    init = function()
-      -- Icons
-      vim.fn.sign_define("DapBreakpoint", { text = "🚩" })
-      vim.fn.sign_define("DapStopped", { text = "🟡" })
-    end,
     cmd = {
       "DapBreakpoint",
       "DapStopped",

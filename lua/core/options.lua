@@ -4,6 +4,8 @@ vim.cmd("filetype plugin on")
 vim.cmd("filetype indent on")
 vim.cmd("syntax enable")
 
+o.encoding = "utf-8"
+
 -- Local/per project configuration
 o.exrc = true
 o.secure = true

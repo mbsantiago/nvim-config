@@ -8,7 +8,7 @@ return {
     config = function()
       local themer = require("themer")
       themer.setup({
-        colorscheme = "everforest",
+        colorscheme = "catppuccin",
         styles = {
           ["function"] = { style = "italic" },
           functionbuiltin = { style = "italic" },
@@ -16,7 +16,7 @@ return {
           variableBuiltIn = { style = "italic" },
           parameter = { style = "italic" },
         },
-        dim_inactive = true,
+        dim_inactive = false,
         enable_installer = true,
       })
       local telescope = require("telescope")
