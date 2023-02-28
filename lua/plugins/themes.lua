@@ -16,6 +16,8 @@ return {
           variableBuiltIn = { style = "italic" },
           parameter = { style = "italic" },
         },
+        dim_inactive = true,
+        enable_installer = true,
       })
       local telescope = require("telescope")
       telescope.load_extension("themes")

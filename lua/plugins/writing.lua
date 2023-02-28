@@ -89,15 +89,15 @@ return {
       },
     },
   },
-  { -- Markdown
-    "ellisonleao/glow.nvim",
-    config = true,
-    lazy = true,
-    ft = "markdown",
-    dependencies = {
-      "mzlogin/vim-markdown-toc",
-      "vim-pandoc/vim-pandoc-syntax",
-      "vim-pandoc/vim-pandoc",
+  {
+    "iamcco/markdown-preview.nvim",
+    build = "cd app && npm install",
+    config = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+    keys = {
+      { "<leader>wp", ":MarkdownPreviewToggle<cr>", desc = "Markdown Preview" },
     },
   },
 }

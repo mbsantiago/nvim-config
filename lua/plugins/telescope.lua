@@ -52,7 +52,7 @@ return {
         desc = "Colorscheme/Theme",
       },
       {
-        "<leader>fC",
+        "<C-p>",
         "<cmd>Telescope commands<cr>",
         desc = "Command",
       },
