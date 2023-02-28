@@ -244,12 +244,12 @@ return {
       {
         "<leader>lt",
         "<cmd>TroubleToggle document_diagnostics<cr>",
-        desc = "Trouble Toggle",
+        desc = "Document Diagnostics",
       },
       {
         "<leader>lw",
         "<cmd>TroubleToggle workspace_diagnostics<cr>",
-        desc = "Trouble Workspace Diagnostics",
+        desc = "Workspace Diagnostics",
       },
     },
   },

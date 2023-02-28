@@ -16,44 +16,53 @@ return {
         highlight = {
           enable = true,
         },
-
         indent = {
           enable = true,
           disable = {
             "python", -- treesitter python indentation is shit
           },
         },
-
-        -- TODO: Refactor as this belongs to nvim-ts-autotag
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<leader>sh",
+            node_incremental = "<leader>si",
+            scope_incremental = "<leader>ss",
+            node_decremental = "<leader>sd",
+          },
+        },
         autotag = { enable = true },
-
-        -- TODO: Refactor as this belongs to nvim-ts-context-commentstring
         context_commentstring = { enable = true },
-
-        -- TODO: Refactor as this belongs to nvim-treesitter-textsubjects
         textsubjects = {
           enable = true,
-          prev_selection = ",", -- (Optional) keymap to select the previous selection
+          prev_selection = ",",
           keymaps = {
             ["."] = "textsubjects-smart",
             [";"] = "textsubjects-container-outer",
             ["i;"] = "textsubjects-container-inner",
           },
         },
-
-        -- TODO: Refactor as this belongs to nvim-treesitter-textobjects
         textobjects = {
           select = {
             enable = true,
-            disable = {
-              "latex",
-            },
-            -- Automatically jump forward to textobj, similar to targets.vim
+
             lookahead = true,
+
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+
             keymaps = {
               -- Function
               ["af"] = "@function.outer",
               ["if"] = "@function.inner",
+              -- Assignment
+              ["ae"] = "@assignment.outer",
+              ["ie"] = "@assignment.inner",
+              ["gl"] = "@assignment.rhs",
+              ["gh"] = "@assignment.lhs",
               -- Class
               ["ac"] = "@class.outer",
               ["ic"] = "@class.inner",
@@ -69,13 +78,11 @@ return {
               -- String
               ["aS"] = "@comment.outer",
               ["iS"] = "@comment.inner",
-              -- Loop
-              ["al"] = "@loop.outer",
-              ["il"] = "@loop.inner",
               -- Statement
-              ["a="] = "@statement.outer",
+              ["as"] = "@statement.outer",
             },
           },
+
           move = {
             enable = true,
             disable = { "latex" },
@@ -83,6 +90,7 @@ return {
             goto_next_start = {
               ["]m"] = "@function.outer",
               ["]]"] = "@class.outer",
+              ["]s"] = "@statement.outer",
             },
             goto_next_end = {
               ["]M"] = "@function.outer",
@@ -91,24 +99,35 @@ return {
             goto_previous_start = {
               ["[m"] = "@function.outer",
               ["[["] = "@class.outer",
+              ["[s"] = "@statement.outer",
             },
             goto_previous_end = {
               ["[M"] = "@function.outer",
               ["[]"] = "@class.outer",
             },
           },
+
           swap = {
             enable = true,
             disable = { "latex" },
             swap_next = {
-              ["<leader>a"] = "@parameter.inner",
+              ["<leader>ma"] = "@parameter.inner",
             },
-            swap_previous = {
-              ["<leader>A"] = "@parameter.inner",
+            swap_previoums = {
+              ["<leader>mA"] = "@parameter.inner",
+            },
+          },
+
+          lsp_interop = {
+            enable = true,
+            border = "none",
+            floating_preview_opts = {},
+            peek_definition_code = {
+              ["<leader>df"] = "@function.outer",
+              ["<leader>dF"] = "@class.outer",
             },
           },
         },
-
         playground = {
           enable = true,
         },
