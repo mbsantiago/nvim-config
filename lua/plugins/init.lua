@@ -305,4 +305,27 @@ return {
       disabled_filetypes = { "help", "text", "markdown", "dashboard" },
     },
   },
+  {
+    "ahmedkhalf/project.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    config = function()
+      require("project_nvim").setup({
+        silent_chdir = false,
+        ignore_lsp = { "lua_ls" },
+        exclude_dirs = { "**/vendor/**", "**/.venvs/**" },
+      })
+      require("telescope").load_extension("projects")
+    end,
+    keys = {
+      {
+        "<leader>fP",
+        "<CMD>Telescope projects<CR>",
+        desc = "Projects",
+      },
+    },
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+  },
 }

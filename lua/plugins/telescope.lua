@@ -29,6 +29,9 @@ return {
       })
 
       require("telescope").load_extension("fzf")
+
+      -- NOTE: Do not move back to themer config. Themer should not lazy load
+      --       but telescope should.
       require("telescope").load_extension("themes")
     end,
     lazy = true,

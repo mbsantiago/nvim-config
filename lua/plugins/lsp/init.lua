@@ -109,7 +109,6 @@ return {
           client.server_capabilities["documentSymbolProvider"]
           and not client.config.settings.navic_disable
         then
-          print(client.name)
           require("nvim-navic").attach(client, bufnr)
         end
 
@@ -222,6 +221,7 @@ return {
           format.shfmt,
           format.stylua,
           format.rustfmt,
+          format.markdownlint,
           format.prettier.with({
             filetypes = {
               "javascript",
