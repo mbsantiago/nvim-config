@@ -78,3 +78,10 @@ vim.api.nvim_set_keymap(
   "<C-\\><C-n>",
   { noremap = true, silent = true, desc = "Interrupt command in terminal" }
 )
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>wh",
+  ":nohlsearch<CR>",
+  { noremap = true, silent = true, desc = "No highlight" }
+)

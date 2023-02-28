@@ -46,7 +46,6 @@ return {
       which_key.setup(setup)
 
       local mappings = {
-        ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
         l = { name = "LSP" },
         f = { name = "Find" },
         t = { name = "Test" },
@@ -57,6 +56,7 @@ return {
         w = { name = "Writing" },
         T = { name = "Terminal" },
         u = { name = "UI" },
+        m = { name = "Move" },
       }
 
       -- Register normal mappings first
