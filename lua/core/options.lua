@@ -24,6 +24,9 @@ o.wrap = false
 o.showmatch = true
 o.guicursor = ""
 
+-- Width
+o.textwidth = 80
+
 -- Folding
 o.foldmethod = "indent"
 o.foldlevelstart = 20

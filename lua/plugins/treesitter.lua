@@ -15,6 +15,9 @@ return {
       treesitter.setup({
         highlight = {
           enable = true,
+          disable = {
+            "latex", -- NOTE: highlight syntax is provided by vimtex
+          }
         },
         indent = {
           enable = true,
