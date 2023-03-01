@@ -7,6 +7,13 @@ return {
       "folke/which-key.nvim",
     },
     config = function()
+      vim.cmd([[
+        augroup vimtex_mac
+          autocmd!
+          autocmd FileType tex syntax enable
+        augroup END
+      ]])
+
       -- Special vim formatting for latex files
       vim.g["vimtex_format_enabled"] = 1
 
