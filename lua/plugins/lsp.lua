@@ -92,7 +92,7 @@ return {
       local ts_utils = require("nvim-lsp-ts-utils")
 
       -- Load server config from local file
-      local servers = require("plugins.lsp.servers").servers()
+      local servers = require("servers")
 
       -- Setup client capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -289,5 +289,59 @@ return {
     config = true,
     lazy = true,
     event = "VeryLazy",
+  },
+  {
+    "barreiroleo/ltex-extra.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "hrsh7th/cmp-nvim-lsp",
+    },
+    config = function()
+      local lspconfig = require("lspconfig")
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+      -- Setup client capabilities
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+      -- On attach functions
+      function OnAttach(client, bufnr)
+        if
+          client.server_capabilities["documentSymbolProvider"]
+          and not client.config.settings.navic_disable
+        then
+          require("nvim-navic").attach(client, bufnr)
+        end
+
+        require("ltex_extra").setup({
+          load_langs = { "es-MX", "en-US", "en-GB" },
+          init_check = true,
+          path = nil,
+          log_level = "none",
+        })
+      end
+
+      lspconfig.ltex.setup({
+        capabilities = capabilities,
+        on_attach = OnAttach,
+        flags = {
+          debounce_text_changes = 500,
+        },
+        settings = {
+          ltex = {
+            language = "en-GB",
+            motherTongue = "es",
+            enablePickyRules = true,
+            enabled = { "latex", "tex", "bib", "md" },
+            checkFrequency = "save",
+            diagnosticSeverity = "information",
+            setenceCacheSize = 5000,
+          },
+        },
+      })
+    end,
   },
 }
