@@ -49,6 +49,7 @@ return {
       },
     },
   },
+  astro = {},
   clangd = {},
   html = {},
   jsonls = {},
