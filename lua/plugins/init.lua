@@ -1,5 +1,6 @@
 return {
-  { -- Icons
+  {
+    -- Icons
     "nvim-tree/nvim-web-devicons",
     config = true,
   },
@@ -90,7 +91,8 @@ return {
       },
     },
   },
-  { -- Status line
+  {
+    -- Status line
     "nvim-lualine/lualine.nvim",
     lazy = false,
     opts = {
@@ -100,7 +102,8 @@ return {
       },
     },
   },
-  { -- File tree
+  {
+    -- File tree
     "kyazdani42/nvim-tree.lua",
     cmd = "NvimTreeToggle",
     lazy = true,
@@ -109,7 +112,8 @@ return {
       { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },
     },
   },
-  { -- Comments
+  {
+    -- Comments
     "numToStr/Comment.nvim",
     config = true,
   },
@@ -120,7 +124,8 @@ return {
     event = "BufRead",
     lazy = true,
   },
-  { -- Make folds prettier
+  {
+    -- Make folds prettier
     "anuvyklack/pretty-fold.nvim",
     config = true,
   },
@@ -137,15 +142,18 @@ return {
       { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
     },
   },
-  { -- Cursor line
+  {
+    -- Cursor line
     "yamatsum/nvim-cursorline",
     config = true,
   },
-  { -- Colorizer
+  {
+    -- Colorizer
     "norcalli/nvim-colorizer.lua",
     config = true,
   },
-  { -- Indentation guide lines
+  {
+    -- Indentation guide lines
     "lukas-reineke/indent-blankline.nvim",
     opts = {
       show_current_context = true,
@@ -162,7 +170,8 @@ return {
       show_trailing_blankline_indent = false,
     },
   },
-  { -- Notifications
+  {
+    -- Notifications
     "rcarriga/nvim-notify",
     config = true,
     keys = {
@@ -327,5 +336,44 @@ return {
     dependencies = {
       "nvim-telescope/telescope.nvim",
     },
+  },
+  {
+    "nvim-neorg/neorg",
+    build = ":Neorg sync-parsers",
+    lazy = true,
+    ft = "norg",
+    cmd = "Neorg",
+    opts = {
+      load = {
+        ["core.defaults"] = {}, -- Loads default behaviour
+        ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+        ["core.norg.journal"] = {
+          config = {
+            workspace = "journal",
+          },
+        },
+        ["core.norg.completion"] = {
+          config = {
+            engine = "nvim-cmp",
+          },
+        },
+        ["core.norg.dirman"] = { -- Manages Neorg workspaces
+          config = {
+            workspaces = {
+              meetings = "~/Documents/Notes/meetings",
+              papers = "~/Documents/Notes/papers",
+              notes = "~/Documents/Notes/notes",
+              ideas = "~/Documents/Notes/ideas",
+              journal = "~/Documents/Notes/journal",
+            },
+          },
+        },
+        ["core.export"] = {},
+        ["core.integrations.treesitter"] = {},
+        ["core.integrations.nvim-cmp"] = {},
+        ["core.integrations.zen_mode"] = {},
+      },
+    },
+    dependencies = { { "nvim-lua/plenary.nvim" } },
   },
 }

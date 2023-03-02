@@ -1,5 +1,6 @@
 return {
-  { -- Autocompletion plugin
+  {
+    -- Autocompletion plugin
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
@@ -49,19 +50,20 @@ return {
           { name = "buffer", keyword_length = 5 },
           { name = "emoji" },
           { name = "nvim_lua" },
+          { name = "neorg" },
         },
         formatting = {
-          -- TODO: refactor lspkind
           format = lspkind.cmp_format({
             with_text = true,
             maxwidth = 50,
             menu = {
               buffer = "[buf]",
-              nvim_lsp = "[LSP]",
+              nvim_lsp = "[lsp]",
               nvim_lua = "[api]",
               path = "[path]",
               luasnip = "[snip]",
               cmp_tabnine = "[tabnine]",
+              neorg = "[org]",
             },
           }),
         },
@@ -107,17 +109,10 @@ return {
       })
 
       -- TODO: Add gitcommit support
-
-      -- TODO: Move this configuration to autoparis setup
-      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-
-      cmp.event:on(
-        "confirm_done",
-        cmp_autopairs.on_confirm_done({ map_char = { tex = "" } })
-      )
     end,
   },
-  { -- Autopairs
+  {
+    -- Autopairs
     "windwp/nvim-autopairs",
     dependencies = {
       "hrsh7th/nvim-cmp",
