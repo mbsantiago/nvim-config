@@ -85,11 +85,17 @@ return {
       "jose-elias-alvarez/nvim-lsp-ts-utils",
       "SmiteshP/nvim-navic",
       "utilyre/barbecue.nvim",
+      "folke/neodev.nvim",
     },
     config = function()
       local lspconfig = require("lspconfig")
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
       local ts_utils = require("nvim-lsp-ts-utils")
+      local neodev = require("neodev")
+
+      neodev.setup({
+        library = { plugins = { "neotest", "nvimd-dap-ui" }, types = true },
+      })
 
       -- Load server config from local file
       local servers = require("servers")
