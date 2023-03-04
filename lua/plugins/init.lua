@@ -341,11 +341,16 @@ return {
     "nvim-neorg/neorg",
     build = ":Neorg sync-parsers",
     lazy = true,
-    ft = "norg",
+    event = "VeryLazy",
     cmd = "Neorg",
     opts = {
       load = {
         ["core.defaults"] = {}, -- Loads default behaviour
+        ["core.keybinds"] = {
+          config = {
+            neorg_leader = "<leader>"
+          }
+        },
         ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
         ["core.norg.journal"] = {
           config = {
@@ -359,6 +364,7 @@ return {
         },
         ["core.norg.dirman"] = { -- Manages Neorg workspaces
           config = {
+            default_workspace = "notes",
             workspaces = {
               meetings = "~/Documents/Notes/meetings",
               papers = "~/Documents/Notes/papers",
@@ -372,8 +378,57 @@ return {
         ["core.integrations.treesitter"] = {},
         ["core.integrations.nvim-cmp"] = {},
         ["core.integrations.zen_mode"] = {},
+        ["core.integrations.telescope"] = {},
       },
     },
-    dependencies = { { "nvim-lua/plenary.nvim" } },
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope" },
+    keys = {
+      {
+        "<leader>no",
+        "<cmd>Neorg<cr>",
+        desc = "Open Menu",
+      },
+      {
+        "<leader>nw",
+        "<cmd>Telescope neorg switch_workspace<cr>",
+        desc = "Change Workspace",
+      },
+      {
+        "<leader>nj",
+        "<cmd>Neorg journal<cr>",
+        desc = "Journal",
+      },
+      {
+        "<leader>nfl",
+        "<cmd>Telescope neorg find_linkable<cr>",
+        desc = "Linkable",
+      },
+      {
+        "<leader>nff",
+        "<cmd>Telescope neorg find_norg_files<cr>",
+        desc = "File",
+      },
+      {
+        "<leader>nfh",
+        "<cmd>Telescope neorg search_headings<cr>",
+        desc = "Heading",
+      },
+      {
+        "<leader>nft",
+        "<cmd>Telescope neorg find_project_task<cr>",
+        desc = "Task",
+      },
+      {
+        "<leader>nfi",
+        "<cmd>Telescope neorg insert_link<cr>",
+        desc = "Insert Link",
+      },
+    },
   },
+  {
+    "mbsantiago/pylsp-toggle",
+    dir = "/home/santiago/Software/dev/pylsp-toggle",
+    dev = true,
+    config = true,
+  }
 }
