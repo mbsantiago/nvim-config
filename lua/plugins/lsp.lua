@@ -18,6 +18,23 @@ return {
       require("barbecue").setup({
         attach_navic = false,
       })
+
+      vim.api.nvim_create_autocmd({
+        "WinScrolled", -- or WinResized on NVIM-v0.9 and higher
+        "BufWinEnter",
+        "CursorHold",
+        "InsertLeave",
+
+        -- include these if you have set `show_modified` to `true`
+        "BufWritePost",
+        "TextChanged",
+        "TextChangedI",
+      }, {
+        group = vim.api.nvim_create_augroup("barbecue.updater", {}),
+        callback = function()
+          require("barbecue.ui").update()
+        end,
+      })
     end,
   },
   {
@@ -107,10 +124,12 @@ return {
 
       -- On attach functions
       function OnAttach(client, bufnr)
+        -- Remove formatting from all clients except null-ls
         if client.name ~= "null-ls" then
           client.server_capabilities.document_formatting = false
         end
 
+        -- Setup navic if can provide symbols
         if
           client.server_capabilities["documentSymbolProvider"]
           and not client.config.settings.navic_disable
@@ -118,9 +137,15 @@ return {
           require("nvim-navic").attach(client, bufnr)
         end
 
+        -- Setup TypeScript utils if client is tsserver
         if client.name == "tsserver" then
           ts_utils.setup({})
           ts_utils.setup_client(client)
+        end
+
+        -- Have Jedi provide completion
+        if client.name == "pyright" then
+          client.server_capabilities.completion_provider = false
         end
       end
 
@@ -138,6 +163,13 @@ return {
         })
       end
     end,
+    keys = {
+      {
+        "<leader>ls",
+        "<cmd>lua vim.lsp.buf.signature_help()<cr>",
+        desc = "Signature help",
+      },
+    },
   },
   {
     "williamboman/mason-lspconfig.nvim",
@@ -228,6 +260,7 @@ return {
           format.stylua,
           format.rustfmt,
           format.markdownlint,
+          format.dprint,
           format.prettier.with({
             filetypes = {
               "javascript",
