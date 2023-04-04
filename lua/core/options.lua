@@ -24,12 +24,12 @@ o.wrap = false
 o.showmatch = true
 o.guicursor = ""
 
--- Width
-o.textwidth = 80
-
 -- Folding
-o.foldmethod = "indent"
-o.foldlevelstart = 20
+o.foldcolumn = "1"
+o.foldlevel = 99
+o.foldlevelstart = 99
+o.foldenable = true
+o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- Backups
 o.backup = false
@@ -91,21 +91,21 @@ o.showbreak = string.rep(" ", 3)
 
 -- Shortmess
 o.shortmess = o.shortmess
-  + {
-    A = true, -- don't give the "ATTENTION" message when an existing swap file is found.
-    I = true, -- don't give the intro message when starting Vim |:intro|.
-    W = true, -- don't give "written" or "[w]" when writing a file
-    c = true, -- don't give |ins-completion-menu| messages
-    m = true, -- use "[+]" instead of "[Modified]"
-  }
+    + {
+      A = true, -- don't give the "ATTENTION" message when an existing swap file is found.
+      I = true, -- don't give the intro message when starting Vim |:intro|.
+      W = true, -- don't give "written" or "[w]" when writing a file
+      c = true, -- don't give |ins-completion-menu| messages
+      m = true, -- use "[+]" instead of "[Modified]"
+    }
 
 -- Format options
 o.formatoptions = o.formatoptions
-  + {
-    c = false,
-    o = false, -- O and o, don't continue comments
-    r = true, -- Pressing Enter will continue comments
-  }
+    + {
+      c = false,
+      o = false, -- O and o, don't continue comments
+      r = true, -- Pressing Enter will continue comments
+    }
 
 -- Mapleader
 vim.g.mapleader = " "
@@ -119,7 +119,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Python
 vim.g.python3_host_prog =
-  "/home/santiago/Software/vendor/miniconda3/envs/nvim/bin/python"
+"/home/santiago/Software/vendor/miniconda3/envs/nvim/bin/python"
 
 -- Translation
 vim.g.translator_target_lang = "en"

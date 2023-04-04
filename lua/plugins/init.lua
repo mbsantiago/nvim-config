@@ -1,3 +1,32 @@
+local foldVirtualTextHandler =
+  function(virtText, lnum, endLnum, width, truncate)
+    local newVirtText = {}
+    local suffix = ("  %d "):format(endLnum - lnum)
+    local sufWidth = vim.fn.strdisplaywidth(suffix)
+    local targetWidth = width - sufWidth
+    local curWidth = 0
+    for _, chunk in ipairs(virtText) do
+      local chunkText = chunk[1]
+      local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+      if targetWidth > curWidth + chunkWidth then
+        table.insert(newVirtText, chunk)
+      else
+        chunkText = truncate(chunkText, targetWidth - curWidth)
+        local hlGroup = chunk[2]
+        table.insert(newVirtText, { chunkText, hlGroup })
+        chunkWidth = vim.fn.strdisplaywidth(chunkText)
+        -- str width returned from truncate() may less than 2nd argument, need padding
+        if curWidth + chunkWidth < targetWidth then
+          suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+        end
+        break
+      end
+      curWidth = curWidth + chunkWidth
+    end
+    table.insert(newVirtText, { suffix, "MoreMsg" })
+    return newVirtText
+  end
+
 return {
   {
     -- Icons
@@ -115,18 +144,6 @@ return {
   {
     -- Comments
     "numToStr/Comment.nvim",
-    config = true,
-  },
-  {
-    "anuvyklack/fold-preview.nvim",
-    dependencies = { "anuvyklack/keymap-amend.nvim" },
-    config = true,
-    event = "BufRead",
-    lazy = true,
-  },
-  {
-    -- Make folds prettier
-    "anuvyklack/pretty-fold.nvim",
     config = true,
   },
   {
@@ -279,6 +296,14 @@ return {
         lsp_doc_border = true,
       },
     },
+    lazy = false,
+    keys = {
+      {
+        "<leader>um",
+        "<CMD>Noice<CR>",
+        desc = "View messages",
+      }
+    }
   },
   {
     "folke/todo-comments.nvim",
@@ -321,7 +346,7 @@ return {
     config = function()
       require("project_nvim").setup({
         silent_chdir = false,
-        ignore_lsp = { "lua_ls" },
+        ignore_lsp = { "lua_ls", "null-ls" },
         exclude_dirs = { "**/vendor/**", "**/.venvs/**" },
       })
       require("telescope").load_extension("projects")
@@ -341,15 +366,14 @@ return {
     "nvim-neorg/neorg",
     build = ":Neorg sync-parsers",
     lazy = true,
-    event = "VeryLazy",
     cmd = "Neorg",
     opts = {
       load = {
         ["core.defaults"] = {}, -- Loads default behaviour
         ["core.keybinds"] = {
           config = {
-            neorg_leader = "<leader>"
-          }
+            neorg_leader = "<leader>",
+          },
         },
         ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
         ["core.norg.journal"] = {
@@ -426,9 +450,55 @@ return {
     },
   },
   {
-    "mbsantiago/pylsp-toggle",
-    dir = "/home/santiago/Software/dev/pylsp-toggle",
-    dev = true,
-    config = true,
-  }
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      "kevinhwang91/promise-async",
+      {
+        "luukvbaal/statuscol.nvim",
+        config = function()
+          local builtin = require("statuscol.builtin")
+          require("statuscol").setup({
+            relculright = true,
+            segments = {
+              { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+              { text = { "%s" }, click = "v:lua.ScSa" },
+              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+            },
+          })
+        end,
+      },
+    },
+    config = function()
+      require("ufo").setup({
+        fold_virt_text_handler = foldVirtualTextHandler,
+        provider_selector = function(bufnr, filetype, buftype)
+          return { "treesitter", "indent" }
+        end,
+      })
+      vim.api.nvim_set_hl(0, "FoldColumn", { link = "SignColumn" })
+    end,
+    event = "VeryLazy",
+    keys = {
+      {
+        "zR",
+        "<CMD>lua require('ufo').openAllFolds()<CR>",
+        desc = "Open all folds",
+      },
+      {
+        "zM",
+        "<CMD>lua require('ufo').closeAllFolds()<CR>",
+        desc = "Close all folds",
+      },
+      {
+        "K",
+        function()
+          local winid = require("ufo").peekFoldedLinesUnderCursor()
+          if not winid then
+            vim.lsp.buf.hover()
+          end
+        end,
+        desc = "Close all folds",
+      },
+    },
+  },
 }

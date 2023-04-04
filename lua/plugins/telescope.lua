@@ -164,4 +164,41 @@ return {
       require("telescope").load_extension("undo")
     end,
   },
+  {
+    "danielvolchek/tailiscope.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    lazy = true,
+    ft = {
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "javascriptreact",
+      "typescriptreact",
+      "astro",
+      "solid",
+    },
+    keys = {
+      {
+        "<leader>ctm",
+        "<cmd>Telescope tailiscope<cr>",
+        desc = "Tailwind Menu",
+      },
+      {
+        "<leader>ctf",
+        "<cmd>Telescope tailiscope all<cr>",
+        desc = "Tailwind All",
+      },
+      {
+        "<leader>cth",
+        "<cmd>Telescope tailiscope categories<cr>",
+        desc = "Tailwind Docs",
+      },
+    },
+    config = function()
+      require("telescope").load_extension("tailiscope")
+    end,
+  },
 }

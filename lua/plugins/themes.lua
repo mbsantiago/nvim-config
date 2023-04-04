@@ -5,6 +5,7 @@ return {
     config = function()
       local themer = require("themer")
       themer.setup({
+        transparent = true,
         colorscheme = "catppuccin",
         styles = {
           ["function"] = { style = "italic" },

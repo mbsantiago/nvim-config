@@ -66,12 +66,18 @@ return {
       local dap = require("dap")
 
       dap_python.setup("python")
+
       table.insert(dap.configurations.python, {
         configurations = {
           justMyCode = false,
         },
       })
+
       dap_python.test_runner = "pytest"
+
+      dap_python.resolve_python = function()
+        return './venv/bin/python'
+      end
     end,
     keys = {
       {

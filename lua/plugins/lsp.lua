@@ -4,7 +4,7 @@ return {
     lazy = true,
     cmd = "Mason",
     opts = {
-      PATH = "append",
+      PATH = "prepend",
     },
   },
   {
@@ -49,7 +49,7 @@ return {
     cmd = "Lspsaga",
     keys = {
       { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
-      { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
+      { "<leader>lr", "<cmd>Lspsaga rename<cr>",      desc = "Rename" },
       {
         "<leader>lR",
         "<cmd>Lspsaga rename ++project<cr>",
@@ -66,7 +66,7 @@ return {
         "<cmd>Lspsaga peek_definition<cr>",
         desc = "Peek Definition",
       },
-      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Docs" },
+      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>",  desc = "Hover Docs" },
       {
         "<leader>lj",
         "<cmd>Lspsaga diagnostic_jump_next<CR>",
@@ -119,8 +119,16 @@ return {
 
       -- Setup client capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+      -- Enable snippets
       capabilities.textDocument.completion.completionItem.snippetSupport = true
       capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+      -- Enable folding
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
 
       -- On attach functions
       function OnAttach(client, bufnr)
@@ -130,10 +138,7 @@ return {
         end
 
         -- Setup navic if can provide symbols
-        if
-          client.server_capabilities["documentSymbolProvider"]
-          and not client.config.settings.navic_disable
-        then
+        if client.server_capabilities["documentSymbolProvider"] then
           require("nvim-navic").attach(client, bufnr)
         end
 
@@ -142,15 +147,10 @@ return {
           ts_utils.setup({})
           ts_utils.setup_client(client)
         end
-
-        -- Have Jedi provide completion
-        if client.name == "pyright" then
-          client.server_capabilities.completion_provider = false
-        end
       end
 
       local flags = {
-        debounce_text_changes = 1000,
+        debounce_text_changes = 2000,
       }
 
       -- Setup all servers
@@ -186,7 +186,29 @@ return {
     dependencies = {
       "neovim/nvim-lspconfig",
     },
-    config = true,
+    config = function()
+      local fidget = require("fidget")
+      fidget.setup({
+        sources = {
+          ["null_ls"] = {
+            ignore = true,
+          },
+        },
+        fmt = {
+          task = function(task_name, message, percentage)
+            if task_name == "code_action" then
+              return false
+            end
+            return string.format(
+              "%s%s [%s]",
+              message,
+              percentage and string.format(" (%s%%)", percentage) or "",
+              task_name
+            )
+          end,
+        },
+      })
+    end,
     lazy = true,
     event = "VeryLazy",
   },
@@ -277,12 +299,15 @@ return {
               "markdown",
               "graphql",
               "pandoc",
+              "astro",
             },
-            command = "/usr/local/bin/prettier",
           }),
           -- Actions
           actions.proselint,
           stylermd,
+          -- Diagnostics
+          diagnostic.pydocstyle,
+          diagnostic.ruff,
         },
       })
     end,
@@ -295,7 +320,7 @@ return {
     },
     opts = {
       ensure_installed = nil,
-      automatic_installation = true,
+      automatic_installation = false,
       automatic_setup = true,
     },
     lazy = true,
@@ -329,58 +354,59 @@ return {
     lazy = true,
     event = "VeryLazy",
   },
-  {
-    "barreiroleo/ltex-extra.nvim",
-    lazy = true,
-    event = "VeryLazy",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "hrsh7th/cmp-nvim-lsp",
-    },
-    config = function()
-      local lspconfig = require("lspconfig")
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-      -- Setup client capabilities
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-
-      -- On attach functions
-      function OnAttach(client, bufnr)
-        if
-          client.server_capabilities["documentSymbolProvider"]
-          and not client.config.settings.navic_disable
-        then
-          require("nvim-navic").attach(client, bufnr)
-        end
-
-        require("ltex_extra").setup({
-          load_langs = { "es-MX", "en-US", "en-GB" },
-          init_check = true,
-          path = nil,
-          log_level = "none",
-        })
-      end
-
-      lspconfig.ltex.setup({
-        capabilities = capabilities,
-        on_attach = OnAttach,
-        flags = {
-          debounce_text_changes = 500,
-        },
-        settings = {
-          ltex = {
-            language = "en-GB",
-            motherTongue = "es",
-            enablePickyRules = true,
-            enabled = { "latex", "tex", "bib", "md" },
-            checkFrequency = "save",
-            diagnosticSeverity = "information",
-            setenceCacheSize = 5000,
-          },
-        },
-      })
-    end,
-  },
+  -- {
+  --   "barreiroleo/ltex-extra.nvim",
+  --   lazy = true,
+  --   event = "VeryLazy",
+  --   dependencies = {
+  --     "neovim/nvim-lspconfig",
+  --     "hrsh7th/cmp-nvim-lsp",
+  --   },
+  --   ft = {
+  --     "tex",
+  --     "latex",
+  --   },
+  --   config = function()
+  --     local lspconfig = require("lspconfig")
+  --     local cmp_nvim_lsp = require("cmp_nvim_lsp")
+  --
+  --     -- Setup client capabilities
+  --     local capabilities = vim.lsp.protocol.make_client_capabilities()
+  --     capabilities.textDocument.completion.completionItem.snippetSupport = true
+  --     capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+  --
+  --     -- On attach functions
+  --     function OnAttach(client, bufnr)
+  --       if
+  --           client.server_capabilities["documentSymbolProvider"]
+  --           and not client.config.settings.navic_disable
+  --       then
+  --         require("nvim-navic").attach(client, bufnr)
+  --       end
+  --
+  --       require("ltex_extra").setup({
+  --         load_langs = { "es-MX", "en-US", "en-GB" },
+  --         init_check = true,
+  --         path = nil,
+  --         log_level = "none",
+  --       })
+  --     end
+  --
+  --     lspconfig.ltex.setup({
+  --       capabilities = capabilities,
+  --       on_attach = OnAttach,
+  --       settings = {
+  --         ltex = {
+  --           language = "en-GB",
+  --           motherTongue = "es",
+  --           enablePickyRules = true,
+  --           enabled = { "latex", "tex", "bib" },
+  --           checkFrequency = "save",
+  --           diagnosticSeverity = "information",
+  --           setenceCacheSize = 5000,
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
 }
