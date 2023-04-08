@@ -39,10 +39,14 @@ return {
   },
   {
     "glepnir/lspsaga.nvim",
-    config = true,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {
+      code_action = {
+        extend_gitsigns = true,
+      }
     },
     lazy = true,
     cmd = "Lspsaga",

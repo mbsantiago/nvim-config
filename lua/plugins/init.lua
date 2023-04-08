@@ -296,6 +296,9 @@ return {
         view = "mini",
         view_warn = "mini",
       },
+      notify = {
+        view = "mini",
+      },
       lsp = {
         progress = {
           enabled = false,
@@ -362,7 +365,8 @@ return {
     event = "VeryLazy",
     config = function()
       require("project_nvim").setup({
-        silent_chdir = false,
+        manual_mode = true,
+        silent_chdir = true,
         ignore_lsp = { "lua_ls", "null-ls" },
         exclude_dirs = { "**/vendor/**", "**/.venvs/**" },
       })

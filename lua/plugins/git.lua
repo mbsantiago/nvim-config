@@ -2,9 +2,11 @@ return {
   {
     -- Git integration
     "lewis6991/gitsigns.nvim",
-    config = true,
     event = "BufRead",
     cmd = "Gitsigns",
+    opts = {
+      current_line_blame = true,
+    },
     keys = {
       {
         "<leader>gj",
@@ -15,11 +17,6 @@ return {
         "<leader>gk",
         "<cmd>lua require('gitsigns').prev_hunk()<cr>",
         desc = "Git Prev Hunk",
-      },
-      {
-        "<leader>gb",
-        "<cmd>lua require('gitsigns').blame_line()<cr>",
-        desc = "Git Blame Line",
       },
       {
         "<leader>gp",
@@ -51,17 +48,6 @@ return {
         "<cmd>lua require('gitsigns').stage_buffer()<cr>",
         desc = "Git Stage Buffer",
       },
-      {
-        "<leader>gP",
-        "<cmd>lua require('gitsigns').preview_buffer()<cr>",
-        desc = "Git Preview Buffer",
-      },
-      {
-        "<leader>gB",
-        "<cmd>lua require('gitsigns').blame_buffer()<cr>",
-        desc = "Git Blame Buffer",
-      },
-      { "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", desc = "Git Diff" },
     },
   },
   {
@@ -75,6 +61,21 @@ return {
       "DiffviewFileHistory",
     },
     -- TODO: Add keybindings
+    keys = {
+      {
+        "<leader>gd",
+        "<cmd>DiffviewOpen HEAD -- %<cr>",
+        desc = "Diff Current File",
+      },
+      { "<leader>gD", "<cmd>DiffviewOpen<cr>",          desc = "Diff All Files" },
+      {
+        "<leader>gh",
+        "<cmd>DiffviewFileHistory %<cr>",
+        desc = "Current File History",
+      },
+      { "<leader>gH", "<cmd>DiffviewFileHistory %<cr>", desc = "Git History" },
+      { "<leader>gc", "<cmd>DiffviewClose<cr>",         desc = "Close Diffview" },
+    },
   },
   {
     "paopaol/telescope-git-diffs.nvim",
