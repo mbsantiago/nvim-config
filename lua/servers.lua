@@ -35,4 +35,5 @@ return {
   jsonls = {},
   taplo = {},
   tailwindcss = {},
+  dockerls = {},
 }

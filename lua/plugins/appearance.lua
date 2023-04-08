@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 local foldVirtualTextHandler = function(
   virtText,
   lnum,
@@ -20,7 +21,8 @@ local foldVirtualTextHandler = function(
       local hlGroup = chunk[2]
       table.insert(newVirtText, { chunkText, hlGroup })
       chunkWidth = vim.fn.strdisplaywidth(chunkText)
-      -- str width returned from truncate() may less than 2nd argument, need padding
+      -- str width returned from truncate() may less than 2nd argument,
+      -- need padding
       if curWidth + chunkWidth < targetWidth then
         suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
       end
@@ -36,11 +38,6 @@ return {
   {
     -- Make Neovim Transparent
     "xiyaowong/transparent.nvim",
-    lazy = false,
-  },
-  {
-    -- Dim inactive windows
-    "sunjon/shade.nvim",
     lazy = false,
   },
   {

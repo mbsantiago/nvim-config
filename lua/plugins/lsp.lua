@@ -43,7 +43,6 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
-      "folke/lsp-colors.nvim",
     },
     lazy = true,
     cmd = "Lspsaga",
@@ -189,23 +188,8 @@ return {
     config = function()
       local fidget = require("fidget")
       fidget.setup({
-        sources = {
-          ["null_ls"] = {
-            ignore = true,
-          },
-        },
-        fmt = {
-          task = function(task_name, message, percentage)
-            if task_name == "code_action" then
-              return false
-            end
-            return string.format(
-              "%s%s [%s]",
-              message,
-              percentage and string.format(" (%s%%)", percentage) or "",
-              task_name
-            )
-          end,
+        text = {
+          spinner = "dots_snake"
         },
       })
     end,

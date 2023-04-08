@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 return {
   {
     -- Icons
@@ -13,9 +14,38 @@ return {
     config = true,
     opts = {
       options = {
+        diagnostics_indicator = function(
+          count,
+          level,
+          diagnostics_dict,
+          context
+        )
+          local s = " "
+          for e, n in pairs(diagnostics_dict) do
+            local sym = e == "error" and " "
+              or (e == "warning" and " " or " ")
+            s = s .. n .. sym
+          end
+          return s
+        end,
         diagnostics = "nvim_lsp",
         always_show_bufferline = false,
+        separator_style = "slope",
+        hover = {
+          enabled = true,
+          delay = 200,
+          reveal = { "close" },
+        },
+        indicator = {
+          style = "underline",
+        },
         offsets = {
+          {
+            filetype = "NvimTree",
+            text = "File Explorer",
+            text_align = "center",
+            separator = false,
+          },
           {
             filetype = "neo-tree",
             text = "Neo-tree",
@@ -97,9 +127,48 @@ return {
     lazy = false,
     opts = {
       options = {
-        section_separators = "",
-        component_separators = "",
+        component_separators = "|",
+        section_separators = { left = "", right = "" },
+        disabled_filetypes = {
+          statusline = {
+            "NvimTree",
+            "dashboard",
+            "undotree",
+            "neotest-summary",
+          },
+        },
       },
+      sections = {
+        lualine_a = {
+          { "mode", separator = { left = "" }, right_padding = 2 },
+        },
+        lualine_b = { "filename", "branch" },
+        lualine_c = { "diff" },
+        lualine_x = {
+          {
+            "diagnostics",
+            on_click = function()
+              require("trouble").toggle("document_diagnostics")
+            end,
+          },
+        },
+        lualine_y = {
+          "filetype",
+        },
+        lualine_z = {
+          { "location", separator = { right = "" }, left_padding = 2 },
+        },
+      },
+      inactive_sections = {
+        lualine_a = { "filename" },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { "filetype" },
+      },
+      tabline = {},
+      extensions = {},
     },
   },
   {
@@ -143,15 +212,15 @@ return {
         desc = "Clear all Notifications",
       },
     },
-    opts = {
-      timeout = 3000,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-    },
+    -- opts = {
+    --   timeout = 3000,
+    --   max_height = function()
+    --     return math.floor(vim.o.lines * 0.75)
+    --   end,
+    --   max_width = function()
+    --     return math.floor(vim.o.columns * 0.75)
+    --   end,
+    -- },
   },
   {
     "mattn/emmet-vim",
@@ -176,7 +245,12 @@ return {
         default_replace_single_buffer_options = "gcI",
         default_replace_multi_buffer_options = "egcI",
       })
+      vim.o.inccommand = "split"
     end,
+    cmd = {
+      "SearchReplaceSingleBufferOpen",
+      "SearchReplaceMultiBufferOpen",
+    },
     keys = {
       {
         "<C-r>",
@@ -218,11 +292,21 @@ return {
       "rcarriga/nvim-notify",
     },
     opts = {
+      messages = {
+        view = "mini",
+        view_warn = "mini",
+      },
       lsp = {
+        progress = {
+          enabled = false,
+        },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
           ["cmp.entry.get_documentation"] = true,
+        },
+        message = {
+          view = "mini",
         },
       },
       presets = {

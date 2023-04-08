@@ -1,5 +1,6 @@
 return {
-  { -- Git integration
+  {
+    -- Git integration
     "lewis6991/gitsigns.nvim",
     config = true,
     event = "BufRead",
@@ -85,6 +86,17 @@ return {
     event = "VeryLazy",
     config = function()
       require("telescope").load_extension("git_diffs")
+    end,
+  },
+  {
+    "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("octo").setup()
     end,
   },
 }
