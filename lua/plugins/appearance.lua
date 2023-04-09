@@ -42,10 +42,66 @@ return {
   },
   {
     "catppuccin/nvim",
-    name = "catppuccin",
+    lazy = false,
     config = function()
-      -- Set the colorscheme
-      vim.cmd.colorscheme("catppuccin-mocha")
+      require("catppuccin").setup({
+        flavour = "macchiato",
+        background = {
+          light = "latte",
+          dark = "macchiato",
+        },
+        styles = {
+          functions = { "italic", "bold" },
+          booleans = { "bold" }
+        },
+        dim_inactive = {
+          enabled = true,
+        },
+        integrations = {
+          notify = true,
+          mini = true,
+          fidget = true,
+          barbecue = {
+            dim_dirname = true,
+            bold_basename = true,
+            dim_context = false,
+          },
+          indent_blankline = {
+            enabled = true,
+            colored_indent_levels = false,
+          },
+          dap = {
+            enabled = true,
+            enable_ui = true, -- enable nvim-dap-ui
+          },
+          -- navic = {
+          --   enabled = false,
+          --   custom_bg = "NONE",
+          -- },
+          native_lsp = {
+            enabled = true,
+          },
+          dashboard = true,
+          gitsigns = true,
+          hop = true,
+          markdown = true,
+          neotest = true,
+          mason = true,
+          noice = true,
+          neotree = true,
+          cmp = true,
+          nvimtree = true,
+          treesitter_context = true,
+          treesitter = true,
+          octo = true,
+          symbols_outline = true,
+          telescope = true,
+          lsp_trouble = true,
+          which_key = true,
+        },
+      })
+
+      vim.cmd.colorscheme("catppuccin")
     end,
   },
   {

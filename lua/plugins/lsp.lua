@@ -16,6 +16,7 @@ return {
     },
     config = function()
       require("barbecue").setup({
+        theme = "catppuccin",
         attach_navic = false,
       })
 
@@ -42,17 +43,37 @@ return {
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
+      "catppuccin/nvim",
     },
-    opts = {
-      code_action = {
-        extend_gitsigns = true,
-      }
-    },
+    config = function()
+      require("lspsaga").setup({
+        code_action = {
+          extend_gitsigns = true,
+        },
+        ui = {
+          -- This option only works in Neovim 0.9
+          title = false,
+          -- Border type can be single, double, rounded, solid, shadow.
+          border = "single",
+          winblend = 0,
+          expand = "",
+          collapse = "",
+          code_action = "💡",
+          incoming = " ",
+          outgoing = " ",
+          hover = " ",
+          kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+        },
+        hover = {
+          max_width = 0.8,
+        },
+      })
+    end,
     lazy = true,
     cmd = "Lspsaga",
     keys = {
       { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
-      { "<leader>lr", "<cmd>Lspsaga rename<cr>",      desc = "Rename" },
+      { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
       {
         "<leader>lR",
         "<cmd>Lspsaga rename ++project<cr>",
@@ -69,7 +90,7 @@ return {
         "<cmd>Lspsaga peek_definition<cr>",
         desc = "Peek Definition",
       },
-      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>",  desc = "Hover Docs" },
+      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Docs" },
       {
         "<leader>lj",
         "<cmd>Lspsaga diagnostic_jump_next<CR>",
@@ -90,9 +111,20 @@ return {
         "<cmd>Lspsaga show_line_diagnostics<cr>",
         desc = "Show Line Diagnostics",
       },
+    },
+  },
+  {
+    "simrat39/symbols-outline.nvim",
+    lazy = true,
+    opts = {
+      auto_preview = false,
+      autofold_depth = 2,
+    },
+    cmd = "SymbolsOutline",
+    keys = {
       {
         "<leader>lo",
-        "<cmd>Lspsaga outline<cr>",
+        "<cmd>SymbolsOutline<cr>",
         desc = "Show Outline",
       },
     },
@@ -103,7 +135,14 @@ return {
       "tjdevries/lsp_extensions.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "jose-elias-alvarez/nvim-lsp-ts-utils",
-      "SmiteshP/nvim-navic",
+      {
+        "SmiteshP/nvim-navic",
+        config = function()
+          require("nvim-navic").setup({
+            highlight = true,
+          })
+        end,
+      },
       "utilyre/barbecue.nvim",
       "folke/neodev.nvim",
     },
@@ -165,6 +204,20 @@ return {
           settings = v,
         })
       end
+
+      -- Setup gutter signs
+      local signs =
+        { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
+
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = "▎",
+        },
+      })
     end,
     keys = {
       {
@@ -193,7 +246,7 @@ return {
       local fidget = require("fidget")
       fidget.setup({
         text = {
-          spinner = "dots_snake"
+          spinner = "dots_snake",
         },
       })
     end,
@@ -316,12 +369,23 @@ return {
   },
   {
     "folke/trouble.nvim",
-    config = true,
     dependencies = {
       "neovim/nvim-lspconfig",
       "nvim-tree/nvim-web-devicons",
     },
+    opts = {
+      icons = true,
+      signs = {
+        -- icons / text used for a diagnostic
+        error = "",
+        warning = "",
+        hint = "",
+        information = "",
+        other = "﫠",
+      },
+    },
     lazy = true,
+    event = "VeryLazy",
     cmd = "TroubleToggle",
     keys = {
       {

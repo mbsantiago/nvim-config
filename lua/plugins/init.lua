@@ -9,52 +9,73 @@ return {
     "akinsho/bufferline.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
+      "catppuccin/nvim",
     },
     lazy = false,
-    config = true,
-    opts = {
-      options = {
-        diagnostics_indicator = function(
-          count,
-          level,
-          diagnostics_dict,
-          context
-        )
-          local s = " "
-          for e, n in pairs(diagnostics_dict) do
-            local sym = e == "error" and " "
-              or (e == "warning" and " " or " ")
-            s = s .. n .. sym
-          end
-          return s
-        end,
-        diagnostics = "nvim_lsp",
-        always_show_bufferline = false,
-        separator_style = "slope",
-        hover = {
-          enabled = true,
-          delay = 200,
-          reveal = { "close" },
-        },
-        indicator = {
-          style = "underline",
-        },
-        offsets = {
-          {
-            filetype = "NvimTree",
-            text = "File Explorer",
-            text_align = "center",
-            separator = false,
+    config = function()
+      require("bufferline").setup({
+        options = {
+          diagnostics_indicator = function(
+            count,
+            level,
+            diagnostics_dict,
+            context
+          )
+            local s = " "
+            for e, n in pairs(diagnostics_dict) do
+              local sym = e == "error" and " "
+                or (e == "warning" and " " or " ")
+              s = s .. n .. sym
+            end
+            return s
+          end,
+          diagnostics = "nvim_lsp",
+          always_show_bufferline = false,
+          separator_style = "slope",
+          highlights = require("catppuccin.groups.integrations.bufferline").get(),
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { "close" },
           },
-          {
-            filetype = "neo-tree",
-            text = "Neo-tree",
-            highlight = "Directory",
-            text_align = "left",
+          indicator = {
+            style = "underline",
+          },
+          offsets = {
+            {
+              filetype = "NvimTree",
+              text = "File Explorer",
+              text_align = "center",
+              separator = false,
+            },
+            {
+              filetype = "neo-tree",
+              text = "Neo-tree",
+              highlight = "Directory",
+              text_align = "left",
+            },
+            {
+              filetype = "DiffviewFiles",
+              text = "Diffview Files",
+              text_align = "center",
+              separator = false,
+            },
+            {
+              filetype = "neotest-summary",
+              text = "Tests",
+              text_align = "center",
+              separator = false,
+            },
+            {
+              filetype = "lspsagaoutline",
+              text = "LSP Outline",
+              text_align = "center",
+              separator = false,
+            },
           },
         },
-      },
-    },
+      })
+    end,
     keys = {
       { "<leader>bc", "<cmd>bd<cr>", desc = "Close Buffer" },
       {
@@ -125,51 +146,71 @@ return {
     -- Status line
     "nvim-lualine/lualine.nvim",
     lazy = false,
-    opts = {
-      options = {
-        component_separators = "|",
-        section_separators = { left = "", right = "" },
-        disabled_filetypes = {
-          statusline = {
-            "NvimTree",
-            "dashboard",
-            "undotree",
-            "neotest-summary",
+    config = function()
+      require("lualine").setup({
+        options = {
+          theme = "catppuccin",
+          component_separators = "|",
+          section_separators = { left = "", right = "" },
+          disabled_filetypes = {
+            statusline = {
+              "NvimTree",
+              "dashboard",
+              "undotree",
+              "neotest-summary",
+              "lspsagaoutline",
+              "DiffviewFiles",
+            },
           },
         },
-      },
-      sections = {
-        lualine_a = {
-          { "mode", separator = { left = "" }, right_padding = 2 },
-        },
-        lualine_b = { "filename", "branch" },
-        lualine_c = { "diff" },
-        lualine_x = {
-          {
-            "diagnostics",
-            on_click = function()
-              require("trouble").toggle("document_diagnostics")
-            end,
+        sections = {
+          lualine_a = {
+            { "mode", separator = { left = "" }, right_padding = 2 },
+          },
+          lualine_b = {
+            "filename",
+            {
+              "branch",
+              on_click = function()
+                _G._LAZYGIT_TOGGLE()
+              end,
+            },
+          },
+          lualine_c = {
+            {
+              "diff",
+              on_click = function()
+                vim.cmd("DiffviewOpen HEAD -- %")
+              end,
+            },
+          },
+          lualine_x = {
+            {
+              "diagnostics",
+              on_click = function()
+                require("trouble").toggle("document_diagnostics")
+              end,
+            },
+          },
+          lualine_y = {
+            "filetype",
+          },
+          lualine_z = {
+            { "location", separator = { right = "" }, left_padding = 2 },
           },
         },
-        lualine_y = {
-          "filetype",
+        inactive_sections = {
+          lualine_a = { "filename" },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = { "filetype" },
         },
-        lualine_z = {
-          { "location", separator = { right = "" }, left_padding = 2 },
-        },
-      },
-      inactive_sections = {
-        lualine_a = { "filename" },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = { "filetype" },
-      },
-      tabline = {},
-      extensions = {},
-    },
+        tabline = {},
+        extensions = {},
+      })
+    end,
   },
   {
     -- File tree
@@ -339,6 +380,14 @@ return {
   {
     "stevearc/dressing.nvim",
     lazy = true,
+    opts = {
+      input = {
+        border = "solid",
+      },
+      select = {
+        border = "solid",
+      },
+    },
     init = function()
       ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)

@@ -23,6 +23,7 @@ o.termguicolors = true
 o.wrap = false
 o.showmatch = true
 o.guicursor = ""
+o.background = ""
 
 -- Folding
 o.foldcolumn = "1"
