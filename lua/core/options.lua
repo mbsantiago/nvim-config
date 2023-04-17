@@ -125,3 +125,8 @@ vim.g.python3_host_prog =
 -- Translation
 vim.g.translator_target_lang = "en"
 vim.g.translator_source_lang = "es"
+
+-- Neovide
+if vim.g.neovide then
+  vim.opt.guifont = "FiraCode Nerd Font:h8"
+end

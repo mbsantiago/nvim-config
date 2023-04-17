@@ -73,7 +73,7 @@ return {
     cmd = "Lspsaga",
     keys = {
       { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
-      { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
+      { "<leader>lr", "<cmd>Lspsaga rename<cr>",      desc = "Rename" },
       {
         "<leader>lR",
         "<cmd>Lspsaga rename ++project<cr>",
@@ -90,7 +90,7 @@ return {
         "<cmd>Lspsaga peek_definition<cr>",
         desc = "Peek Definition",
       },
-      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Docs" },
+      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>",  desc = "Hover Docs" },
       {
         "<leader>lj",
         "<cmd>Lspsaga diagnostic_jump_next<CR>",
@@ -132,6 +132,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
+      "folke/neoconf.nvim",
       "tjdevries/lsp_extensions.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "jose-elias-alvarez/nvim-lsp-ts-utils",
@@ -147,6 +148,8 @@ return {
       "folke/neodev.nvim",
     },
     config = function()
+      require("neoconf").setup({})
+
       local lspconfig = require("lspconfig")
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
       local ts_utils = require("nvim-lsp-ts-utils")
@@ -207,7 +210,7 @@ return {
 
       -- Setup gutter signs
       local signs =
-        { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      { Error = " ", Warn = " ", Hint = " ", Info = " " }
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })

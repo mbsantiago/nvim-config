@@ -138,10 +138,10 @@ return {
     lazy = true,
     cmd = "Twilight",
   },
-  {
-    "nvim-zh/colorful-winsep.nvim",
-    config = true,
-  },
+  -- {
+  --   "nvim-zh/colorful-winsep.nvim",
+  --   config = true,
+  -- },
   {
     "kevinhwang91/nvim-ufo",
     dependencies = {

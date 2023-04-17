@@ -6,6 +6,14 @@ return {
     config = true,
   },
   {
+    "nvim-zh/colorful-winsep.nvim",
+    config = true,
+    event = { "WinNew" },
+    opts = {
+      symbols = { "─", "│", "┌", "┐", "└", "┘" },
+    },
+  },
+  {
     "akinsho/bufferline.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
@@ -154,7 +162,6 @@ return {
           section_separators = { left = "", right = "" },
           disabled_filetypes = {
             statusline = {
-              "NvimTree",
               "dashboard",
               "undotree",
               "neotest-summary",
@@ -208,7 +215,16 @@ return {
           lualine_z = { "filetype" },
         },
         tabline = {},
-        extensions = {},
+        extensions = {
+          "lazy",
+          "nvim-tree",
+          "symbols-outline",
+          "trouble",
+          "toggleterm",
+          "nvim-dap-ui",
+          "quickfix",
+          "man",
+        },
       })
     end,
   },
@@ -217,7 +233,32 @@ return {
     "kyazdani42/nvim-tree.lua",
     cmd = "NvimTreeToggle",
     lazy = true,
-    config = true,
+    opts = {
+      hijack_cursor = true,
+      diagnostics = {
+        enable = true,
+      },
+      modified = {
+        enable = true,
+      },
+      view = {
+        cursorline = true,
+      },
+      renderer = {
+        add_trailing = true,
+        group_empty = true,
+        highlight_git = true,
+        highlight_opened_files = "name",
+        root_folder_label = false,
+        indent_markers = {
+          enable = true,
+        },
+      },
+      live_filter = {
+        prefix = " search: ",
+        always_show_folders = false,
+      }
+    },
     keys = {
       { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },
     },
@@ -237,7 +278,7 @@ return {
     cmd = "UndotreeToggle",
     lazy = true,
     keys = {
-      { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
+      { "<leader>U", "<cmd>UndotreeToggle<cr>", desc = "Undo Tree" },
     },
   },
   {
@@ -405,7 +446,7 @@ return {
   {
     "m4xshen/smartcolumn.nvim",
     opts = {
-      disabled_filetypes = { "help", "text", "markdown", "dashboard" },
+      disabled_filetypes = { "help", "text", "markdown", "dashboard", "lazy" },
     },
   },
   {

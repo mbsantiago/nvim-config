@@ -7,10 +7,10 @@ return {
 
       local setup = {
         plugins = {
-          marks = true, -- shows a list of your marks on ' and `
-          registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+          marks = true,       -- shows a list of your marks on ' and `
+          registers = true,   -- shows your registers on " in NORMAL or <C-r> in INSERT mode
           spelling = {
-            enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+            enabled = false,  -- enabling this will show WhichKey when pressing z= to select spelling suggestions
             suggestions = 20, -- how many suggestions should be shown in the list?
           },
         },
@@ -29,8 +29,8 @@ return {
           "lua",
           "^:",
           "^ ",
-        }, -- hide mapping boilerplate
-        show_help = true, -- show help message on the command line when the popup is visible
+        },                 -- hide mapping boilerplate
+        show_help = true,  -- show help message on the command line when the popup is visible
         triggers = "auto", -- automatically setup triggers
         triggers_blacklist = {
           -- list of mode / prefixes that should never be hooked by WhichKey
@@ -51,6 +51,7 @@ return {
         g = { name = "Git", f = { name = "Find" } },
         b = { name = "Buffers" },
         d = { name = "Debug" },
+        o = { name = "Octo (GitHub)" },
         w = {
           name = "Writing",
           l = { name = "Latex" },

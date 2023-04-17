@@ -197,7 +197,9 @@ local function mru_list(config, root)
   local groups = {}
   local mlist = utils.get_mru_list()
 
-  for _, file in pairs(vim.list_slice(mlist, 1, config.mru.limit)) do
+  local MAX_FILES = 300
+
+  for _, file in pairs(vim.list_slice(mlist, 1, MAX_FILES)) do
     -- Only show files in the current project
     if config.project and not is_in_project(file, root) then
       goto continue
@@ -223,6 +225,10 @@ local function mru_list(config, root)
     file = icon .. " " .. file
     table.insert(groups, { #icon, group })
     table.insert(list, (" "):rep(3) .. file)
+
+    if #list > config.mru.limit then
+      break
+    end
 
     ::continue::
   end
@@ -488,9 +494,8 @@ local function project_delete()
           return
         end
         list = vim.list_slice(list, count + 1)
-        local str = string.dump(
-          assert(loadstring("return " .. vim.inspect(list)))
-        )
+        local str =
+          string.dump(assert(loadstring("return " .. vim.inspect(list))))
         local handle = io.open(path, "w+")
         if not handle then
           return
@@ -511,6 +516,7 @@ local function theme_instance(config)
     if config.disable_move then
       utils.disable_move_key(config.bufnr)
     end
+
     require("dashboard.theme.header").generate_header(config)
     gen_shortcut(config)
     load_packages(config)

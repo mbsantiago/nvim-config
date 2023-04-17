@@ -142,6 +142,7 @@ return {
       vim.g.copilot_filetypes = {
         TelescopePrompt = false,
         TeleScopeResults = false,
+        ["dap-repl"] = false,
       }
     end,
   },
