@@ -32,7 +32,7 @@ return {
             local s = " "
             for e, n in pairs(diagnostics_dict) do
               local sym = e == "error" and " "
-                or (e == "warning" and " " or " ")
+                  or (e == "warning" and " " or " ")
               s = s .. n .. sym
             end
             return s
@@ -85,7 +85,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>bc", "<cmd>bd<cr>", desc = "Close Buffer" },
+      { "<leader>bc", "<cmd>bd<cr>",              desc = "Close Buffer" },
       {
         "<leader>b1",
         ":BufferLineGoToBuffer 1<CR>",
@@ -131,7 +131,7 @@ return {
         ":BufferLineGoToBuffer 9<CR>",
         desc = "Go to buffer 9",
       },
-      { "<leader>bf", ":BufferLinePick<CR>", desc = "Pick Buffer" },
+      { "<leader>bf", ":BufferLinePick<CR>",      desc = "Pick Buffer" },
       { "<leader>bn", ":BufferLineCycleNext<CR>", desc = "Next Buffer" },
       {
         "<leader>bp",
@@ -224,6 +224,10 @@ return {
           "nvim-dap-ui",
           "quickfix",
           "man",
+          {
+            sections = { lualine_a = { "filetype" } },
+            filetypes = { "noice" },
+          },
         },
       })
     end,
@@ -257,7 +261,7 @@ return {
       live_filter = {
         prefix = " search: ",
         always_show_folders = false,
-      }
+      },
     },
     keys = {
       { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Explorer" },

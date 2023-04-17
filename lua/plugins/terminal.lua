@@ -1,5 +1,6 @@
 return {
-  { -- Terminal Support / Multiple terminal
+  {
+    -- Terminal Support / Multiple terminal
     "akinsho/toggleterm.nvim",
     lazy = false,
     config = function()
@@ -11,6 +12,7 @@ return {
         direction = "float",
         hide_numbers = true,
         shade_terminals = true,
+        close_on_exit = true,
       })
 
       _G.set_terminal_keymaps = function()
@@ -26,7 +28,6 @@ return {
 
       local Terminal = require("toggleterm.terminal").Terminal
 
-      -- TODO: Move lazygit to git configs
       local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
       _G._LAZYGIT_TOGGLE = function()
         lazygit:toggle()

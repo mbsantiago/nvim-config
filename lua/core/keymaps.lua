@@ -85,3 +85,9 @@ vim.api.nvim_set_keymap(
   ":nohlsearch<CR>",
   { noremap = true, silent = true, desc = "No highlight" }
 )
+
+-- Make sure wqa does not trigger dumb term error
+vim.cmd([[
+command Z wa | qa
+cabbrev wqa Z
+]])

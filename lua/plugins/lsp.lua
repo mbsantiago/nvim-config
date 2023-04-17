@@ -5,6 +5,9 @@ return {
     cmd = "Mason",
     opts = {
       PATH = "prepend",
+      ui = {
+        border = "single",
+      }
     },
   },
   {

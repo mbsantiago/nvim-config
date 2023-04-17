@@ -60,9 +60,10 @@ o.iskeyword = o.iskeyword + "-"
 o.errorbells = false
 o.fileformat = "unix"
 
+o.confirm = false
+
 -- -- Listchars
 vim.opt.list = true
--- vim.opt.listchars:append("space:⋅")
 
 -- Performance
 o.lazyredraw = false
@@ -115,8 +116,6 @@ vim.g.maplocalleader = "\\"
 -- Remove builtin plugins
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
--- vim.g.loaded_zipPlugin = 0
--- vim.g.loaded_zip = 0
 
 -- Python
 vim.g.python3_host_prog =
