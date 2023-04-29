@@ -1,6 +1,4 @@
-function P(cmd)
-  print(vim.inspect(cmd))
-end
+-- Utility functions
 
 function _G.safe_require(module)
   local ok, result = pcall(require, module)
@@ -14,19 +12,4 @@ function _G.safe_require(module)
   end
 
   return result
-end
-
-function _G.dump(o)
-  if type(o) == "table" then
-    local s = "{ "
-    for k, v in pairs(o) do
-      if type(k) ~= "number" then
-        k = '"' .. k .. '"'
-      end
-      s = s .. "[" .. k .. "] = " .. dump(v) .. ","
-    end
-    return s .. "} "
-  else
-    return tostring(o)
-  end
 end
