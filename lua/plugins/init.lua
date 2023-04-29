@@ -32,7 +32,7 @@ return {
             local s = " "
             for e, n in pairs(diagnostics_dict) do
               local sym = e == "error" and " "
-                  or (e == "warning" and " " or " ")
+                or (e == "warning" and " " or " ")
               s = s .. n .. sym
             end
             return s
@@ -85,7 +85,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>bc", "<cmd>bd<cr>",              desc = "Close Buffer" },
+      { "<leader>bc", "<cmd>bd<cr>", desc = "Close Buffer" },
       {
         "<leader>b1",
         ":BufferLineGoToBuffer 1<CR>",
@@ -131,7 +131,7 @@ return {
         ":BufferLineGoToBuffer 9<CR>",
         desc = "Go to buffer 9",
       },
-      { "<leader>bf", ":BufferLinePick<CR>",      desc = "Pick Buffer" },
+      { "<leader>bf", ":BufferLinePick<CR>", desc = "Pick Buffer" },
       { "<leader>bn", ":BufferLineCycleNext<CR>", desc = "Next Buffer" },
       {
         "<leader>bp",
@@ -192,6 +192,7 @@ return {
             },
           },
           lualine_x = {
+            { require("NeoComposer.ui").status_recording },
             {
               "diagnostics",
               on_click = function()
@@ -561,6 +562,21 @@ return {
         "<leader>nfi",
         "<cmd>Telescope neorg insert_link<cr>",
         desc = "Insert Link",
+      },
+    },
+  },
+  {
+    "ecthelionvi/NeoComposer.nvim",
+    dependencies = { "kkharji/sqlite.lua" },
+    opts = {
+      keymaps = {
+        play_macro = "Q",
+        yank_macro = "yq",
+        stop_macro = "cq",
+        toggle_record = "q",
+        cycle_next = "<leader>Mn",
+        cycle_prev = "<leader>Mp",
+        toggle_macro_menu = "<leader>fM",
       },
     },
   },

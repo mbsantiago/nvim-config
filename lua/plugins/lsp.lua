@@ -121,7 +121,7 @@ return {
     lazy = true,
     opts = {
       auto_preview = false,
-      autofold_depth = 2,
+      autofold_depth = 1,
     },
     cmd = "SymbolsOutline",
     keys = {
@@ -382,7 +382,6 @@ return {
     opts = {
       icons = true,
       signs = {
-        -- icons / text used for a diagnostic
         error = "",
         warning = "",
         hint = "",
@@ -412,59 +411,17 @@ return {
     lazy = true,
     event = "VeryLazy",
   },
-  -- {
-  --   "barreiroleo/ltex-extra.nvim",
-  --   lazy = true,
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     "neovim/nvim-lspconfig",
-  --     "hrsh7th/cmp-nvim-lsp",
-  --   },
-  --   ft = {
-  --     "tex",
-  --     "latex",
-  --   },
-  --   config = function()
-  --     local lspconfig = require("lspconfig")
-  --     local cmp_nvim_lsp = require("cmp_nvim_lsp")
-  --
-  --     -- Setup client capabilities
-  --     local capabilities = vim.lsp.protocol.make_client_capabilities()
-  --     capabilities.textDocument.completion.completionItem.snippetSupport = true
-  --     capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-  --
-  --     -- On attach functions
-  --     function OnAttach(client, bufnr)
-  --       if
-  --           client.server_capabilities["documentSymbolProvider"]
-  --           and not client.config.settings.navic_disable
-  --       then
-  --         require("nvim-navic").attach(client, bufnr)
-  --       end
-  --
-  --       require("ltex_extra").setup({
-  --         load_langs = { "es-MX", "en-US", "en-GB" },
-  --         init_check = true,
-  --         path = nil,
-  --         log_level = "none",
-  --       })
-  --     end
-  --
-  --     lspconfig.ltex.setup({
-  --       capabilities = capabilities,
-  --       on_attach = OnAttach,
-  --       settings = {
-  --         ltex = {
-  --           language = "en-GB",
-  --           motherTongue = "es",
-  --           enablePickyRules = true,
-  --           enabled = { "latex", "tex", "bib" },
-  --           checkFrequency = "save",
-  --           diagnosticSeverity = "information",
-  --           setenceCacheSize = 5000,
-  --         },
-  --       },
-  --     })
-  --   end,
-  -- },
+  {
+    'VidocqH/lsp-lens.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+    },
+    opts = {
+      sections = {
+        definition = true,
+        references = true,
+        implementation = true,
+      }
+    }
+  }
 }

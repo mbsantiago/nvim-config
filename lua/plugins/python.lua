@@ -5,7 +5,8 @@ return {
     ft = "python",
     lazy = true,
   },
-  { -- Python folding
+  {
+    -- Python folding
     "tmhedberg/simpylfold",
     ft = "python",
     lazy = true,

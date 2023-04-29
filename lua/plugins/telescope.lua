@@ -1,3 +1,9 @@
+local function is_pdf(filepath)
+  local split_path = vim.split(filepath:lower(), ".", { plain = true })
+  local extension = split_path[#split_path]
+  return extension == "pdf"
+end
+
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -6,7 +12,6 @@ return {
       "nvim-lua/popup.nvim",
       "stevearc/dressing.nvim",
       "tzachar/fuzzy.nvim",
-      "themercorp/themer.lua",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
@@ -29,10 +34,6 @@ return {
       })
 
       require("telescope").load_extension("fzf")
-
-      -- NOTE: Do not move back to themer config. Themer should not lazy load
-      --       but telescope should.
-      require("telescope").load_extension("themes")
     end,
     lazy = true,
     event = "VeryLazy",
