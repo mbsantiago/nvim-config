@@ -6,18 +6,10 @@ return {
     config = true,
   },
   {
-    "nvim-zh/colorful-winsep.nvim",
-    config = true,
-    event = { "WinNew" },
-    opts = {
-      symbols = { "─", "│", "┌", "┐", "└", "┘" },
-    },
-  },
-  {
     "akinsho/bufferline.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
-      "catppuccin/nvim",
+      "rose-pine/neovim",
     },
     lazy = false,
     config = function()
@@ -32,23 +24,25 @@ return {
             local s = " "
             for e, n in pairs(diagnostics_dict) do
               local sym = e == "error" and " "
-                or (e == "warning" and " " or " ")
+                  or (e == "warning" and " " or " ")
               s = s .. n .. sym
             end
             return s
           end,
           diagnostics = "nvim_lsp",
-          always_show_bufferline = false,
-          separator_style = "slope",
-          highlights = require("catppuccin.groups.integrations.bufferline").get(),
-          hover = {
-            enabled = true,
-            delay = 200,
-            reveal = { "close" },
-          },
+          separator_style = "thin",
           indicator = {
             style = "underline",
           },
+          themable = true,
+          always_show_bufferline = false,
+          enforce_regular_tabs = false,
+          color_icons = true,
+          show_buffer_icons = true,
+          show_buffer_close_icons = true,
+          show_close_icon = true,
+          show_tab_indicators = true,
+          numbers = "ordinal",
           offsets = {
             {
               filetype = "NvimTree",
@@ -85,7 +79,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>bc", "<cmd>bd<cr>", desc = "Close Buffer" },
+      { "<leader>bc", "<cmd>bd<cr>",              desc = "Close Buffer" },
       {
         "<leader>b1",
         ":BufferLineGoToBuffer 1<CR>",
@@ -131,7 +125,7 @@ return {
         ":BufferLineGoToBuffer 9<CR>",
         desc = "Go to buffer 9",
       },
-      { "<leader>bf", ":BufferLinePick<CR>", desc = "Pick Buffer" },
+      { "<leader>bf", ":BufferLinePick<CR>",      desc = "Pick Buffer" },
       { "<leader>bn", ":BufferLineCycleNext<CR>", desc = "Next Buffer" },
       {
         "<leader>bp",
@@ -157,7 +151,6 @@ return {
     config = function()
       require("lualine").setup({
         options = {
-          theme = "catppuccin",
           component_separators = "|",
           section_separators = { left = "", right = "" },
           disabled_filetypes = {
@@ -192,7 +185,6 @@ return {
             },
           },
           lualine_x = {
-            { require("NeoComposer.ui").status_recording },
             {
               "diagnostics",
               on_click = function()
@@ -287,29 +279,6 @@ return {
     },
   },
   {
-    -- Notifications
-    "rcarriga/nvim-notify",
-    config = true,
-    keys = {
-      {
-        "<leader>uc",
-        function()
-          require("notify").dismiss({ silent = true, pending = true })
-        end,
-        desc = "Clear all Notifications",
-      },
-    },
-    -- opts = {
-    --   timeout = 3000,
-    --   max_height = function()
-    --     return math.floor(vim.o.lines * 0.75)
-    --   end,
-    --   max_width = function()
-    --     return math.floor(vim.o.columns * 0.75)
-    --   end,
-    -- },
-  },
-  {
     "mattn/emmet-vim",
     ft = {
       "html",
@@ -323,98 +292,6 @@ return {
       "markdown",
     },
     lazy = true,
-  },
-  {
-    "roobert/search-replace.nvim",
-    config = function()
-      require("search-replace").setup({
-        -- optionally override defaults
-        default_replace_single_buffer_options = "gcI",
-        default_replace_multi_buffer_options = "egcI",
-      })
-      vim.o.inccommand = "split"
-    end,
-    cmd = {
-      "SearchReplaceSingleBufferOpen",
-      "SearchReplaceMultiBufferOpen",
-    },
-    keys = {
-      {
-        "<C-r>",
-        "<CMD>SearchReplaceSingleBuffer<CR>",
-        mode = "v",
-        desc = "Search and replace [visual selection]",
-      },
-      {
-        "<C-s>",
-        "<CMD>SearchReplaceWithinVisualSelection<CR>",
-        mode = "v",
-        desc = "Search and replace within visual selection",
-      },
-      {
-        "<C-b>",
-        "<CMD>SearchReplaceWithinVisualSelectionCWord<CR>",
-        mode = "v",
-        desc = "Search and replace within visual selection [word]",
-      },
-    },
-  },
-  {
-    "folke/zen-mode.nvim",
-    config = true,
-    lazy = true,
-    cmd = "ZenMode",
-    keys = {
-      {
-        "<leader>uz",
-        "<CMD>ZenMode<CR>",
-        desc = "Zen Mode",
-      },
-    },
-  },
-  {
-    "folke/noice.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
-    },
-    opts = {
-      messages = {
-        view = "mini",
-        view_warn = "mini",
-      },
-      notify = {
-        view = "mini",
-      },
-      lsp = {
-        progress = {
-          enabled = false,
-        },
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
-        },
-        message = {
-          view = "mini",
-        },
-      },
-      presets = {
-        bottom_search = false,
-        command_palette = true,
-        long_message_to_split = true,
-        inc_rename = false,
-        lsp_doc_border = true,
-      },
-    },
-    lazy = false,
-    keys = {
-      {
-        "<leader>um",
-        "<CMD>Noice<CR>",
-        desc = "View messages",
-      },
-    },
   },
   {
     "folke/todo-comments.nvim",
@@ -447,137 +324,5 @@ return {
         return vim.ui.input(...)
       end
     end,
-  },
-  {
-    "m4xshen/smartcolumn.nvim",
-    opts = {
-      disabled_filetypes = { "help", "text", "markdown", "dashboard", "lazy" },
-    },
-  },
-  {
-    "ahmedkhalf/project.nvim",
-    lazy = true,
-    event = "VeryLazy",
-    config = function()
-      require("project_nvim").setup({
-        manual_mode = true,
-        silent_chdir = true,
-        ignore_lsp = { "lua_ls", "null-ls" },
-        exclude_dirs = { "**/vendor/**", "**/.venvs/**" },
-      })
-      require("telescope").load_extension("projects")
-    end,
-    keys = {
-      {
-        "<leader>fP",
-        "<CMD>Telescope projects<CR>",
-        desc = "Projects",
-      },
-    },
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
-  },
-  {
-    "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    lazy = true,
-    cmd = "Neorg",
-    opts = {
-      load = {
-        ["core.defaults"] = {}, -- Loads default behaviour
-        ["core.keybinds"] = {
-          config = {
-            neorg_leader = "<leader>",
-          },
-        },
-        ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
-        ["core.norg.journal"] = {
-          config = {
-            workspace = "journal",
-          },
-        },
-        ["core.norg.completion"] = {
-          config = {
-            engine = "nvim-cmp",
-          },
-        },
-        ["core.norg.dirman"] = { -- Manages Neorg workspaces
-          config = {
-            default_workspace = "notes",
-            workspaces = {
-              meetings = "~/Documents/Notes/meetings",
-              papers = "~/Documents/Notes/papers",
-              notes = "~/Documents/Notes/notes",
-              ideas = "~/Documents/Notes/ideas",
-              journal = "~/Documents/Notes/journal",
-            },
-          },
-        },
-        ["core.export"] = {},
-        ["core.integrations.treesitter"] = {},
-        ["core.integrations.nvim-cmp"] = {},
-        ["core.integrations.zen_mode"] = {},
-        ["core.integrations.telescope"] = {},
-      },
-    },
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope" },
-    keys = {
-      {
-        "<leader>no",
-        "<cmd>Neorg<cr>",
-        desc = "Open Menu",
-      },
-      {
-        "<leader>nw",
-        "<cmd>Telescope neorg switch_workspace<cr>",
-        desc = "Change Workspace",
-      },
-      {
-        "<leader>nj",
-        "<cmd>Neorg journal<cr>",
-        desc = "Journal",
-      },
-      {
-        "<leader>nfl",
-        "<cmd>Telescope neorg find_linkable<cr>",
-        desc = "Linkable",
-      },
-      {
-        "<leader>nff",
-        "<cmd>Telescope neorg find_norg_files<cr>",
-        desc = "File",
-      },
-      {
-        "<leader>nfh",
-        "<cmd>Telescope neorg search_headings<cr>",
-        desc = "Heading",
-      },
-      {
-        "<leader>nft",
-        "<cmd>Telescope neorg find_project_task<cr>",
-        desc = "Task",
-      },
-      {
-        "<leader>nfi",
-        "<cmd>Telescope neorg insert_link<cr>",
-        desc = "Insert Link",
-      },
-    },
-  },
-  {
-    "ecthelionvi/NeoComposer.nvim",
-    dependencies = { "kkharji/sqlite.lua" },
-    opts = {
-      keymaps = {
-        play_macro = "Q",
-        yank_macro = "yq",
-        stop_macro = "cq",
-        toggle_record = "q",
-        cycle_next = "<leader>Mn",
-        cycle_prev = "<leader>Mp",
-        toggle_macro_menu = "<leader>fM",
-      },
-    },
   },
 }

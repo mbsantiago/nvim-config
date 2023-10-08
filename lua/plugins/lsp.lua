@@ -1,5 +1,46 @@
 return {
   {
+    "folke/neoconf.nvim",
+    opts = {
+      plugins = {
+        jsonls = {
+          enabled = true,
+          configured_servers_only = true,
+        },
+        lua_ls = {
+          enabled = true,
+        },
+      },
+    },
+    lazy = true,
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>le",
+        "<cmd>Neoconf global<cr>",
+        desc = "Setup LSP",
+      },
+      {
+        "<leader>lC",
+        "<cmd>Neoconf lsp<cr>",
+        desc = "LSP Configs",
+      },
+      {
+        "<leader>li",
+        "<cmd>LspInfo<cr>",
+        desc = "LSP Info",
+      },
+    },
+  },
+  {
+    "folke/neodev.nvim",
+    opts = {
+      library = { plugins = { "neotest", "nvimd-dap-ui" }, types = true },
+    },
+    lazy = true,
+    event = "VeryLazy",
+  },
+  {
     "williamboman/mason.nvim",
     lazy = true,
     cmd = "Mason",
@@ -7,93 +48,159 @@ return {
       PATH = "prepend",
       ui = {
         border = "single",
-      }
+      },
     },
   },
   {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
+    "williamboman/mason-lspconfig.nvim",
     dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons",
+      "hrsh7th/cmp-nvim-lsp",
+      "jose-elias-alvarez/nvim-lsp-ts-utils",
+      "tjdevries/lsp_extensions.nvim",
+      "williamboman/mason.nvim",
+      "folke/neoconf.nvim",
+      "folke/neodev.nvim",
+    },
+    keys = {
+      {
+        "<leader>ls",
+        "<cmd>lua vim.lsp.buf.signature_help()<cr>",
+        desc = "Signature help",
+      },
     },
     config = function()
-      require("barbecue").setup({
-        theme = "catppuccin",
-        attach_navic = false,
-      })
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
+      local ts_utils = require("nvim-lsp-ts-utils")
 
-      vim.api.nvim_create_autocmd({
-        "WinScrolled", -- or WinResized on NVIM-v0.9 and higher
-        "BufWinEnter",
-        "CursorHold",
-        "InsertLeave",
+      -- Setup client capabilities
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-        -- include these if you have set `show_modified` to `true`
-        "BufWritePost",
-        "TextChanged",
-        "TextChangedI",
-      }, {
-        group = vim.api.nvim_create_augroup("barbecue.updater", {}),
-        callback = function()
-          require("barbecue.ui").update()
+      -- Enable snippets
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+      -- Enable folding
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
+
+      -- On attach functions
+      local function OnAttach(client, _)
+        -- Setup TypeScript utils if client is tsserver
+        if client.name == "tsserver" then
+          ts_utils.setup({})
+          ts_utils.setup_client(client)
+        end
+      end
+
+      local flags = {
+        debounce_text_changes = 2000,
+      }
+
+      local neoconf = require("neoconf")
+      local enabled = neoconf.get("enabled", {})
+      require("mason-lspconfig").setup()
+      require("mason-lspconfig").setup_handlers({
+        function(server_name)
+          if enabled[server_name] == false then
+            return
+          end
+          require("lspconfig")[server_name].setup({
+            on_attach = OnAttach,
+            capabilities = capabilities,
+            flags = flags,
+          })
+        end,
+        ltex = function()
+          require("lspconfig")["ltex"].setup({
+            filetypes = { "tex", "bib" },
+            on_attach = OnAttach,
+            capabilities = capabilities,
+            flags = flags,
+          })
         end,
       })
+
+      -- Setup gutter signs
+      local signs =
+        { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
+
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = "▎",
+        },
+      })
     end,
+    lazy = true,
+    event = "VeryLazy",
   },
   {
     "glepnir/lspsaga.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       "nvim-treesitter/nvim-treesitter",
-      "catppuccin/nvim",
     },
     config = function()
       require("lspsaga").setup({
         code_action = {
-          extend_gitsigns = true,
+          show_server_name = true,
+          extend_gitsigns = false,
+        },
+        outline = {
+          auto_preview = true,
+          auto_close = true,
+          close_after_jump = true,
+        },
+        symbol_in_winbar = {
+          enable = true,
         },
         ui = {
-          -- This option only works in Neovim 0.9
-          title = false,
-          -- Border type can be single, double, rounded, solid, shadow.
-          border = "single",
-          winblend = 0,
-          expand = "",
-          collapse = "",
+          title = true,
+          border = "rounded",
+          lines = { "└", "├", "│", "─", "┌" },
+          actionfix = " ",
           code_action = "💡",
-          incoming = " ",
-          outgoing = " ",
-          hover = " ",
-          kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+          imp_sign = "󰳛 ",
+        },
+        light_bulb = {
+          debouce = 200,
         },
         hover = {
           max_width = 0.8,
         },
       })
     end,
-    lazy = true,
-    cmd = "Lspsaga",
+    event = "LspAttach",
     keys = {
       { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
-      { "<leader>lr", "<cmd>Lspsaga rename<cr>",      desc = "Rename" },
+      { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
       {
         "<leader>lR",
         "<cmd>Lspsaga rename ++project<cr>",
         desc = "Rename Project",
       },
-      { "<leader>lF", "<cmd>Lspsaga lsp_finder<cr>", desc = "Finder" },
+      { "<leader>lF", "<cmd>Lspsaga finder<cr>", desc = "Finder" },
       {
         "<leader>ld",
         "<cmd>Lspsaga goto_definition<cr>",
         desc = "Go To Definition",
       },
       {
+        "<leader>lo",
+        "<cmd>Lspsaga outline<cr>",
+        desc = "Symbols Outline",
+      },
+      {
         "<leader>lp",
         "<cmd>Lspsaga peek_definition<cr>",
         desc = "Peek Definition",
       },
-      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>",  desc = "Hover Docs" },
+      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Docs" },
       {
         "<leader>lj",
         "<cmd>Lspsaga diagnostic_jump_next<CR>",
@@ -117,143 +224,34 @@ return {
     },
   },
   {
-    "simrat39/symbols-outline.nvim",
-    lazy = true,
-    opts = {
-      auto_preview = false,
-      autofold_depth = 1,
-    },
-    cmd = "SymbolsOutline",
-    keys = {
-      {
-        "<leader>lo",
-        "<cmd>SymbolsOutline<cr>",
-        desc = "Show Outline",
-      },
-    },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "folke/neoconf.nvim",
-      "tjdevries/lsp_extensions.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-      "jose-elias-alvarez/nvim-lsp-ts-utils",
-      {
-        "SmiteshP/nvim-navic",
-        config = function()
-          require("nvim-navic").setup({
-            highlight = true,
-          })
-        end,
-      },
-      "utilyre/barbecue.nvim",
-      "folke/neodev.nvim",
-    },
-    config = function()
-      require("neoconf").setup({})
-
-      local lspconfig = require("lspconfig")
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
-      local ts_utils = require("nvim-lsp-ts-utils")
-      local neodev = require("neodev")
-
-      neodev.setup({
-        library = { plugins = { "neotest", "nvimd-dap-ui" }, types = true },
-      })
-
-      -- Load server config from local file
-      local servers = require("servers")
-
-      -- Setup client capabilities
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-      -- Enable snippets
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-
-      -- Enable folding
-      capabilities.textDocument.foldingRange = {
-        dynamicRegistration = false,
-        lineFoldingOnly = true,
-      }
-
-      -- On attach functions
-      function OnAttach(client, bufnr)
-        -- Remove formatting from all clients except null-ls
-        if client.name ~= "null-ls" then
-          client.server_capabilities.document_formatting = false
-        end
-
-        -- Setup navic if can provide symbols
-        if client.server_capabilities["documentSymbolProvider"] then
-          require("nvim-navic").attach(client, bufnr)
-        end
-
-        -- Setup TypeScript utils if client is tsserver
-        if client.name == "tsserver" then
-          ts_utils.setup({})
-          ts_utils.setup_client(client)
-        end
-      end
-
-      local flags = {
-        debounce_text_changes = 2000,
-      }
-
-      -- Setup all servers
-      for k, v in pairs(servers) do
-        lspconfig[k].setup({
-          on_attach = OnAttach,
-          capabilities = capabilities,
-          flags = flags,
-          settings = v,
-        })
-      end
-
-      -- Setup gutter signs
-      local signs =
-      { Error = " ", Warn = " ", Hint = " ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
-
-      vim.diagnostic.config({
-        virtual_text = {
-          prefix = "▎",
-        },
-      })
-    end,
-    keys = {
-      {
-        "<leader>ls",
-        "<cmd>lua vim.lsp.buf.signature_help()<cr>",
-        desc = "Signature help",
-      },
-    },
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
+    "jay-babu/mason-null-ls.nvim",
     dependencies = {
       "williamboman/mason.nvim",
-      "neovim/nvim-lspconfig",
-    },
-    config = true,
-    lazy = true,
-    event = "VeryLazy",
-  },
-  {
-    "j-hui/fidget.nvim",
-    dependencies = {
-      "neovim/nvim-lspconfig",
+      "folke/neoconf.nvim",
     },
     config = function()
-      local fidget = require("fidget")
-      fidget.setup({
-        text = {
-          spinner = "dots_snake",
+      local neoconf = require("neoconf")
+      local enabled = neoconf.get("enabled", {})
+      local null_ls = require("null-ls")
+
+      require("mason-null-ls").setup({
+        handlers = {
+          function(source_name, methods)
+            if enabled[source_name] == false then
+              return
+            end
+            require("mason-null-ls").default_setup(source_name, methods)
+          end,
+          ---@diagnostic disable-next-line: unused-local
+          ["pydocstyle"] = function(source_name, methods)
+            null_ls.register(null_ls.builtins.diagnostics.pydocstyle.with({
+              extra_args = { "--config=$ROOT/setup.cfg" },
+            }))
+          end,
         },
+        ensure_installed = nil,
+        automatic_installation = false,
+        automatic_setup = true,
       })
     end,
     lazy = true,
@@ -262,6 +260,7 @@ return {
   {
     "jose-elias-alvarez/null-ls.nvim",
     dependencies = {
+      "jay-babu/mason-null-ls.nvim",
       "neovim/nvim-lspconfig",
     },
     lazy = true,
@@ -273,105 +272,11 @@ return {
       },
     },
     config = function()
-      local null_ls = require("null-ls")
-      local helpers = require("null-ls.helpers")
-      local methods = require("null-ls.methods")
-
-      local format = null_ls.builtins.formatting
-      local diagnostic = null_ls.builtins.diagnostics
-      local actions = null_ls.builtins.code_actions
-
-      -- Make formater for R markdown
-      local stylermd = helpers.make_builtin({
-        name = "stylermd",
-        method = { methods.internal.FORMATTING },
-        filetypes = { "rmd" },
-        generator_opts = {
-          command = "R",
-          args = helpers.range_formatting_args_factory({
-            "--slave",
-            "--no-restore",
-            "--no-save",
-            "-e",
-            [[
-            options(styler.quiet = TRUE)
-            con <- file("stdin")
-            temp <- tempfile("styler", fileext = ".Rmd")
-            writeLines(readLines(con), temp)
-            styler::style_file(temp)
-            output <- paste0(readLines(temp), collapse = '\n')
-            cat(output)
-            close(con)
-          ]],
-          }, "stylermd"),
-          to_stdin = true,
-        },
-        factory = helpers.formatter_factory,
-      })
-
-      null_ls.setup({
+      require("null-ls").setup({
         debounce = 1000,
         update_in_insert = false,
-        sources = {
-          -- Diagnostics
-          diagnostic.proselint,
-          diagnostic.write_good,
-          -- diagnostic.vale.with({
-          --   command = "/home/linuxbrew/.linuxbrew/bin/vale",
-          -- }),
-          -- Formatting
-          format.isort,
-          format.black,
-          format.latexindent,
-          format.djhtml,
-          format.fish_indent,
-          format.shfmt,
-          format.stylua,
-          format.rustfmt,
-          format.markdownlint,
-          format.dprint,
-          format.prettier.with({
-            filetypes = {
-              "javascript",
-              "javascriptreact",
-              "typescript",
-              "typescriptreact",
-              "vue",
-              "css",
-              "scss",
-              "less",
-              "html",
-              "json",
-              "yaml",
-              "markdown",
-              "graphql",
-              "pandoc",
-              "astro",
-            },
-          }),
-          -- Actions
-          actions.proselint,
-          stylermd,
-          -- Diagnostics
-          diagnostic.pydocstyle,
-          diagnostic.ruff,
-        },
       })
     end,
-  },
-  {
-    "jayp0521/mason-null-ls.nvim",
-    dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
-      "williamboman/mason.nvim",
-    },
-    opts = {
-      ensure_installed = nil,
-      automatic_installation = false,
-      automatic_setup = true,
-    },
-    lazy = true,
-    event = "VeryLazy",
   },
   {
     "folke/trouble.nvim",
@@ -390,7 +295,7 @@ return {
       },
     },
     lazy = true,
-    event = "VeryLazy",
+    event = "LspAttach",
     cmd = "TroubleToggle",
     keys = {
       {
@@ -405,23 +310,4 @@ return {
       },
     },
   },
-  {
-    "adoyle-h/lsp-toggle.nvim",
-    config = true,
-    lazy = true,
-    event = "VeryLazy",
-  },
-  {
-    'VidocqH/lsp-lens.nvim',
-    dependencies = {
-      'neovim/nvim-lspconfig',
-    },
-    opts = {
-      sections = {
-        definition = true,
-        references = true,
-        implementation = true,
-      }
-    }
-  }
 }

@@ -1,5 +1,10 @@
 return {
   {
+    "github/copilot.vim",
+    cmd = "Copilot",
+    event = "InsertEnter",
+  },
+  {
     -- Autocompletion plugin
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -21,7 +26,6 @@ return {
       local compare = require("cmp.config.compare")
       local fzf_compare = require("cmp_fuzzy_buffer.compare")
 
-      -- TODO: Check if these can be moved to their corresponding sections
       local lspkind = require("lspkind")
       local luasnip = require("luasnip")
 
@@ -32,8 +36,8 @@ return {
           end,
         },
         mapping = {
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-9>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-8>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
@@ -43,27 +47,22 @@ return {
         -- Sources order are actually their priority order
         sources = {
           { name = "nvim_lsp_signature_help" },
-          { name = "nvim_lsp", keyword_length = 2 },
-          { name = "luasnip", keyword_length = 2 },
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
           { name = "path" },
-          { name = "cmp_tabnine" },
-          { name = "buffer", keyword_length = 5 },
-          { name = "emoji" },
+          { name = "buffer" },
           { name = "nvim_lua" },
-          { name = "neorg" },
         },
         formatting = {
           format = lspkind.cmp_format({
-            with_text = true,
-            maxwidth = 50,
+            mode = "symbol_text",
             menu = {
               buffer = "[buf]",
               nvim_lsp = "[lsp]",
               nvim_lua = "[api]",
               path = "[path]",
               luasnip = "[snip]",
-              cmp_tabnine = "[tabnine]",
-              neorg = "[org]",
+              nvim_lsp_signature_help = "[sig]",
             },
           }),
         },
@@ -71,19 +70,15 @@ return {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
-        experimental = {
-          native_menu = false,
-          ghost_text = true,
-        },
         sorting = {
           priority_weight = 2,
           comparators = {
+            compare.kind,
             fzf_compare,
             compare.offset,
             compare.exact,
             compare.score,
             compare.recently_used,
-            compare.kind,
             compare.sort_text,
             compare.length,
             compare.order,
@@ -104,11 +99,9 @@ return {
       cmp.setup.cmdline(":", {
         sources = cmp.config.sources({
           { name = "fuzzy_path", keyword_length = 3 },
-          { name = "cmdline", keyword_length = 3 },
+          { name = "cmdline",    keyword_length = 3 },
         }),
       })
-
-      -- TODO: Add gitcommit support
     end,
   },
   {
@@ -134,16 +127,6 @@ return {
         "confirm_done",
         cmp_autopairs.on_confirm_done({ map_char = { tex = "" } })
       )
-    end,
-  },
-  {
-    "github/copilot.vim",
-    config = function()
-      vim.g.copilot_filetypes = {
-        TelescopePrompt = false,
-        TeleScopeResults = false,
-        ["dap-repl"] = false,
-      }
     end,
   },
 }

@@ -18,6 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Initialize lazy nvim and load plugins
 require("lazy").setup("plugins", {
   ui = {
-    border = "single",
+    border = "rounded",
+    title = "Lazy",
   },
 })

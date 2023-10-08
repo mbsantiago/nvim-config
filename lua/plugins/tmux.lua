@@ -35,15 +35,4 @@ return {
       },
     },
   },
-  {
-    "camgraff/Telescope-tmux.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
-    config = function()
-      require("telescope").load_extension("tmux")
-    end,
-    lazy = true,
-    event = "VeryLazy",
-  },
 }

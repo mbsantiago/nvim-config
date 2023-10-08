@@ -51,11 +51,8 @@ return {
     end,
   },
   {
-    "benfowler/telescope-luasnip.nvim",
-    config = function()
-      require("telescope").load_extension("luasnip")
-    end,
+    "evesdropper/luasnip-latex-snippets.nvim",
     lazy = true,
-    event = "VeryLazy",
+    ft = "tex",
   },
 }

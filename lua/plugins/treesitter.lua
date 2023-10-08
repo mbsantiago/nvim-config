@@ -1,5 +1,6 @@
 return {
-  { -- Treesiter
+  {
+    -- Treesiter
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
       "nvim-treesitter/playground",
@@ -17,7 +18,7 @@ return {
           enable = true,
           disable = {
             "latex", -- NOTE: highlight syntax is provided by vimtex
-          }
+          },
         },
         indent = {
           enable = true,
@@ -48,15 +49,12 @@ return {
         textobjects = {
           select = {
             enable = true,
-
             lookahead = true,
-
             selection_modes = {
               ["@parameter.outer"] = "v", -- charwise
               ["@function.outer"] = "V", -- linewise
               ["@class.outer"] = "<c-v>", -- blockwise
             },
-
             keymaps = {
               -- Function
               ["af"] = "@function.outer",
@@ -85,7 +83,6 @@ return {
               ["as"] = "@statement.outer",
             },
           },
-
           move = {
             enable = true,
             disable = { "latex" },
@@ -109,7 +106,6 @@ return {
               ["[]"] = "@class.outer",
             },
           },
-
           swap = {
             enable = true,
             disable = { "latex" },
@@ -120,7 +116,6 @@ return {
               ["<leader>mA"] = "@parameter.inner",
             },
           },
-
           lsp_interop = {
             enable = true,
             border = "none",
@@ -136,9 +131,5 @@ return {
         },
       })
     end,
-  },
-  { -- HTML Autotag with Treesitter
-    "windwp/nvim-ts-autotag",
-    config = true,
   },
 }

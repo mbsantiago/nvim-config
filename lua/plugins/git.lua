@@ -60,34 +60,29 @@ return {
       "DiffviewFocusFiles",
       "DiffviewFileHistory",
     },
-    -- TODO: Add keybindings
     keys = {
       {
         "<leader>gd",
         "<cmd>DiffviewOpen HEAD -- %<cr>",
         desc = "Diff Current File",
       },
-      { "<leader>gD", "<cmd>DiffviewOpen<cr>",          desc = "Diff All Files" },
+      {
+        "<leader>gD",
+        "<cmd>DiffviewOpen<cr>",
+        desc = "Diff All Files",
+      },
       {
         "<leader>gh",
         "<cmd>DiffviewFileHistory %<cr>",
         desc = "Current File History",
       },
       { "<leader>gH", "<cmd>DiffviewFileHistory %<cr>", desc = "Git History" },
-      { "<leader>gc", "<cmd>DiffviewClose<cr>",         desc = "Close Diffview" },
+      {
+        "<leader>gc",
+        "<cmd>DiffviewClose<cr>",
+        desc = "Close Diffview",
+      },
     },
-  },
-  {
-    "paopaol/telescope-git-diffs.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-    },
-    lazy = true,
-    event = "VeryLazy",
-    config = function()
-      require("telescope").load_extension("git_diffs")
-    end,
   },
   {
     "pwntester/octo.nvim",

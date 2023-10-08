@@ -40,6 +40,7 @@ o.autoread = true -- Automatically read a file when it has been changed from out
 o.undofile = true
 
 -- Completion
+o.complete = ""
 o.completeopt = "menu,menuone,preview,noselect"
 o.pumblend = 10 -- Popup menu transparency
 o.pumheight = 8 -- Popup menu height
@@ -49,6 +50,7 @@ o.clipboard = "unnamedplus"
 o.hidden = true
 o.joinspaces = false
 o.mouse = "a"
+o.mousemoveevent = true
 o.scrolloff = 8
 o.sidescrolloff = 8
 o.splitbelow = true

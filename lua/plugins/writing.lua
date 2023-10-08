@@ -51,7 +51,7 @@ return {
 
       vim.g.vimtex_imaps_enabled = 1
 
-      vim.g.vimtex_quickfix_open_on_warning = 0
+      vim.g.vimtex_quickfix_open_on_warning = 1
 
       vim.g.vimtex_quickfix_mode = 0
 
@@ -155,37 +155,6 @@ return {
         "<leader>wlx",
         "<Plug>(vimtex-reload)<cr>",
         desc = "Reload",
-      },
-    },
-  },
-  {
-    "voldikss/vim-translator", -- Translator,
-    lazy = true,
-    keys = {
-      { "<leader>wt", "<Plug>Translate<cr>", desc = "Translate" },
-      { "<leader>ww", "<Plug>TranslateW<cr>", desc = "Translate Window" },
-      { "<leader>wr", "<Plug>TranslateR<cr>", desc = "Translate Replace" },
-    },
-    cmd = { "Translate", "TranslateW", "TranslateR" },
-  },
-  {
-    "ron89/thesaurus_query.vim", -- Thesaurus
-    lazy = true,
-    config = function()
-      vim.g.tq_enabled_backends = {
-        "openoffice_en",
-        "mthesaur_txt",
-        "datamuse_com",
-      }
-      vim.g.tq_openoffice_en_file = "/usr/share/myspell/dicts/th_en_US_new"
-      vim.g.tq_mthesaur_file = "/home/santiago/.vim/thesaurus/mthesaur.txt"
-      vim.g.tq_map_keys = 0
-    end,
-    keys = {
-      {
-        "<leader>ws",
-        ":ThesaurusQueryReplaceCurrentWord<cr>",
-        desc = "Replace Thesaurus",
       },
     },
   },

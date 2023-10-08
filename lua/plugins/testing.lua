@@ -13,7 +13,7 @@ return {
       local neotest = require("neotest")
       local neotest_python = require("neotest-python")
       local neotest_jest = require("neotest-jest")
-
+      ---@diagnostic disable-next-line: missing-fields
       neotest.setup({
         quickfix = {
           enabled = true,
@@ -21,6 +21,7 @@ return {
         },
         adapters = {
           neotest_python({
+            python = ".venv/bin/python",
             dap = { justMyCode = false },
             args = { "--log-level", "DEBUG" },
             runner = "pytest",

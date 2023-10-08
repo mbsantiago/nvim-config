@@ -1,9 +1,3 @@
-local function is_pdf(filepath)
-  local split_path = vim.split(filepath:lower(), ".", { plain = true })
-  local extension = split_path[#split_path]
-  return extension == "pdf"
-end
-
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -22,6 +16,11 @@ return {
         defaults = {
           sorting_strategy = "ascending",
           file_ignore_patterns = { "node_modules/.*", "%.env" },
+        },
+        pickers = {
+          colorscheme = {
+            enable_preview = true,
+          },
         },
         extensions = {
           fzf = {
@@ -55,7 +54,7 @@ return {
       },
       {
         "<leader>fc",
-        "<cmd>Telescope themes<cr>",
+        "<cmd>Telescope colorscheme<cr>",
         desc = "Colorscheme/Theme",
       },
       {
@@ -125,18 +124,6 @@ return {
     },
   },
   {
-    "nvim-telescope/telescope-dap.nvim",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "nvim-telescope/telescope.nvim",
-    },
-    lazy = true,
-    event = "VeryLazy",
-    config = function()
-      require("telescope").load_extension("dap")
-    end,
-  },
-  {
     "keyvchan/telescope-find-pickers.nvim",
     config = function()
       require("telescope").load_extension("find_pickers")
@@ -153,17 +140,6 @@ return {
         desc = "Find Pickers",
       },
     },
-  },
-  {
-    "debugloop/telescope-undo.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
-    lazy = true,
-    event = "VeryLazy",
-    config = function()
-      require("telescope").load_extension("undo")
-    end,
   },
   {
     "danielvolchek/tailiscope.nvim",
