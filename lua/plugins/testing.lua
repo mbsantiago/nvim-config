@@ -87,11 +87,6 @@ return {
         desc = "Test Debug Nearest",
       },
       {
-        "<leader>tD",
-        "<cmd>lua require('neotest').run.run({ vim.fn.expand('%'), desc=strategy = 'dap' })<cr>",
-        "Test Debug File",
-      },
-      {
         "<leader>ta",
         "<cmd>lua require('neotest').run.attach()<cr>",
         desc = "Test Attach to Runner",
@@ -100,6 +95,34 @@ return {
         "<leader>to",
         "<cmd>lua require('neotest').output.open({ enter = true })<cr>",
         desc = "Test Output",
+      },
+    },
+  },
+  {
+    "andythigpen/nvim-coverage",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    lazy = true,
+    opts = {
+      auto_reload = true,
+    },
+    cmd = "Coverage",
+    keys = {
+      {
+        "<leader>tcl",
+        "<cmd>CoverageLoad<cr>",
+        desc = "Coverage Load",
+      },
+      {
+        "<leader>tcs",
+        "<cmd>CoverageSummary<cr>",
+        desc = "Coverage Summary",
+      },
+      {
+        "<leader>tct",
+        "<cmd>CoverageToggle<cr>",
+        desc = "Coverage Toggle",
       },
     },
   },

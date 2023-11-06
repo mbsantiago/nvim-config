@@ -61,6 +61,12 @@ return {
         inc_rename = false,
         lsp_doc_border = true,
       },
+      routes = {
+        {
+          filter = { find = "code_action" },
+          opts = { skip = true },
+        },
+      },
     },
     lazy = false,
     keys = {
@@ -85,5 +91,33 @@ return {
         "dashboard",
       },
     },
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      "kevinhwang91/promise-async",
+      "williamboman/mason-lspconfig.nvim",
+    },
+    lazy = true,
+    event = "BufRead",
+    config = true,
+  },
+  {
+    "luukvbaal/statuscol.nvim",
+    config = function()
+      local builtin = require("statuscol.builtin")
+      require("statuscol").setup({
+        relculright = false,
+        segments = {
+          { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+          { text = { "%s" }, click = "v:lua.ScSa" },
+          {
+            text = { builtin.lnumfunc, " " },
+            condition = { true, builtin.not_empty },
+            click = "v:lua.ScLa",
+          },
+        },
+      })
+    end,
   },
 }

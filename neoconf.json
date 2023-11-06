@@ -11,6 +11,7 @@
         "dockerls": true,
         "dprint": false,
         "eslint_d": true,
+        "tsserver": true,
         "flake": false,
         "flake8": false,
         "hadolint": false,

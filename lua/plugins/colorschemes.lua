@@ -45,18 +45,6 @@ return {
     "jacoborus/tender.vim",
     name = "tender",
     lazy = true,
-    priority = 1000,
-    init = function()
-      vim.cmd("colorscheme tender")
-    end,
-  },
-  {
-    "mcchrish/zenbones.nvim",
-    name = "zenbones",
-    requires = {
-      "rktjmp/lush.nvim",
-    },
-    lazy = true,
   },
   {
     "rmehri01/onenord.nvim",
@@ -75,7 +63,9 @@ return {
   {
     "Shatur/neovim-ayu",
     name = "ayu",
-    config = true,
+    opts = {
+      mirage = true,
+    },
     lazy = true,
   },
   {
@@ -85,5 +75,32 @@ return {
     end,
     name = "material",
     lazy = true,
+  },
+  {
+    "navarasu/onedark.nvim",
+    name = "onedark",
+    config = function()
+      require("onedark").setup({
+        style = "warmer",
+        lualine = {
+          transparent = true,
+        },
+        code_style = {
+          comments = "italic",
+          functions = "bold",
+          strings = "none",
+          variables = "none",
+        },
+        diagnostics = {
+          darker = true,
+          undercurl = true,
+          background = true,
+        },
+      })
+    end,
+    priority = 1000,
+    init = function()
+      vim.cmd("colorscheme onedark")
+    end,
   },
 }

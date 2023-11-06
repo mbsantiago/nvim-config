@@ -124,17 +124,18 @@ return {
 
       -- Setup gutter signs
       local signs =
-        { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      { Error = " ", Warn = " ", Hint = " ", Info = " " }
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
       end
 
-      vim.diagnostic.config({
-        virtual_text = {
-          prefix = "▎",
-        },
-      })
+      -- vim.diagnostic.config({
+      --   virtual_text = {
+      --     prefix = "▎",
+      --   },
+      --   severity_sort = true,
+      -- })
     end,
     lazy = true,
     event = "VeryLazy",
@@ -149,7 +150,7 @@ return {
       require("lspsaga").setup({
         code_action = {
           show_server_name = true,
-          extend_gitsigns = false,
+          extend_gitsigns = true,
         },
         outline = {
           auto_preview = true,
@@ -178,22 +179,17 @@ return {
     event = "LspAttach",
     keys = {
       { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
-      { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
+      { "<leader>lr", "<cmd>Lspsaga rename<cr>",      desc = "Rename" },
       {
         "<leader>lR",
         "<cmd>Lspsaga rename ++project<cr>",
         desc = "Rename Project",
       },
-      { "<leader>lF", "<cmd>Lspsaga finder<cr>", desc = "Finder" },
+      { "<leader>lF", "<cmd>Lspsaga finder<cr>",    desc = "Finder" },
       {
         "<leader>ld",
         "<cmd>Lspsaga goto_definition<cr>",
         desc = "Go To Definition",
-      },
-      {
-        "<leader>lo",
-        "<cmd>Lspsaga outline<cr>",
-        desc = "Symbols Outline",
       },
       {
         "<leader>lp",
@@ -258,7 +254,7 @@ return {
     event = "VeryLazy",
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     dependencies = {
       "jay-babu/mason-null-ls.nvim",
       "neovim/nvim-lspconfig",
@@ -307,6 +303,23 @@ return {
         "<leader>lw",
         "<cmd>TroubleToggle workspace_diagnostics<cr>",
         desc = "Workspace Diagnostics",
+      },
+    },
+  },
+  {
+    "enddeadroyal/symbols-outline.nvim",
+    lazy = true,
+    opts = {
+      autofold_depth = 2,
+      auto_unfold_hover = true,
+    },
+    branch = "bugfix/symbol-hover-misplacement",
+    cmd = "SymbolsOutline",
+    keys = {
+      {
+        "<leader>lo",
+        "<cmd>SymbolsOutline<cr>",
+        desc = "Symbols Outline",
       },
     },
   },
