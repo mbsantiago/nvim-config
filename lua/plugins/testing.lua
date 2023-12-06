@@ -16,8 +16,12 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       neotest.setup({
         quickfix = {
-          enabled = true,
+          enabled = false,
           open = false,
+        },
+        output = {
+          enabled = true,
+          open_on_run = false,
         },
         adapters = {
           neotest_python({
@@ -96,6 +100,21 @@ return {
         "<cmd>lua require('neotest').output.open({ enter = true })<cr>",
         desc = "Test Output",
       },
+      {
+        "<leader>tp",
+        "<cmd>Neotest output-panel<cr>",
+        desc = "Output Panel",
+      },
+      {
+        "<leader>tc",
+        "<cmd>lua require('neotest').output_panel.clear()<cr>",
+        desc = "Clear Panel",
+      },
+      {
+        "<leader>tw",
+        "<cmd>lua require('neotest').watch.toggle()<cr>",
+        desc = "Watch Test",
+      },
     },
   },
   {
@@ -110,17 +129,17 @@ return {
     cmd = "Coverage",
     keys = {
       {
-        "<leader>tcl",
+        "<leader>tCl",
         "<cmd>CoverageLoad<cr>",
         desc = "Coverage Load",
       },
       {
-        "<leader>tcs",
+        "<leader>tCs",
         "<cmd>CoverageSummary<cr>",
         desc = "Coverage Summary",
       },
       {
-        "<leader>tct",
+        "<leader>tCt",
         "<cmd>CoverageToggle<cr>",
         desc = "Coverage Toggle",
       },

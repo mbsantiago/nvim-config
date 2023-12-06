@@ -3,12 +3,10 @@ return {
     -- Treesiter
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      "nvim-treesitter/playground",
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "RRethy/nvim-treesitter-textsubjects",
       "David-Kunz/treesitter-unit",
-      "lewis6991/spellsitter.nvim",
     },
     config = function()
       local treesitter = require("nvim-treesitter.configs")
@@ -36,7 +34,6 @@ return {
           },
         },
         autotag = { enable = true },
-        context_commentstring = { enable = true },
         textsubjects = {
           enable = true,
           prev_selection = ",",
@@ -126,9 +123,10 @@ return {
             },
           },
         },
-        playground = {
-          enable = true,
-        },
+      })
+
+      require("ts_context_commentstring").setup({
+        enable_autocmd = false,
       })
     end,
   },

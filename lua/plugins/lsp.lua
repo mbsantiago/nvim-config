@@ -95,7 +95,8 @@ return {
       end
 
       local flags = {
-        debounce_text_changes = 2000,
+        debounce_text_changes = 5000,
+        allow_incremental_sync = true,
       }
 
       local neoconf = require("neoconf")

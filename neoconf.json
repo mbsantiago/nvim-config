@@ -1,6 +1,6 @@
 {
     "enabled": {
-        "astro": false,
+        "astro": true,
         "autoflake": false,
         "autopep": false,
         "autopep8": false,
@@ -83,6 +83,13 @@
                 },
                 "completion": {
                     "callSnippet": "Replace"
+                }
+            }
+        },
+        "pyright": {
+            "python": {
+                "analysis": {
+                    "diagnosticMode": "workspace"
                 }
             }
         }

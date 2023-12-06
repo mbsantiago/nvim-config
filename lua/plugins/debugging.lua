@@ -1,10 +1,6 @@
 return {
   {
     "mfussenegger/nvim-dap",
-    dependencies = {
-      "nvim-telescope/telescope-dap.nvim",
-      "mfussenegger/nvim-dap-python",
-    },
     lazy = true,
     cmd = {
       "DapBreakpoint",
@@ -76,7 +72,7 @@ return {
       dap_python.test_runner = "pytest"
 
       dap_python.resolve_python = function()
-        return './venv/bin/python'
+        return "./venv/bin/python"
       end
     end,
     keys = {
