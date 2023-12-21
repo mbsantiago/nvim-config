@@ -47,7 +47,7 @@ o.pumheight = 8 -- Popup menu height
 
 -- General
 o.clipboard = "unnamedplus"
-o.hidden = true
+o.hidden = false
 o.joinspaces = false
 o.mouse = "a"
 o.mousemoveevent = true

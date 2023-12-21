@@ -1,72 +1,29 @@
 return {
   {
-    "folke/neoconf.nvim",
-    opts = {
-      plugins = {
-        jsonls = {
-          enabled = true,
-          configured_servers_only = true,
-        },
-        lua_ls = {
-          enabled = true,
-        },
-      },
-    },
-    lazy = true,
-    event = "VeryLazy",
-    keys = {
-      {
-        "<leader>le",
-        "<cmd>Neoconf global<cr>",
-        desc = "Setup LSP",
-      },
-      {
-        "<leader>lC",
-        "<cmd>Neoconf lsp<cr>",
-        desc = "LSP Configs",
-      },
-      {
-        "<leader>li",
-        "<cmd>LspInfo<cr>",
-        desc = "LSP Info",
-      },
-    },
-  },
-  {
-    "folke/neodev.nvim",
-    opts = {
-      library = { plugins = { "neotest", "nvimd-dap-ui" }, types = true },
-    },
-    lazy = true,
-    event = "VeryLazy",
-  },
-  {
     "williamboman/mason.nvim",
     lazy = true,
     cmd = "Mason",
     opts = {
       PATH = "prepend",
-      ui = {
-        border = "single",
-      },
     },
   },
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
+      "williamboman/mason.nvim",
+    },
+    config = true,
+    lazy = true,
+    event = "VeryLazy",
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "jose-elias-alvarez/nvim-lsp-ts-utils",
-      "tjdevries/lsp_extensions.nvim",
-      "williamboman/mason.nvim",
-      "folke/neoconf.nvim",
       "folke/neodev.nvim",
-    },
-    keys = {
-      {
-        "<leader>ls",
-        "<cmd>lua vim.lsp.buf.signature_help()<cr>",
-        desc = "Signature help",
-      },
+      "folke/neoconf.nvim",
     },
     config = function()
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -99,181 +56,54 @@ return {
         allow_incremental_sync = true,
       }
 
-      local neoconf = require("neoconf")
-      local enabled = neoconf.get("enabled", {})
-      require("mason-lspconfig").setup()
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          if enabled[server_name] == false then
-            return
-          end
-          require("lspconfig")[server_name].setup({
-            on_attach = OnAttach,
-            capabilities = capabilities,
-            flags = flags,
-          })
-        end,
-        ltex = function()
-          require("lspconfig")["ltex"].setup({
-            filetypes = { "tex", "bib" },
-            on_attach = OnAttach,
-            capabilities = capabilities,
-            flags = flags,
-          })
-        end,
+      local lspconfig = require("lspconfig")
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        flags = flags,
+        on_attach = OnAttach,
       })
-
-      -- Setup gutter signs
-      local signs =
-      { Error = " ", Warn = " ", Hint = " ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
-
-      -- vim.diagnostic.config({
-      --   virtual_text = {
-      --     prefix = "▎",
-      --   },
-      --   severity_sort = true,
-      -- })
-    end,
-    lazy = true,
-    event = "VeryLazy",
-  },
-  {
-    "glepnir/lspsaga.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("lspsaga").setup({
-        code_action = {
-          show_server_name = true,
-          extend_gitsigns = true,
-        },
-        outline = {
-          auto_preview = true,
-          auto_close = true,
-          close_after_jump = true,
-        },
-        symbol_in_winbar = {
-          enable = true,
-        },
-        ui = {
-          title = true,
-          border = "rounded",
-          lines = { "└", "├", "│", "─", "┌" },
-          actionfix = " ",
-          code_action = "💡",
-          imp_sign = "󰳛 ",
-        },
-        light_bulb = {
-          debouce = 200,
-        },
-        hover = {
-          max_width = 0.8,
-        },
+      lspconfig.tsserver.setup({
+        capabilities = capabilities,
+        flags = flags,
+        on_attach = OnAttach,
+      })
+      lspconfig.pyright.setup({
+        capabilities = capabilities,
+        flags = flags,
+        on_attach = OnAttach,
       })
     end,
-    event = "LspAttach",
     keys = {
-      { "<leader>la", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
-      { "<leader>lr", "<cmd>Lspsaga rename<cr>",      desc = "Rename" },
       {
-        "<leader>lR",
-        "<cmd>Lspsaga rename ++project<cr>",
-        desc = "Rename Project",
+        "<leader>ls",
+        vim.lsp.buf.signature_help,
+        desc = "Signature help",
       },
-      { "<leader>lF", "<cmd>Lspsaga finder<cr>",    desc = "Finder" },
+      { "<leader>la", vim.lsp.buf.code_actions, desc = "Code Action" },
+      { "<leader>lr", vim.lsp.buf.rename,       desc = "Rename" },
+      { "<leader>lF", vim.lsp.buf.references,   desc = "Finder" },
       {
         "<leader>ld",
-        "<cmd>Lspsaga goto_definition<cr>",
+        vim.lsp.buf.definition,
         desc = "Go To Definition",
       },
       {
-        "<leader>lp",
-        "<cmd>Lspsaga peek_definition<cr>",
-        desc = "Peek Definition",
+        "<leader>lD",
+        vim.lsp.buf.declaration,
+        desc = "Go To Declaration",
       },
-      { "<leader>lh", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Docs" },
+      { "<leader>lh", vim.lsp.buf.hover, desc = "Hover Docs" },
       {
         "<leader>lj",
-        "<cmd>Lspsaga diagnostic_jump_next<CR>",
+        vim.diagnostic.goto_next,
         desc = "Next Diagnostic",
       },
       {
         "<leader>lk",
-        "<cmd>Lspsaga diagnostic_jump_prev<cr>",
+        vim.diagnostic.goto_prev,
         desc = "Prev Diagnostic",
       },
-      {
-        "<leader>lc",
-        "<cmd>Lspsaga show_cursor_diagnostics<cr>",
-        desc = "Show Cursor Diagnostics",
-      },
-      {
-        "<leader>lL",
-        "<cmd>Lspsaga show_line_diagnostics<cr>",
-        desc = "Show Line Diagnostics",
-      },
     },
-  },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "folke/neoconf.nvim",
-    },
-    config = function()
-      local neoconf = require("neoconf")
-      local enabled = neoconf.get("enabled", {})
-      local null_ls = require("null-ls")
-
-      require("mason-null-ls").setup({
-        handlers = {
-          function(source_name, methods)
-            if enabled[source_name] == false then
-              return
-            end
-            require("mason-null-ls").default_setup(source_name, methods)
-          end,
-          ---@diagnostic disable-next-line: unused-local
-          ["pydocstyle"] = function(source_name, methods)
-            null_ls.register(null_ls.builtins.diagnostics.pydocstyle.with({
-              extra_args = { "--config=$ROOT/setup.cfg" },
-            }))
-          end,
-        },
-        ensure_installed = nil,
-        automatic_installation = false,
-        automatic_setup = true,
-      })
-    end,
-    lazy = true,
-    event = "VeryLazy",
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = {
-      "jay-babu/mason-null-ls.nvim",
-      "neovim/nvim-lspconfig",
-    },
-    lazy = true,
-    keys = {
-      {
-        "<leader>lf",
-        "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
-        desc = "Format",
-      },
-    },
-    config = function()
-      require("null-ls").setup({
-        debounce = 1000,
-        update_in_insert = false,
-      })
-    end,
   },
   {
     "folke/trouble.nvim",
@@ -323,5 +153,46 @@ return {
         desc = "Symbols Outline",
       },
     },
+  },
+  {
+    "folke/neoconf.nvim",
+    opts = {
+      plugins = {
+        jsonls = {
+          enabled = true,
+          configured_servers_only = true,
+        },
+        lua_ls = {
+          enabled = true,
+        },
+      },
+    },
+    lazy = true,
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>le",
+        "<cmd>Neoconf global<cr>",
+        desc = "Setup LSP",
+      },
+      {
+        "<leader>lC",
+        "<cmd>Neoconf lsp<cr>",
+        desc = "LSP Configs",
+      },
+      {
+        "<leader>li",
+        "<cmd>LspInfo<cr>",
+        desc = "LSP Info",
+      },
+    },
+  },
+  {
+    "folke/neodev.nvim",
+    opts = {
+      library = { plugins = { "neotest", "nvim-dap-ui" }, types = true },
+    },
+    lazy = true,
+    event = "VeryLazy",
   },
 }

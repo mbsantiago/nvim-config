@@ -1,97 +1,45 @@
 {
-    "enabled": {
-        "astro": true,
-        "autoflake": false,
-        "autopep": false,
-        "autopep8": false,
-        "black": true,
-        "cmake": false,
-        "debugpy": true,
-        "docformatter": true,
-        "dockerls": true,
-        "dprint": false,
-        "eslint_d": true,
-        "tsserver": true,
-        "flake": false,
-        "flake8": false,
-        "hadolint": false,
-        "isort": true,
-        "jedi_language_server": false,
-        "jsonlint": true,
-        "jsonls": true,
-        "latexindent": true,
-        "ltex": true,
-        "luacheck": false,
-        "luals": true,
-        "markdownlint": true,
-        "mypy": false,
-        "prettier": false,
-        "prettierd": true,
-        "proselint": false,
-        "pydocstyle": true,
-        "pyflakes": false,
-        "pylama": false,
-        "pylint": false,
-        "pylsp": false,
-        "pyment": true,
-        "pyre": false,
-        "pyright": true,
-        "ruff": true,
-        "ruff_lsp": false,
-        "rustywind": true,
-        "shfmt": true,
-        "sourcery": false,
-        "stylua": true,
-        "svelte": false,
-        "tailwindcss": false,
-        "taplo": true,
-        "vale": false,
-        "write_good": false,
-        "yapf": false
+  "lspconfig": {
+    "ltex": {
+      "ltex": {
+        "language": "en-GB"
+      }
     },
-    "lspconfig": {
-        "ltex": {
-            "ltex": {
-                "language": "en-GB"
-            }
-        },
-        "texlab": {
-            "texlab": {
-                "chktex": {
-                    "onEdit": true
-                }
-            }
-        },
-        "yamlls": {
-            "yamlls": {
-                "yaml": {
-                    "format": {
-                        "enable": true
-                    }
-                }
-            }
-        },
-        "lua_ls": {
-            "Lua": {
-                "workspace": {
-                    "checkThirdParty": false
-                },
-                "diagnostics": {
-                    "globals": [
-                        "vim"
-                    ]
-                },
-                "completion": {
-                    "callSnippet": "Replace"
-                }
-            }
-        },
-        "pyright": {
-            "python": {
-                "analysis": {
-                    "diagnosticMode": "workspace"
-                }
-            }
+    "texlab": {
+      "texlab": {
+        "chktex": {
+          "onEdit": true
         }
+      }
+    },
+    "yamlls": {
+      "yamlls": {
+        "yaml": {
+          "format": {
+            "enable": true
+          }
+        }
+      }
+    },
+    "lua_ls": {
+      "Lua": {
+        "workspace": {
+          "checkThirdParty": false
+        },
+        "diagnostics": {
+          "globals": ["vim"]
+        },
+        "completion": {
+          "callSnippet": "Replace"
+        }
+      }
+    },
+    "pyright": {
+      "python": {
+        "analysis": {
+          "diagnosticMode": "workspace"
+        }
+      }
     }
+  }
 }
