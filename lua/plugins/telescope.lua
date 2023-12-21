@@ -4,8 +4,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-lua/popup.nvim",
-      "stevearc/dressing.nvim",
-      "tzachar/fuzzy.nvim",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
@@ -120,24 +118,6 @@ return {
         "<leader>gfc",
         "<cmd>Telescope git_commits<cr>",
         desc = "Git Commit",
-      },
-    },
-  },
-  {
-    "keyvchan/telescope-find-pickers.nvim",
-    config = function()
-      require("telescope").load_extension("find_pickers")
-    end,
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
-    lazy = true,
-    event = "VeryLazy",
-    keys = {
-      {
-        "<leader>fp",
-        "<CMD>lua require 'telescope'.extensions.find_pickers.find_pickers()<CR>",
-        desc = "Find Pickers",
       },
     },
   },

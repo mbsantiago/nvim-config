@@ -55,4 +55,19 @@ return {
     lazy = true,
     ft = "tex",
   },
+  {
+    "mattn/emmet-vim",
+    ft = {
+      "html",
+      "css",
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "vue",
+      "svelte",
+      "markdown",
+    },
+    lazy = true,
+  },
 }

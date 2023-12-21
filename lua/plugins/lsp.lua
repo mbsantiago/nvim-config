@@ -24,6 +24,7 @@ return {
       "jose-elias-alvarez/nvim-lsp-ts-utils",
       "folke/neodev.nvim",
       "folke/neoconf.nvim",
+      "aznhe21/actions-preview.nvim",
     },
     config = function()
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -79,9 +80,23 @@ return {
         vim.lsp.buf.signature_help,
         desc = "Signature help",
       },
-      { "<leader>la", vim.lsp.buf.code_actions, desc = "Code Action" },
-      { "<leader>lr", vim.lsp.buf.rename,       desc = "Rename" },
-      { "<leader>lF", vim.lsp.buf.references,   desc = "Finder" },
+      {
+        "<leader>la",
+        function()
+          require("actions-preview").code_actions()
+        end,
+        desc = "Code Action",
+      },
+      {
+        "<leader>lr",
+        vim.lsp.buf.rename,
+        desc = "Rename",
+      },
+      {
+        "<leader>lF",
+        vim.lsp.buf.references,
+        desc = "Finder",
+      },
       {
         "<leader>ld",
         vim.lsp.buf.definition,
@@ -102,55 +117,6 @@ return {
         "<leader>lk",
         vim.diagnostic.goto_prev,
         desc = "Prev Diagnostic",
-      },
-    },
-  },
-  {
-    "folke/trouble.nvim",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      icons = true,
-      signs = {
-        error = "",
-        warning = "",
-        hint = "",
-        information = "",
-        other = "﫠",
-      },
-    },
-    lazy = true,
-    event = "LspAttach",
-    cmd = "TroubleToggle",
-    keys = {
-      {
-        "<leader>lt",
-        "<cmd>TroubleToggle document_diagnostics<cr>",
-        desc = "Document Diagnostics",
-      },
-      {
-        "<leader>lw",
-        "<cmd>TroubleToggle workspace_diagnostics<cr>",
-        desc = "Workspace Diagnostics",
-      },
-    },
-  },
-  {
-    "enddeadroyal/symbols-outline.nvim",
-    lazy = true,
-    opts = {
-      autofold_depth = 2,
-      auto_unfold_hover = true,
-    },
-    branch = "bugfix/symbol-hover-misplacement",
-    cmd = "SymbolsOutline",
-    keys = {
-      {
-        "<leader>lo",
-        "<cmd>SymbolsOutline<cr>",
-        desc = "Symbols Outline",
       },
     },
   },
@@ -194,5 +160,21 @@ return {
     },
     lazy = true,
     event = "VeryLazy",
+  },
+  {
+    "kosayoda/nvim-lightbulb",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+    },
+    lazy = true,
+    event = "LspAttach",
+    config = function()
+      require("nvim-lightbulb").setup({
+        autocmd = { enabled = true },
+        sign = {
+          enabled = true,
+        },
+      })
+    end,
   },
 }

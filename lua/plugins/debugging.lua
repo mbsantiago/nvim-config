@@ -59,18 +59,13 @@ return {
     lazy = true,
     config = function()
       local dap_python = require("dap-python")
-      local dap = require("dap")
-
       dap_python.setup("python")
-
-      table.insert(dap.configurations.python, {
+      table.insert(require("dap").configurations.python, {
         configurations = {
           justMyCode = false,
         },
       })
-
       dap_python.test_runner = "pytest"
-
       dap_python.resolve_python = function()
         return "./venv/bin/python"
       end

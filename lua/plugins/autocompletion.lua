@@ -5,7 +5,6 @@ return {
     event = "InsertEnter",
   },
   {
-    -- Autocompletion plugin
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
@@ -18,13 +17,13 @@ return {
       "hrsh7th/cmp-nvim-lsp-document-symbol",
       "tzachar/cmp-fuzzy-buffer",
       "tzachar/cmp-fuzzy-path",
+      "tzachar/fuzzy.nvim",
       "onsails/lspkind-nvim",
     },
     config = function()
       local cmp = require("cmp")
       local compare = require("cmp.config.compare")
       local fzf_compare = require("cmp_fuzzy_buffer.compare")
-
       local lspkind = require("lspkind")
       local luasnip = require("luasnip")
 
@@ -104,7 +103,6 @@ return {
     end,
   },
   {
-    -- Autopairs
     "windwp/nvim-autopairs",
     dependencies = {
       "hrsh7th/nvim-cmp",
