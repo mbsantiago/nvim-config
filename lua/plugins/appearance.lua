@@ -1,73 +1,75 @@
 return {
   {
-    -- Cursor line
-    "yamatsum/nvim-cursorline",
-    config = true,
+    "stevearc/dressing.nvim",
+    opts = {},
   },
   {
-    -- Indentation guide lines
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {
-      scope = {
-        enabled = true,
-      },
-      indent = {
-        char = "│",
-      },
-      exclude = {
-        filetypes = {
-          "help",
-          "alpha",
-          "dashboard",
-          "neo-tree",
-          "Trouble",
-          "lazy",
+    "RRethy/vim-illuminate",
+    config = function()
+      require("illuminate").configure({
+        min_count_to_highlight = 2,
+      })
+    end,
+  },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "UIEnter" },
+    config = function()
+      require("hlchunk").setup({
+        blank = {
+          enable = false,
         },
-      },
-    },
+      })
+    end,
   },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
     },
-    opts = {
-      messages = {
-        view = "mini",
-        view_warn = "mini",
-      },
-      notify = {
-        view = "mini",
-      },
-      lsp = {
-        progress = {
-          enabled = true,
-        },
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
-        },
-        message = {
+    config = function()
+      require("notify").setup({
+        background_colour = "#00000000",
+      })
+
+      require("noice").setup({
+        messages = {
           view = "mini",
+          view_warn = "mini",
         },
-      },
-      presets = {
-        bottom_search = false,
-        command_palette = true,
-        long_message_to_split = true,
-        inc_rename = false,
-        lsp_doc_border = true,
-      },
-      routes = {
-        {
-          filter = { find = "code_action" },
-          opts = { skip = true },
+        notify = {
+          view = "notify",
         },
-      },
-    },
+        lsp = {
+          progress = {
+            enabled = true,
+          },
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+          message = {
+            view = "mini",
+          },
+        },
+        presets = {
+          bottom_search = false,
+          command_palette = false,
+          long_message_to_split = true,
+          inc_rename = false,
+          lsp_doc_border = true,
+        },
+        routes = {
+          {
+            filter = { find = "code_action" },
+            opts = { skip = true },
+          },
+        },
+      })
+    end,
     lazy = false,
     keys = {
       {

@@ -3,16 +3,6 @@ return {
   {
     -- Icons
     "nvim-tree/nvim-web-devicons",
-    opts = {
-      override = {
-        ["exe"] = {
-          icon = "",
-          color = "#f28ba2",
-          cterm_color = "211",
-          name = "Exe",
-        },
-      },
-    },
   },
   {
     -- Comments
@@ -22,9 +12,7 @@ return {
     },
     config = function()
       require("Comment").setup({
-        pre_hook = require(
-          "ts_context_commentstring.integrations.comment_nvim"
-        ).create_pre_hook(),
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
     end,
   },
@@ -47,29 +35,7 @@ return {
     },
     config = true,
   },
-  -- {
-  --   "stevearc/dressing.nvim",
-  --   lazy = true,
-  --   opts = {
-  --     input = {
-  --       border = "solid",
-  --     },
-  --     select = {
-  --       border = "solid",
-  --     },
-  --   },
-  --   init = function()
-  --     ---@diagnostic disable-next-line: duplicate-set-field
-  --     vim.ui.select = function(...)
-  --       require("lazy").load({ plugins = { "dressing.nvim" } })
-  --       return vim.ui.select(...)
-  --     end
-  --
-  --     ---@diagnostic disable-next-line: duplicate-set-field
-  --     vim.ui.input = function(...)
-  --       require("lazy").load({ plugins = { "dressing.nvim" } })
-  --       return vim.ui.input(...)
-  --     end
-  --   end,
-  -- },
+  {
+    "ekickx/clipboard-image.nvim",
+  },
 }

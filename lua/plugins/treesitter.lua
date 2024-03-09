@@ -17,6 +17,7 @@ return {
           disable = {
             "latex", -- NOTE: highlight syntax is provided by vimtex
           },
+          additional_vim_regex_highlighting = false,
         },
         indent = {
           enable = true,

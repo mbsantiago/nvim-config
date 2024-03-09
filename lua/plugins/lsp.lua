@@ -5,6 +5,9 @@ return {
     cmd = "Mason",
     opts = {
       PATH = "prepend",
+      ui = {
+        border = "rounded",
+      },
     },
   },
   {
@@ -27,51 +30,62 @@ return {
       "aznhe21/actions-preview.nvim",
     },
     config = function()
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
-      local ts_utils = require("nvim-lsp-ts-utils")
-
-      -- Setup client capabilities
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-      -- Enable snippets
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-
-      -- Enable folding
+      -- Setup capabilities (completion and snippets)
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true,
       }
 
-      -- On attach functions
-      local function OnAttach(client, _)
-        -- Setup TypeScript utils if client is tsserver
-        if client.name == "tsserver" then
-          ts_utils.setup({})
-          ts_utils.setup_client(client)
-        end
-      end
-
-      local flags = {
-        debounce_text_changes = 5000,
-        allow_incremental_sync = true,
-      }
-
       local lspconfig = require("lspconfig")
+
+      -- Configure LSPs
       lspconfig.lua_ls.setup({
         capabilities = capabilities,
-        flags = flags,
-        on_attach = OnAttach,
       })
       lspconfig.tsserver.setup({
         capabilities = capabilities,
-        flags = flags,
-        on_attach = OnAttach,
+        on_attach = function(client, _)
+          local ts_utils = require("nvim-lsp-ts-utils")
+          ts_utils.setup({})
+          ts_utils.setup_client(client)
+        end,
+        flags = {
+          debounce_text_changes = 500,
+        },
       })
       lspconfig.pyright.setup({
         capabilities = capabilities,
-        flags = flags,
-        on_attach = OnAttach,
+      })
+      lspconfig.eslint.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.taplo.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.jsonls.setup({
+        capabilities = capabilities,
+        settings = {
+          pyright = {
+            python = {
+              analysis = {
+                diagnosticMode = "workspace",
+              },
+            },
+          },
+        },
+      })
+      lspconfig.docker_compose_language_service.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.bashls.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.texlab.setup({
+        capabilities = capabilities,
       })
     end,
     keys = {

@@ -14,8 +14,9 @@ return {
   --       variant = "moon",
   --       dark_variant = "moon",
   --     })
+  --     vim.cmd("colorscheme rose-pine")
   --   end,
-  --   lazy = true,
+  --   lazy = false,
   -- },
   -- {
   --   "folke/tokyonight.nvim",
@@ -23,12 +24,18 @@ return {
   --   config = true,
   --   lazy = true,
   -- },
-  -- {
-  --   "catppuccin/nvim",
-  --   name = "catppuccin",
-  --   config = true,
-  --   lazy = true,
-  -- },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha",
+        transparent_background = true,
+      })
+      vim.cmd("colorscheme catppuccin")
+    end,
+    lazy = false,
+  },
   -- {
   --   "rebelot/kanagawa.nvim",
   --   name = "kanagawa",
@@ -76,31 +83,31 @@ return {
   --   name = "material",
   --   lazy = true,
   -- },
-  {
-    "navarasu/onedark.nvim",
-    name = "onedark",
-    config = function()
-      require("onedark").setup({
-        style = "warmer",
-        lualine = {
-          transparent = true,
-        },
-        code_style = {
-          comments = "italic",
-          functions = "bold",
-          strings = "none",
-          variables = "none",
-        },
-        diagnostics = {
-          darker = true,
-          undercurl = true,
-          background = true,
-        },
-      })
-    end,
-    priority = 1000,
-    init = function()
-      vim.cmd("colorscheme onedark")
-    end,
-  },
+  -- {
+  --   "navarasu/onedark.nvim",
+  --   name = "onedark",
+  --   config = function()
+  --     require("onedark").setup({
+  --       style = "warmer",
+  --       lualine = {
+  --         transparent = true,
+  --       },
+  --       code_style = {
+  --         comments = "italic",
+  --         functions = "bold",
+  --         strings = "none",
+  --         variables = "none",
+  --       },
+  --       diagnostics = {
+  --         darker = true,
+  --         undercurl = true,
+  --         background = true,
+  --       },
+  --     })
+  --   end,
+  --   priority = 1000,
+  --   init = function()
+  --     vim.cmd("colorscheme onedark")
+  --   end,
+  -- },
 }

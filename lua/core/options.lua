@@ -47,7 +47,7 @@ o.pumheight = 8 -- Popup menu height
 
 -- General
 o.clipboard = "unnamedplus"
-o.hidden = false
+o.hidden = true
 o.joinspaces = false
 o.mouse = "a"
 o.mousemoveevent = true
@@ -95,21 +95,23 @@ o.showbreak = string.rep(" ", 3)
 
 -- Shortmess
 o.shortmess = o.shortmess
-    + {
-      A = true, -- don't give the "ATTENTION" message when an existing swap file is found.
-      I = true, -- don't give the intro message when starting Vim |:intro|.
-      W = true, -- don't give "written" or "[w]" when writing a file
-      c = true, -- don't give |ins-completion-menu| messages
-      m = true, -- use "[+]" instead of "[Modified]"
-    }
+  + {
+    A = true, -- don't give the "ATTENTION" message when an existing swap file is found.
+    I = true, -- don't give the intro message when starting Vim |:intro|.
+    W = true, -- don't give "written" or "[w]" when writing a file
+    c = true, -- don't give |ins-completion-menu| messages
+    m = true, -- use "[+]" instead of "[Modified]"
+  }
 
 -- Format options
 o.formatoptions = o.formatoptions
-    + {
-      c = false,
-      o = false, -- O and o, don't continue comments
-      r = true, -- Pressing Enter will continue comments
-    }
+  + {
+    c = false,
+    o = false, -- O and o, don't continue comments
+    r = true, -- Pressing Enter will continue comments
+  }
+
+o.shada = "'1000,<50,s10,h,n$XDG_STATE_HOME/vim/viminfo"
 
 -- Mapleader
 vim.g.mapleader = " "
@@ -121,13 +123,15 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Python
 vim.g.python3_host_prog =
-"/home/santiago/Software/vendor/miniconda3/envs/nvim/bin/python"
+  "/home/santiago/.config/pyenv/versions/neovim/bin/python"
 
 -- Translation
 vim.g.translator_target_lang = "en"
 vim.g.translator_source_lang = "es"
 
--- Neovide
-if vim.g.neovide then
-  vim.opt.guifont = "FiraCode Nerd Font:h8"
+-- Diagnostic signs
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
