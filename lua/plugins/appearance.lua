@@ -3,25 +3,17 @@ return {
     "stevearc/dressing.nvim",
     opts = {},
   },
-  {
-    "RRethy/vim-illuminate",
-    config = function()
-      require("illuminate").configure({
-        min_count_to_highlight = 2,
-      })
-    end,
-  },
-  {
-    "shellRaining/hlchunk.nvim",
-    event = { "UIEnter" },
-    config = function()
-      require("hlchunk").setup({
-        blank = {
-          enable = false,
-        },
-      })
-    end,
-  },
+  -- {
+  --   "shellRaining/hlchunk.nvim",
+  --   event = { "UIEnter" },
+  --   config = function()
+  --     require("hlchunk").setup({
+  --       blank = {
+  --         enable = false,
+  --       },
+  --     })
+  --   end,
+  -- },
   {
     "folke/noice.nvim",
     event = "VeryLazy",

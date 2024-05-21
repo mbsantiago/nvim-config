@@ -5,6 +5,7 @@ return {
       "nvim-neotest/neotest-python",
       "haydenmeade/neotest-jest",
       "nvim-lua/plenary.nvim",
+      "nvim-neotest/nvim-nio",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
     },
@@ -117,32 +118,32 @@ return {
       },
     },
   },
-  {
-    "andythigpen/nvim-coverage",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    lazy = true,
-    opts = {
-      auto_reload = true,
-    },
-    cmd = "Coverage",
-    keys = {
-      {
-        "<leader>tCl",
-        "<cmd>CoverageLoad<cr>",
-        desc = "Coverage Load",
-      },
-      {
-        "<leader>tCs",
-        "<cmd>CoverageSummary<cr>",
-        desc = "Coverage Summary",
-      },
-      {
-        "<leader>tCt",
-        "<cmd>CoverageToggle<cr>",
-        desc = "Coverage Toggle",
-      },
-    },
-  },
+  -- {
+  --   "andythigpen/nvim-coverage",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   lazy = true,
+  --   opts = {
+  --     auto_reload = true,
+  --   },
+  --   cmd = "Coverage",
+  --   keys = {
+  --     {
+  --       "<leader>tCl",
+  --       "<cmd>CoverageLoad<cr>",
+  --       desc = "Coverage Load",
+  --     },
+  --     {
+  --       "<leader>tCs",
+  --       "<cmd>CoverageSummary<cr>",
+  --       desc = "Coverage Summary",
+  --     },
+  --     {
+  --       "<leader>tCt",
+  --       "<cmd>CoverageToggle<cr>",
+  --       desc = "Coverage Toggle",
+  --     },
+  --   },
+  -- },
 }
