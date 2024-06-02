@@ -25,8 +25,6 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "hrsh7th/cmp-nvim-lsp",
             "jose-elias-alvarez/nvim-lsp-ts-utils",
-            "folke/neodev.nvim",
-            "folke/neoconf.nvim",
             "aznhe21/actions-preview.nvim",
         },
         config = function()
@@ -158,45 +156,4 @@ return {
         lazy = true,
         ft = "rust",
     },
-    {
-        "folke/neoconf.nvim",
-        opts = {
-            plugins = {
-                jsonls = {
-                    enabled = true,
-                    configured_servers_only = true,
-                },
-                lua_ls = {
-                    enabled = true,
-                },
-            },
-        },
-        lazy = true,
-        event = "VeryLazy",
-        keys = {
-            {
-                "<leader>le",
-                "<cmd>Neoconf global<cr>",
-                desc = "Setup LSP",
-            },
-            {
-                "<leader>lC",
-                "<cmd>Neoconf lsp<cr>",
-                desc = "LSP Configs",
-            },
-            {
-                "<leader>li",
-                "<cmd>LspInfo<cr>",
-                desc = "LSP Info",
-            },
-        },
-    },
-    -- {
-    --   "folke/neodev.nvim",
-    --   opts = {
-    --     library = { plugins = { "neotest", "nvim-dap-ui" }, types = true },
-    --   },
-    --   lazy = true,
-    --   event = "VeryLazy",
-    -- },
 }

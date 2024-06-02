@@ -58,9 +58,10 @@ return {
         ft = "python",
         lazy = true,
         config = function()
+            local dap = require("dap")
             local dap_python = require("dap-python")
             dap_python.setup("python")
-            table.insert(require("dap").configurations.python, {
+            table.insert(dap.configurations.python, {
                 configurations = {
                     justMyCode = false,
                 },

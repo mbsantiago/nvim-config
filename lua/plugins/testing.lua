@@ -118,32 +118,4 @@ return {
             },
         },
     },
-    -- {
-    --   "andythigpen/nvim-coverage",
-    --   dependencies = {
-    --     "nvim-lua/plenary.nvim",
-    --   },
-    --   lazy = true,
-    --   opts = {
-    --     auto_reload = true,
-    --   },
-    --   cmd = "Coverage",
-    --   keys = {
-    --     {
-    --       "<leader>tCl",
-    --       "<cmd>CoverageLoad<cr>",
-    --       desc = "Coverage Load",
-    --     },
-    --     {
-    --       "<leader>tCs",
-    --       "<cmd>CoverageSummary<cr>",
-    --       desc = "Coverage Summary",
-    --     },
-    --     {
-    --       "<leader>tCt",
-    --       "<cmd>CoverageToggle<cr>",
-    --       desc = "Coverage Toggle",
-    --     },
-    --   },
-    -- },
 }

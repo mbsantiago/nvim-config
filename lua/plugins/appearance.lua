@@ -3,17 +3,6 @@ return {
         "stevearc/dressing.nvim",
         opts = {},
     },
-    -- {
-    --   "shellRaining/hlchunk.nvim",
-    --   event = { "UIEnter" },
-    --   config = function()
-    --     require("hlchunk").setup({
-    --       blank = {
-    --         enable = false,
-    --       },
-    --     })
-    --   end,
-    -- },
     {
         "folke/noice.nvim",
         event = "VeryLazy",
@@ -75,7 +64,6 @@ return {
         "m4xshen/smartcolumn.nvim",
         opts = {
             disabled_filetypes = {
-                "NvimTree",
                 "lazy",
                 "mason",
                 "help",
