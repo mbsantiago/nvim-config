@@ -124,7 +124,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Python
 vim.g.python3_host_prog =
-    "/home/santiago/.config/pyenv/versions/neovim/bin/python"
+    "/home/santiago/.local/share/rye/tools/neovim/bin/python"
 
 -- Translation
 vim.g.translator_target_lang = "en"
@@ -136,3 +136,9 @@ for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+
+-- Ruby
+vim.g.ruby_host_prog = "rvm system do neovim-ruby-host"
+
+-- Perl
+vim.g.perl_host_prog = "/usr/bin/perl"

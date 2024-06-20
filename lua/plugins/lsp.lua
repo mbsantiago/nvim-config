@@ -26,20 +26,36 @@ return {
             "hrsh7th/cmp-nvim-lsp",
             "jose-elias-alvarez/nvim-lsp-ts-utils",
             "aznhe21/actions-preview.nvim",
+            "b0o/schemastore.nvim",
         },
         config = function()
             -- Setup capabilities (completion and snippets)
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            capabilities.textDocument.foldingRange = {
-                dynamicRegistration = false,
-                lineFoldingOnly = true,
-            }
+            local capabilities = vim.tbl_deep_extend(
+                "force",
+                {
+                    textDocument = {
+                        foldingRange = {
+                            dynamicRegistration = false,
+                            lineFoldingOnly = true,
+                        },
+                    },
+                },
+                vim.lsp.protocol.make_client_capabilities(),
+                require("cmp_nvim_lsp").default_capabilities()
+            )
 
             local lspconfig = require("lspconfig")
 
             -- Configure LSPs
             lspconfig.lua_ls.setup({
                 capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                },
             })
             lspconfig.tsserver.setup({
                 capabilities = capabilities,
@@ -70,6 +86,13 @@ return {
             lspconfig.ruff.setup({
                 capabilities = capabilities,
             })
+            lspconfig.groovyls.setup({
+                capabilities = capabilities,
+                cmd = { "groovy-language-server" },
+                root_dir = function(fname)
+                    return vim.fn.getcwd()
+                end,
+            })
             lspconfig.eslint.setup({
                 capabilities = capabilities,
             })
@@ -82,12 +105,21 @@ return {
             lspconfig.jsonls.setup({
                 capabilities = capabilities,
                 settings = {
-                    pyright = {
-                        python = {
-                            analysis = {
-                                diagnosticMode = "workspace",
-                            },
+                    json = {
+                        schemas = require("schemastore").json.schemas(),
+                        validate = { enable = true },
+                    },
+                },
+            })
+            lspconfig.yamlls.setup({
+                capabilities = capabilities,
+                settings = {
+                    yaml = {
+                        schemaStore = {
+                            enable = false,
+                            url = "",
                         },
+                        schemas = require("schemastore").yaml.schemas(),
                     },
                 },
             })

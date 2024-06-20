@@ -108,10 +108,10 @@ return {
                         enable = true,
                         disable = { "latex" },
                         swap_next = {
-                            ["<leader>ma"] = "@parameter.inner",
+                            ["mpa"] = "@parameter.inner",
                         },
                         swap_previoums = {
-                            ["<leader>mA"] = "@parameter.inner",
+                            ["mpA"] = "@parameter.inner",
                         },
                     },
                     lsp_interop = {

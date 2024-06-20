@@ -1,4 +1,3 @@
----@diagnostic disable: unused-local
 return {
     {
         -- Icons

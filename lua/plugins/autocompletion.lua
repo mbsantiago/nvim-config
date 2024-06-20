@@ -50,6 +50,7 @@ return {
                 },
                 -- Sources order are actually their priority order
                 sources = {
+                    { name = "lazydev", group_index = 0 },
                     { name = "nvim_lsp_signature_help" },
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
