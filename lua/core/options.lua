@@ -96,21 +96,21 @@ o.showbreak = string.rep(" ", 3)
 
 -- Shortmess
 o.shortmess = o.shortmess
-    + {
-        A = true, -- don't give the "ATTENTION" message when an existing swap file is found.
-        I = true, -- don't give the intro message when starting Vim |:intro|.
-        W = true, -- don't give "written" or "[w]" when writing a file
-        c = true, -- don't give |ins-completion-menu| messages
-        m = true, -- use "[+]" instead of "[Modified]"
-    }
+  + {
+    A = true, -- don't give the "ATTENTION" message when an existing swap file is found.
+    I = true, -- don't give the intro message when starting Vim |:intro|.
+    W = true, -- don't give "written" or "[w]" when writing a file
+    c = true, -- don't give |ins-completion-menu| messages
+    m = true, -- use "[+]" instead of "[Modified]"
+  }
 
 -- Format options
 o.formatoptions = o.formatoptions
-    + {
-        c = false,
-        o = false, -- O and o, don't continue comments
-        r = true, -- Pressing Enter will continue comments
-    }
+  + {
+    c = false,
+    o = false, -- O and o, don't continue comments
+    r = true, -- Pressing Enter will continue comments
+  }
 
 o.shada = "'1000,<50,s10,h,n$XDG_STATE_HOME/vim/viminfo"
 
@@ -124,18 +124,35 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Python
 vim.g.python3_host_prog =
-    "/home/santiago/.local/share/rye/tools/neovim/bin/python"
+  "/home/santiago/.local/share/rye/tools/neovim/bin/python"
 
 -- Translation
 vim.g.translator_target_lang = "en"
 vim.g.translator_source_lang = "es"
 
 -- Diagnostic signs
-local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.WARN] = "󰀪 ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = "󰌶 ",
+    },
+    texthl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+    },
+  },
+})
 
 -- Ruby
 vim.g.ruby_host_prog = "rvm system do neovim-ruby-host"
