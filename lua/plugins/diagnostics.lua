@@ -5,28 +5,19 @@ return {
             "neovim/nvim-lspconfig",
             "nvim-tree/nvim-web-devicons",
         },
-        opts = {
-            icons = true,
-            signs = {
-                error = "",
-                warning = "",
-                hint = "",
-                information = "",
-                other = "﫠",
-            },
-        },
+        opts = {},
         lazy = true,
         event = "LspAttach",
         cmd = "TroubleToggle",
         keys = {
             {
                 "<leader>lt",
-                "<cmd>TroubleToggle document_diagnostics<cr>",
+                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
                 desc = "Document Diagnostics",
             },
             {
                 "<leader>lw",
-                "<cmd>TroubleToggle workspace_diagnostics<cr>",
+                "<cmd>Trouble diagnostics toggle<cr>",
                 desc = "Workspace Diagnostics",
             },
         },

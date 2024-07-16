@@ -11,7 +11,7 @@ return {
                     "prettierd",
                     "shfmt",
                     "actionlint",
-                    "typstfmt",
+                    "stylua",
                 },
                 automatic_installation = false,
                 handlers = {},

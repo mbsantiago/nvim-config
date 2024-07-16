@@ -1,102 +1,110 @@
--- TODO: Move keys closer to their plugins
 return {
-    {
-        "folke/which-key.nvim",
-        config = function()
-            local which_key = require("which-key")
+  {
+    "folke/which-key.nvim",
+    config = function()
+      local wk = require("which-key")
 
-            local setup = {
-                plugins = {
-                    marks = true, -- shows a list of your marks on ' and `
-                    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-                    spelling = {
-                        enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-                        suggestions = 20, -- how many suggestions should be shown in the list?
-                    },
-                },
-                -- add operators that will trigger motion and text object completion
-                -- to enable all native operators, set the preset / operators plugin above
-                -- operators = {
-                --   gc = "Comments",
-                -- },
-                ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-                hidden = {
-                    "<silent>",
-                    "<cmd>",
-                    "<Cmd>",
-                    "<CR>",
-                    "call",
-                    "lua",
-                    "^:",
-                    "^ ",
-                }, -- hide mapping boilerplate
-                show_help = true, -- show help message on the command line when the popup is visible
-                triggers = "auto", -- automatically setup triggers
-                triggers_blacklist = {
-                    -- list of mode / prefixes that should never be hooked by WhichKey
-                    -- this is mostly relevant for key maps that start with a native binding
-                    -- most people should not need to change this
-                    i = { "j", "k" },
-                    v = { "j", "k" },
-                },
-            }
-            which_key.setup(setup)
+      wk.setup({
+        plugins = {
+          marks = true,
+          registers = true,
+          spelling = {
+            enabled = false,
+            suggestions = 20,
+          },
+        },
+        show_help = true,
+        triggers = "auto",
+      })
 
-            -- Register normal mappings
-            local normal_mappings = {
-                l = { name = "LSP" },
-                f = { name = "Find" },
-                t = { name = "Test" },
-                r = { name = "Run" },
-                g = { name = "Git", f = { name = "Find" } },
-                b = { name = "Buffers" },
-                d = { name = "Debug" },
-                o = { name = "Octo (GitHub)" },
-                w = {
-                    name = "Writing",
-                    l = { name = "Latex" },
-                },
-                n = {
-                    name = "Notes",
-                    f = { name = "Find" },
-                    n = { name = "New" },
-                },
-                T = { name = "Terminal" },
-                u = { name = "UI" },
-                j = { name = "Jump" },
-                m = { name = "Move" },
-                c = { name = "Code", r = { name = "Refactor" } },
-                s = {
-                    name = "Select",
-                    n = { name = "Node" },
-                },
-            }
-            which_key.register(normal_mappings, {
-                mode = "n",
-                buffer = nil,
-                silent = true,
-                noremap = true,
-                nowait = true,
-                prefix = "<leader>",
-            })
+      wk.add({
+        { "<leader>T", group = "Terminal", nowait = true, remap = false },
+        { "<leader>b", group = "Buffers", nowait = true, remap = false },
+        { "<leader>c", group = "Code", nowait = true, remap = false },
+        { "<leader>cr", group = "Refactor", nowait = true, remap = false },
+        { "<leader>d", group = "Debug", nowait = true, remap = false },
+        { "<leader>f", group = "Find", nowait = true, remap = false },
+        { "<leader>g", group = "Git", nowait = true, remap = false },
+        { "<leader>gf", group = "Find", nowait = true, remap = false },
+        { "<leader>j", group = "Jump", nowait = true, remap = false },
+        { "<leader>l", group = "LSP", nowait = true, remap = false },
+        { "<leader>m", group = "Move", nowait = true, remap = false },
+        { "<leader>n", group = "Notes", nowait = true, remap = false },
+        { "<leader>nf", group = "Find", nowait = true, remap = false },
+        { "<leader>nn", group = "New", nowait = true, remap = false },
+        { "<leader>o", group = "Octo (GitHub)", nowait = true, remap = false },
+        { "<leader>r", group = "Run", nowait = true, remap = false },
+        { "<leader>s", group = "Select", nowait = true, remap = false },
+        { "<leader>sn", group = "Node", nowait = true, remap = false },
+        { "<leader>t", group = "Test", nowait = true, remap = false },
+        { "<leader>u", group = "UI", nowait = true, remap = false },
+        { "<leader>w", group = "Writing", nowait = true, remap = false },
+        { "<leader>wl", group = "Latex", nowait = true, remap = false },
+        {
+          mode = { "v" },
+          { "<leader>s", group = "Select", nowait = true, remap = false },
+          { "<leader>sd", group = "Decrement", nowait = true, remap = false },
+          { "<leader>si", group = "Increment", nowait = true, remap = false },
+          { "<leader>ss", group = "Scope", nowait = true, remap = false },
+        },
+      })
 
-            -- Register visual mappings
-            local visual_mappings = {
-                s = {
-                    name = "Select",
-                    i = { name = "Increment", mode = "v" },
-                    d = { name = "Decrement", mode = "v" },
-                    s = { name = "Scope", mode = "v" },
-                },
-            }
-            which_key.register(visual_mappings, {
-                mode = "v",
-                buffer = nil,
-                silent = true,
-                noremap = true,
-                nowait = true,
-                prefix = "<leader>",
-            })
-        end,
-    },
+      -- Register normal mappings
+      -- local normal_mappings = {
+      --   l = { name = "LSP" },
+      --   f = { name = "Find" },
+      --   t = { name = "Test" },
+      --   r = { name = "Run" },
+      --   g = { name = "Git", f = { name = "Find" } },
+      --   b = { name = "Buffers" },
+      --   d = { name = "Debug" },
+      --   o = { name = "Octo (GitHub)" },
+      --   w = {
+      --     name = "Writing",
+      --     l = { name = "Latex" },
+      --   },
+      --   n = {
+      --     name = "Notes",
+      --     f = { name = "Find" },
+      --     n = { name = "New" },
+      --   },
+      --   T = { name = "Terminal" },
+      --   u = { name = "UI" },
+      --   j = { name = "Jump" },
+      --   m = { name = "Move" },
+      --   c = { name = "Code", r = { name = "Refactor" } },
+      --   s = {
+      --     name = "Select",
+      --     n = { name = "Node" },
+      --   },
+      -- }
+      --
+      -- which_key.register(normal_mappings, {
+      --   mode = "n",
+      --   buffer = nil,
+      --   silent = true,
+      --   noremap = true,
+      --   nowait = true,
+      --   prefix = "<leader>",
+      -- })
+
+      -- Register visual mappings
+      -- local visual_mappings = {
+      --   s = {
+      --     name = "Select",
+      --     i = { name = "Increment", mode = "v" },
+      --     d = { name = "Decrement", mode = "v" },
+      --     s = { name = "Scope", mode = "v" },
+      --   },
+      -- }
+      -- which_key.register(visual_mappings, {
+      --   mode = "v",
+      --   buffer = nil,
+      --   silent = true,
+      --   noremap = true,
+      --   nowait = true,
+      --   prefix = "<leader>",
+      -- })
+    end,
+  },
 }
