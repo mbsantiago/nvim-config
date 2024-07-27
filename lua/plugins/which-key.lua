@@ -14,11 +14,11 @@ return {
           },
         },
         show_help = true,
-        triggers = "auto",
       })
 
       wk.add({
         { "<leader>T", group = "Terminal", nowait = true, remap = false },
+        { "<leader>p", group = "Tasks", nowait = true, remap = false },
         { "<leader>b", group = "Buffers", nowait = true, remap = false },
         { "<leader>c", group = "Code", nowait = true, remap = false },
         { "<leader>cr", group = "Refactor", nowait = true, remap = false },
@@ -48,63 +48,6 @@ return {
           { "<leader>ss", group = "Scope", nowait = true, remap = false },
         },
       })
-
-      -- Register normal mappings
-      -- local normal_mappings = {
-      --   l = { name = "LSP" },
-      --   f = { name = "Find" },
-      --   t = { name = "Test" },
-      --   r = { name = "Run" },
-      --   g = { name = "Git", f = { name = "Find" } },
-      --   b = { name = "Buffers" },
-      --   d = { name = "Debug" },
-      --   o = { name = "Octo (GitHub)" },
-      --   w = {
-      --     name = "Writing",
-      --     l = { name = "Latex" },
-      --   },
-      --   n = {
-      --     name = "Notes",
-      --     f = { name = "Find" },
-      --     n = { name = "New" },
-      --   },
-      --   T = { name = "Terminal" },
-      --   u = { name = "UI" },
-      --   j = { name = "Jump" },
-      --   m = { name = "Move" },
-      --   c = { name = "Code", r = { name = "Refactor" } },
-      --   s = {
-      --     name = "Select",
-      --     n = { name = "Node" },
-      --   },
-      -- }
-      --
-      -- which_key.register(normal_mappings, {
-      --   mode = "n",
-      --   buffer = nil,
-      --   silent = true,
-      --   noremap = true,
-      --   nowait = true,
-      --   prefix = "<leader>",
-      -- })
-
-      -- Register visual mappings
-      -- local visual_mappings = {
-      --   s = {
-      --     name = "Select",
-      --     i = { name = "Increment", mode = "v" },
-      --     d = { name = "Decrement", mode = "v" },
-      --     s = { name = "Scope", mode = "v" },
-      --   },
-      -- }
-      -- which_key.register(visual_mappings, {
-      --   mode = "v",
-      --   buffer = nil,
-      --   silent = true,
-      --   noremap = true,
-      --   nowait = true,
-      --   prefix = "<leader>",
-      -- })
     end,
   },
 }

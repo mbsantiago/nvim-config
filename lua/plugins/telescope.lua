@@ -83,7 +83,7 @@ return {
         "<cmd>Telescope registers<cr>",
         desc = "Registers",
       },
-      { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Mark" },
+      { "<leader>fM", "<cmd>Telescope marks<cr>", desc = "Mark" },
       {
         "<leader>fz",
         "<cmd>Telescope spell_sugest<cr>",
@@ -107,6 +107,11 @@ return {
       {
         "<leader>fS",
         "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+        desc = "Workspace Symbols",
+      },
+      {
+        "<leader>fm",
+        "<cmd>Telescope man_pages<cr>",
         desc = "Workspace Symbols",
       },
       -- GIT COMMANDS

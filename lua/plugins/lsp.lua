@@ -79,6 +79,7 @@ return {
       --   },
       -- })
       lspconfig.tinymist.setup({
+        filetypes = { "typst" },
         capabilities = capabilities,
         settings = {
           formatterMode = "typstyle",
@@ -88,6 +89,7 @@ return {
         capabilities = capabilities,
       })
       lspconfig.pyright.setup({
+        autostart = true,
         capabilities = capabilities,
         settings = {
           disableLanguageServices = true,
@@ -147,6 +149,22 @@ return {
       })
       lspconfig.bashls.setup({
         capabilities = capabilities,
+        filetypes = { "sh", "bash" },
+        settings = {
+          bashIde = {
+            shfmt = {
+              binaryNextLine = true,
+              caseIndent = true,
+              funcNextLine = true,
+              ignoreEditorconfig = false,
+              keepPadding = true,
+              languageDialect = "auto",
+              path = "shfmt",
+              simplifyCode = true,
+              spaceRedirects = true,
+            },
+          },
+        },
       })
       lspconfig.texlab.setup({
         capabilities = capabilities,

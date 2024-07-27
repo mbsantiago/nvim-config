@@ -1,7 +1,7 @@
 local luasnip = safe_require("luasnip")
 
 if not luasnip then
-    return {}
+  return {}
 end
 
 local s = luasnip.snippet

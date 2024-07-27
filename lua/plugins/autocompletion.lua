@@ -57,6 +57,7 @@ return {
             },
           },
           { name = "luasnip" },
+          { name = "luasnip" },
           { name = "path" },
           { name = "buffer" },
           { name = "nvim_lua" },

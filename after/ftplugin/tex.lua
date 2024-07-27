@@ -6,9 +6,8 @@ local o = vim.opt
 -- Wrap lines
 o.textwidth = 0
 o.wrap = true
-o.wm = 16
-o.linebreak = true
-o.winwidth = 80
+o.wrapmargin = 80
+o.sidescroll = 5
 o.formatoptions = o.formatoptions + { t = true, l = true }
 
 vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true, silent = true })

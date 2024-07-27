@@ -1,7 +1,7 @@
 local luasnip = safe_require("luasnip")
 
 if not luasnip then
-    return {}
+  return {}
 end
 
 local s = luasnip.snippet
@@ -22,17 +22,17 @@ local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 
 return {
-    s(
-        "init",
-        fmt(
-            [[
+  s(
+    "init",
+    fmt(
+      [[
       def __init__(self, {1}):
           {2}
       ]],
-            {
-                i(1, "Name"),
-                i(2, "pass"),
-            }
-        )
-    ),
+      {
+        i(1, "Name"),
+        i(2, "pass"),
+      }
+    )
+  ),
 }
