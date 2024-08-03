@@ -7,6 +7,32 @@ return {
       require("typst-preview").update()
     end,
   },
+  {
+    "quarto-dev/quarto-nvim",
+    dependencies = {
+      "jmbuhr/otter.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    ft = "quarto",
+    opts = {
+      codeRunner = {
+        enabled = true,
+        default_method = "molten",
+      },
+    },
+    keys = {
+      {
+        "<leader>rc",
+        "<cmd>QuartoSend<cr>",
+        desc = "Run Quarto Cell",
+      },
+      {
+        "<s-cr>",
+        "<cmd>QuartoSend<cr>",
+        desc = "Run Quarto Cell",
+      },
+    },
+  },
   { -- Latex plugins
     "lervag/vimtex",
     lazy = true,
