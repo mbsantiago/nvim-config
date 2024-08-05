@@ -24,6 +24,7 @@ return {
         extensions = {
           frecency = {
             auto_validate = true,
+            db_safe_mode = false,
             max_timestamps = 20,
             show_scores = true,
           },
