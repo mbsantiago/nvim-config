@@ -22,6 +22,7 @@ return {
         lua = { "stylua" },
         quarto = { "injected" },
         yaml = { "prettierd" },
+        nix = { "alejandra" },
         ["_"] = { "trim_whitespace" },
       },
       notify_no_formatters = true,
