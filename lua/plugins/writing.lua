@@ -1,11 +1,37 @@
+local function _get_root_by_git(path)
+  local root_patterns = { ".git", "main.typ" }
+
+  -- Check if path is in a git repository
+  local root_dir =
+    vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+
+  -- If not return the original path parent
+  if root_dir == nil then
+    return vim.fn.fnamemodify(path, ":h")
+  end
+
+  -- Otherwise return the git repository root
+  return root_dir
+end
+
 return {
   {
     "chomosuke/typst-preview.nvim",
-    lazy = false, -- or ft = 'typst'
+    ft = "typst",
     version = "0.3.*",
     build = function()
       require("typst-preview").update()
     end,
+    opts = {
+      open_cmd = "firefox %s -P typst-preview --class typst-preview",
+      invert_colors = "always",
+      get_root = function(path_of_main_file)
+        return _get_root_by_git(path_of_main_file)
+      end,
+      get_main_file = function(path_of_buffer)
+        return _get_root_by_git(path_of_buffer) .. "/main.typ"
+      end,
+    },
   },
   {
     "quarto-dev/quarto-nvim",
