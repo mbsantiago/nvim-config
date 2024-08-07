@@ -76,6 +76,16 @@ return {
         settings = {
           exportPdf = "onType",
           experimentalFormatterMode = "on",
+          rootPath = function()
+            local path = vim.fn.expand("%:p")
+            local root_patterns = { ".git", "main.typ" }
+            local root_dir =
+              vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+            if root_dir == nil then
+              return vim.fn.fnamemodify(path, ":h")
+            end
+            return root_dir
+          end,
         },
       })
       -- lspconfig.tinymist.setup({
