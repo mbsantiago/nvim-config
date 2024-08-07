@@ -71,20 +71,20 @@ return {
           debounce_text_changes = 500,
         },
       })
-      -- lspconfig.typst_lsp.setup({
-      --   capabilities = capabilities,
-      --   settings = {
-      --     exportPdf = "onType",
-      --     experimentalFormatterMode = "on",
-      --   },
-      -- })
-      lspconfig.tinymist.setup({
-        filetypes = { "typst" },
+      lspconfig.typst_lsp.setup({
         capabilities = capabilities,
         settings = {
-          formatterMode = "typstyle",
+          exportPdf = "onType",
+          experimentalFormatterMode = "on",
         },
       })
+      -- lspconfig.tinymist.setup({
+      --   filetypes = { "typst" },
+      --   capabilities = capabilities,
+      --   settings = {
+      --     formatterMode = "typstyle",
+      --   },
+      -- })
       lspconfig.cssls.setup({
         capabilities = capabilities,
       })
