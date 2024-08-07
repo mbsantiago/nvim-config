@@ -23,6 +23,7 @@ return {
       require("typst-preview").update()
     end,
     opts = {
+      open_cmd = "firefox %s -P typst-preview --class typst-preview",
       invert_colors = "always",
       get_root = function(path_of_main_file)
         return _get_root_by_git(path_of_main_file)
