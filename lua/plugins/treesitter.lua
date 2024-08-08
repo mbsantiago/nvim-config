@@ -90,7 +90,7 @@ return {
               ["]m"] = "@function.outer",
               ["]]"] = "@class.outer",
               ["]s"] = "@statement.outer",
-              ["]c"] = "@class.inner",
+              ["]C"] = "@class.inner",
             },
             goto_next_end = {
               ["]M"] = "@function.outer",
@@ -100,7 +100,7 @@ return {
               ["[m"] = "@function.outer",
               ["[["] = "@class.outer",
               ["[s"] = "@statement.outer",
-              ["[c"] = "@class.inner",
+              ["[C"] = "@class.inner",
             },
             goto_previous_end = {
               ["[M"] = "@function.outer",
