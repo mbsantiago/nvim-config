@@ -13,9 +13,6 @@ return {
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "hrsh7th/cmp-nvim-lsp-document-symbol",
-      "tzachar/cmp-fuzzy-buffer",
       "tzachar/cmp-fuzzy-path",
       "tzachar/fuzzy.nvim",
       "onsails/lspkind-nvim",
@@ -23,8 +20,6 @@ return {
     },
     config = function()
       local cmp = require("cmp")
-      local compare = require("cmp.config.compare")
-      local fzf_compare = require("cmp_fuzzy_buffer.compare")
       local lspkind = require("lspkind")
       local luasnip = require("luasnip")
 
@@ -35,32 +30,36 @@ return {
           end,
         },
         mapping = {
-          ["<C-9>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-8>"] = cmp.mapping.scroll_docs(4),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
-          ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+          ["<C-e>"] = cmp.mapping.close(),
+          ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          }),
         },
+        enabled = function()
+          -- disable completion in comments
+          local context = require("cmp.config.context")
+          -- keep command mode completion enabled when cursor is in a comment
+          if vim.api.nvim_get_mode().mode == "c" then
+            return true
+          else
+            return not context.in_treesitter_capture("comment")
+              and not context.in_syntax_group("Comment")
+          end
+        end,
         -- Sources order are actually their priority order
         sources = {
-          { name = "bibtex" },
-          { name = "lazydev", group_index = 0 },
-          { name = "nvim_lsp_signature_help" },
-          {
-            name = "nvim_lsp",
-            option = {
-              markdown_oxide = {
-                keyword_pattern = [[\(\k\| \|\/\|#\)\+]],
-              },
-            },
-          },
+          { name = "lazydev" },
+          { name = "nvim_lsp" },
           { name = "luasnip" },
-          { name = "luasnip" },
-          { name = "path" },
           { name = "buffer" },
-          { name = "nvim_lua" },
+          { name = "bibtex" },
+          { name = "path" },
         },
         formatting = {
           format = function(entry, vim_item)
@@ -73,51 +72,41 @@ return {
               menu = {
                 buffer = "[buf]",
                 nvim_lsp = "[lsp]",
-                nvim_lua = "[api]",
                 lazydev = "[nvim]",
                 path = "[path]",
                 luasnip = "[snip]",
-                nvim_lsp_signature_help = "[sig]",
+                nvim_lsp_document_symbol = "[sym]",
               },
               show_labelDetails = true,
             })(entry, vim_item)
           end,
         },
+        completion = {
+          completeopt = "menu,menuone,noinsert",
+        },
+        preselect = cmp.PreselectMode.Item,
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
-        sorting = {
-          priority_weight = 2,
-          comparators = {
-            fzf_compare,
-            compare.offset,
-            compare.exact,
-            compare.score,
-            compare.kind,
-            compare.recently_used,
-            compare.sort_text,
-            compare.length,
-            compare.order,
-          },
-        },
       })
 
       -- Setup completion on search mode
-      cmp.setup.cmdline("/", {
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = "nvim_lsp_document_symbol" },
-        }, {
           { name = "buffer" },
         }),
       })
 
       -- Setup completion on command mode
       cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
           { name = "fuzzy_path", keyword_length = 3 },
           { name = "cmdline", keyword_length = 3 },
         }),
+        matching = { disallow_symbol_nonprefix_matching = false },
       })
     end,
   },
@@ -130,6 +119,7 @@ return {
     event = "InsertEnter",
     config = function()
       local npairs = require("nvim-autopairs")
+
       npairs.setup({
         check_ts = true,
         enable_check_bracket_line = true,

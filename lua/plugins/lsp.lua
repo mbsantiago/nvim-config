@@ -73,6 +73,21 @@ return {
       })
       -- lspconfig.typst_lsp.setup({
       --   capabilities = capabilities,
+      --   root_dir = function(path, _)
+      --     local root_patterns = { ".git", "main.typ" }
+      --
+      --     -- Check if path is in a git repository
+      --     local root_dir =
+      --       vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+      --
+      --     -- If not return the original path parent
+      --     if root_dir == nil then
+      --       return vim.fn.fnamemodify(path, ":h")
+      --     end
+      --
+      --     -- Otherwise return the git repository root
+      --     return root_dir
+      --   end,
       --   settings = {
       --     exportPdf = "onType",
       --     experimentalFormatterMode = "on",
@@ -81,6 +96,21 @@ return {
       lspconfig.tinymist.setup({
         filetypes = { "typst" },
         capabilities = capabilities,
+        root_dir = function(path, _)
+          local root_patterns = { ".git", "main.typ" }
+
+          -- Check if path is in a git repository
+          local root_dir =
+            vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+
+          -- If not return the original path parent
+          if root_dir == nil then
+            return vim.fn.fnamemodify(path, ":h")
+          end
+
+          -- Otherwise return the git repository root
+          return root_dir
+        end,
         settings = {
           formatterMode = "typstyle",
         },
@@ -219,6 +249,16 @@ return {
         "<leader>lk",
         vim.diagnostic.goto_prev,
         desc = "Prev Diagnostic",
+      },
+      {
+        "<leader>wp",
+        function()
+          vim.lsp.buf.execute_command({
+            command = "tinymist.pinMain",
+            arguments = { vim.api.nvim_buf_get_name(0) },
+          })
+        end,
+        desc = "Pin Main",
       },
     },
   },
