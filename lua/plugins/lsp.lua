@@ -103,13 +103,6 @@ return {
           end,
         },
       })
-      -- lspconfig.tinymist.setup({
-      --   filetypes = { "typst" },
-      --   capabilities = capabilities,
-      --   settings = {
-      --     formatterMode = "typstyle",
-      --   },
-      -- })
       lspconfig.cssls.setup({
         capabilities = capabilities,
       })
