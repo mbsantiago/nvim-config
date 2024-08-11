@@ -1,8 +1,20 @@
 return {
   {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end,
   },
   {
     "hrsh7th/nvim-cmp",
@@ -23,6 +35,14 @@ return {
       local lspkind = require("lspkind")
       local luasnip = require("luasnip")
 
+      lspkind.init({
+        symbol_map = {
+          Copilot = "",
+        },
+      })
+
+      vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -36,10 +56,44 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.close(),
-          ["<CR>"] = cmp.mapping.confirm({
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-          }),
+
+          -- Complete or expand
+          ["<CR>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              if luasnip.expandable() then
+                luasnip.expand()
+              else
+                cmp.confirm({
+                  behavior = cmp.ConfirmBehavior.Insert,
+                  select = true,
+                })
+              end
+            else
+              fallback()
+            end
+          end),
+
+          -- Jump forward in the snippet
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.locally_jumpable(1) then
+              luasnip.jump(1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+
+          -- Jump backward in the snippet
+          ["<C-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
         },
         enabled = function()
           -- disable completion in comments
@@ -54,6 +108,7 @@ return {
         end,
         -- Sources order are actually their priority order
         sources = {
+          { name = "copilot", group_index = 2 },
           { name = "lazydev" },
           { name = "nvim_lsp" },
           { name = "luasnip" },
