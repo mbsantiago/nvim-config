@@ -71,30 +71,7 @@ return {
           debounce_text_changes = 500,
         },
       })
-      -- lspconfig.typst_lsp.setup({
-      --   capabilities = capabilities,
-      --   root_dir = function(path, _)
-      --     local root_patterns = { ".git", "main.typ" }
-      --
-      --     -- Check if path is in a git repository
-      --     local root_dir =
-      --       vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
-      --
-      --     -- If not return the original path parent
-      --     if root_dir == nil then
-      --       return vim.fn.fnamemodify(path, ":h")
-      --     end
-      --
-      --     -- Otherwise return the git repository root
-      --     return root_dir
-      --   end,
-      --   settings = {
-      --     exportPdf = "onType",
-      --     experimentalFormatterMode = "on",
-      --   },
-      -- })
-      lspconfig.tinymist.setup({
-        filetypes = { "typst" },
+      lspconfig.typst_lsp.setup({
         capabilities = capabilities,
         root_dir = function(path, _)
           local root_patterns = { ".git", "main.typ" }
@@ -112,7 +89,18 @@ return {
           return root_dir
         end,
         settings = {
-          formatterMode = "typstyle",
+          exportPdf = "onType",
+          experimentalFormatterMode = "on",
+          rootPath = function()
+            local path = vim.fn.expand("%:p")
+            local root_patterns = { ".git", "main.typ" }
+            local root_dir =
+              vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+            if root_dir == nil then
+              return vim.fn.fnamemodify(path, ":h")
+            end
+            return root_dir
+          end,
         },
       })
       lspconfig.cssls.setup({
