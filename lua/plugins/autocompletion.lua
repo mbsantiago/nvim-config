@@ -1,22 +1,5 @@
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      })
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-  },
-  {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
@@ -95,17 +78,6 @@ return {
             end
           end, { "i", "s" }),
         },
-        enabled = function()
-          -- disable completion in comments
-          local context = require("cmp.config.context")
-          -- keep command mode completion enabled when cursor is in a comment
-          if vim.api.nvim_get_mode().mode == "c" then
-            return true
-          else
-            return not context.in_treesitter_capture("comment")
-              and not context.in_syntax_group("Comment")
-          end
-        end,
         -- Sources order are actually their priority order
         sources = {
           { name = "copilot", group_index = 2 },
