@@ -218,4 +218,16 @@ return {
       },
     },
   },
+  {
+    "jmbuhr/telescope-zotero.nvim",
+    dependencies = {
+      "kkharji/sqlite.lua",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {},
+    config = function()
+      local telescope = require("telescope")
+      telescope.load_extension("zotero")
+    end,
+  },
 }
