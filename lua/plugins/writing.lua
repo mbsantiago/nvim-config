@@ -229,9 +229,6 @@ return {
       "kkharji/sqlite.lua",
       "nvim-telescope/telescope.nvim",
     },
-    opts = {
-      pdf_opener = "zathura",
-    },
     config = function()
       local telescope = require("telescope")
       telescope.load_extension("zotero")
