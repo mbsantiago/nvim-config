@@ -48,6 +48,11 @@ return {
     },
     keys = {
       {
+        "<leader>wp",
+        "<cmd>QuartoPreview<cr>",
+        desc = "Preview Document",
+      },
+      {
         "<leader>rc",
         "<cmd>QuartoSend<cr>",
         desc = "Run Quarto Cell",

@@ -239,7 +239,7 @@ return {
         desc = "Prev Diagnostic",
       },
       {
-        "<leader>wp",
+        "<leader>wP",
         function()
           vim.lsp.buf.execute_command({
             command = "tinymist.pinMain",

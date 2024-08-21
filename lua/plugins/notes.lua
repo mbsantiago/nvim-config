@@ -14,12 +14,8 @@ return {
       require("obsidian").setup({
         workspaces = {
           {
-            name = "personal",
-            path = "~/Documents/Notes/vaults/personal",
-          },
-          {
-            name = "work",
-            path = "~/Documents/Notes/vaults/work",
+            name = "notes",
+            path = "~/Documents/Notes",
           },
         },
         note_frontmatter_func = function(note)
