@@ -232,10 +232,11 @@ return {
     config = function()
       local telescope = require("telescope")
       telescope.load_extension("zotero")
+
+      require("zotero").setup({
+        pdf_opener = "zathura",
+      })
     end,
-    opts = {
-      pdf_opener = "okular",
-    },
     keys = {
       {
         "<leader>fc",
