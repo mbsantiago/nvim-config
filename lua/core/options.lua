@@ -123,7 +123,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- Python
-vim.g.python3_host_prog = "$XDG_STATE_HOME/nvim/venv/bin/python"
+vim.g.python3_host_prog = "$XDG_DATA_HOME/nvim/venv/bin/python"
 
 -- Translation
 vim.g.translator_target_lang = "en"

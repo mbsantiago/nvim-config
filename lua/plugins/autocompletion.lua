@@ -12,6 +12,7 @@ return {
       "tzachar/fuzzy.nvim",
       "onsails/lspkind-nvim",
       "mbsantiago/cmp-bibtex",
+      "jalvesaq/cmp-zotcite",
     },
     config = function()
       local cmp = require("cmp")
@@ -86,6 +87,7 @@ return {
           { name = "luasnip" },
           { name = "buffer" },
           { name = "bibtex" },
+          { name = "cmp_zotcite" },
           { name = "path" },
         },
         formatting = {
