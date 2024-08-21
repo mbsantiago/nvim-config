@@ -233,6 +233,9 @@ return {
       local telescope = require("telescope")
       telescope.load_extension("zotero")
     end,
+    opts = {
+      pdf_opener = "okular",
+    },
     keys = {
       {
         "<leader>fc",
