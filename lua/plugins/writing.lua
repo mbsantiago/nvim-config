@@ -224,7 +224,7 @@ return {
     },
   },
   {
-    "jmbuhr/telescope-zotero.nvim",
+    dir = "~/Software/plugins/neovim/telescope-zotero.nvim",
     dependencies = {
       "kkharji/sqlite.lua",
       "nvim-telescope/telescope.nvim",
