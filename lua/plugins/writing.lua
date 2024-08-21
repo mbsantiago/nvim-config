@@ -224,10 +224,19 @@ return {
       "kkharji/sqlite.lua",
       "nvim-telescope/telescope.nvim",
     },
-    opts = {},
+    opts = {
+      pdf_opener = "zathura",
+    },
     config = function()
       local telescope = require("telescope")
       telescope.load_extension("zotero")
     end,
+    keys = {
+      {
+        "<leader>fc",
+        "<cmd>Telescope zotero<cr>",
+        desc = "Citations",
+      },
+    },
   },
 }
