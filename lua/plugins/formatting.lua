@@ -8,7 +8,7 @@ return {
         typescriptreact = { "prettierd", "rustywind" },
         javascriptreact = { "prettierd", "rustywind" },
         html = { "prettierd", "rustywind" },
-        markdown = { "prettierd" },
+        markdown = { "prettierd", "mdslw" },
         json = { "jq" },
         sh = { "shfmt" },
         bash = { "shfmt" },
