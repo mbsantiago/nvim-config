@@ -1,3 +1,19 @@
+local function get_typst_root_path(path)
+  local root_patterns = { ".git", "main.typ" }
+
+  -- Check if path is in a git repository
+  local root_dir =
+    vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+
+  -- If not return the original path parent
+  if root_dir == nil then
+    return vim.fn.fnamemodify(path, ":h")
+  end
+
+  -- Otherwise return the git repository root
+  return root_dir
+end
+
 return {
   {
     "williamboman/mason.nvim",
@@ -24,7 +40,6 @@ return {
     dependencies = {
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      "jose-elias-alvarez/nvim-lsp-ts-utils",
       "aznhe21/actions-preview.nvim",
       "b0o/schemastore.nvim",
     },
@@ -60,47 +75,26 @@ return {
           },
         },
       })
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         capabilities = capabilities,
-        on_attach = function(client, _)
-          local ts_utils = require("nvim-lsp-ts-utils")
-          ts_utils.setup({})
-          ts_utils.setup_client(client)
-        end,
         flags = {
           debounce_text_changes = 500,
         },
       })
-      lspconfig.typst_lsp.setup({
+      lspconfig.eslint.setup({
         capabilities = capabilities,
-        root_dir = function(path, _)
-          local root_patterns = { ".git", "main.typ" }
-
-          -- Check if path is in a git repository
-          local root_dir =
-            vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
-
-          -- If not return the original path parent
-          if root_dir == nil then
-            return vim.fn.fnamemodify(path, ":h")
-          end
-
-          -- Otherwise return the git repository root
-          return root_dir
+      })
+      lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.tinymist.setup({
+        capabilities = capabilities,
+        single_file_support = true,
+        root_dir = function()
+          return vim.fn.getcwd()
         end,
         settings = {
           exportPdf = "onType",
-          experimentalFormatterMode = "on",
-          rootPath = function()
-            local path = vim.fn.expand("%:p")
-            local root_patterns = { ".git", "main.typ" }
-            local root_dir =
-              vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
-            if root_dir == nil then
-              return vim.fn.fnamemodify(path, ":h")
-            end
-            return root_dir
-          end,
         },
       })
       lspconfig.cssls.setup({
@@ -125,15 +119,9 @@ return {
       lspconfig.groovyls.setup({
         capabilities = capabilities,
         cmd = { "groovy-language-server" },
-        root_dir = function(fname)
+        root_dir = function(_)
           return vim.fn.getcwd()
         end,
-      })
-      lspconfig.eslint.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
       })
       lspconfig.taplo.setup({
         capabilities = capabilities,

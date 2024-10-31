@@ -18,6 +18,17 @@ return {
             path = "~/Documents/Notes",
           },
         },
+        disable_formatter = true,
+        callbacks = {
+          -- Runs anytime you enter the buffer for a note.
+          ---@param client obsidian.Client
+          ---@param note obsidian.Note
+          enter_note = function(client, note)
+            local path = note.path.filename
+            local dirname = vim.fn.fnamemodify(path, ":p:h")
+            vim.fn.chdir(dirname)
+          end,
+        },
         note_frontmatter_func = function(note)
           -- Add the title of the note as an alias.
           if note.title then

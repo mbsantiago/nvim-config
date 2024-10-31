@@ -20,7 +20,11 @@ return {
         javascript = { "prettierd" },
         python = { "ruff_format", "ruff_organize_imports" },
         lua = { "stylua" },
-        quarto = { "injected" },
+        quarto = {
+          "prettierd",
+          "mdslw",
+          "injected",
+        },
         yaml = { "prettierd" },
         nix = { "alejandra" },
         ["_"] = { "trim_whitespace" },
@@ -28,6 +32,16 @@ return {
       notify_no_formatters = true,
       default_format_opts = {
         lsp_format = "fallback",
+      },
+      formatters = {
+        mdslw = {
+          args = {
+            "--end-markers",
+            ".",
+            "--max-width",
+            "0",
+          },
+        },
       },
     },
     lazy = true,

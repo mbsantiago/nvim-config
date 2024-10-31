@@ -4,9 +4,9 @@ vim.cmd([[syntax enable]])
 local o = vim.opt
 
 -- Wrap lines
-o.textwidth = 0
 o.wrap = true
-o.wrapmargin = 80
+o.linebreak = true
+o.conceallevel = 2
 o.sidescroll = 5
 o.formatoptions = o.formatoptions + { t = true, l = true }
 

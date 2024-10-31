@@ -11,7 +11,6 @@ return {
       "tzachar/cmp-fuzzy-path",
       "tzachar/fuzzy.nvim",
       "onsails/lspkind-nvim",
-      "mbsantiago/cmp-bibtex",
     },
     config = function()
       local cmp = require("cmp")
@@ -85,15 +84,10 @@ return {
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
-          { name = "bibtex" },
           { name = "path" },
         },
         formatting = {
           format = function(entry, vim_item)
-            if entry.source.name == "bibtex" then
-              return require("cmp_bibtex.formatting").format(entry, vim_item)
-            end
-
             return lspkind.cmp_format({
               mode = "symbol_text",
               menu = {

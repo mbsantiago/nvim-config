@@ -60,7 +60,11 @@ return {
         ":MoltenEvaluateOperator<CR>",
         desc = "Evaluate operator",
       },
-      { "<leader>ro", ":noautocmd MoltenEnterOutput<CR>", desc = "Show run output" },
+      {
+        "<leader>ro",
+        ":noautocmd MoltenEnterOutput<CR>",
+        desc = "Show run output",
+      },
       { "<leader>rl", ":MoltenEvaluateLine<CR>", desc = "Evaluate line" },
       { "<leader>rd", ":MoltenDelete<CR>", desc = "Delete highlighted cell" },
       { "<leader>rr", ":MoltenReevaluateCell<CR>", desc = "Reevaluate cell" },
