@@ -37,6 +37,13 @@ return {
         keymaps = {
           ["<C-h>"] = false,
           ["<C-l>"] = false,
+          ["yp"] = {
+            desc = "Copy filepath to system clipboard",
+            callback = function()
+              require("oil.actions").copy_entry_path.callback()
+              vim.fn.setreg("+", vim.fn.getreg(vim.v.register))
+            end,
+          },
         },
         view_options = {
           is_hidden_file = function(name, _)
@@ -56,7 +63,6 @@ return {
       })
     end,
     lazy = false,
-    commit = "18272aba9d00a3176a5443d50dbb4464acc167bd",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
       {

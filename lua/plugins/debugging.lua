@@ -71,18 +71,11 @@ return {
     ft = "python",
     lazy = true,
     config = function()
-      local dap = require("dap")
       local dap_python = require("dap-python")
-      dap_python.setup("python")
-      table.insert(dap.configurations.python, {
-        configurations = {
-          justMyCode = false,
-        },
-      })
+      dap_python.setup(
+        "/home/santiago/.local/share/uv/tools/debugpy/bin/python"
+      )
       dap_python.test_runner = "pytest"
-      dap_python.resolve_python = function()
-        return "./venv/bin/python"
-      end
     end,
     keys = {
       {

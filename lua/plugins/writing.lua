@@ -1,38 +1,38 @@
-local function _get_root_by_git(path)
-  local root_patterns = { ".git", "main.typ" }
+local function find_bibliography()
+  local current_file = vim.fn.expand("%:p")
+  local current_dir = vim.fn.fnamemodify(current_file, ":h")
 
-  -- Check if path is in a git repository
-  local root_dir =
-    vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+  -- Traverse upwards until root folder (containing .git) is found
+  while not vim.fn.isdirectory(current_dir .. "/.git") do
+    if vim.fn.filereadable(current_dir .. "/bibliography.bib") then
+      return current_dir .. "/bibliography.bib"
+    end
 
-  -- If not return the original path parent
-  if root_dir == nil then
-    return vim.fn.fnamemodify(path, ":h")
+    -- Move one directory up
+    current_dir = vim.fn.fnamemodify(current_dir, ":h")
+
+    -- If we reach the root directory, break the loop
+    if current_dir == "/" then
+      break
+    end
   end
 
-  -- Otherwise return the git repository root
-  return root_dir
+  -- If bibliography.bib is found in the root folder, return its path
+  if vim.fn.filereadable(current_dir .. "/bibliography.bib") then
+    return current_dir .. "/bibliography.bib"
+  end
+
+  -- If bibliography.bib not found, search for any .bib file in the root folder
+  local bib_files = vim.fn.glob(current_dir .. "/*.bib")
+  if #bib_files > 0 then
+    return bib_files[1]
+  end
+
+  -- If no .bib file is found, return nil
+  return nil
 end
 
 return {
-  {
-    "chomosuke/typst-preview.nvim",
-    ft = "typst",
-    version = "0.3.*",
-    build = function()
-      require("typst-preview").update()
-    end,
-    opts = {
-      open_cmd = "firefox %s -P typst-preview --class typst-preview",
-      invert_colors = "always",
-      get_root = function(path_of_main_file)
-        return _get_root_by_git(path_of_main_file)
-      end,
-      get_main_file = function(path_of_buffer)
-        return _get_root_by_git(path_of_buffer) .. "/main.typ"
-      end,
-    },
-  },
   {
     "quarto-dev/quarto-nvim",
     dependencies = {
@@ -72,24 +72,16 @@ return {
       "folke/which-key.nvim",
     },
     config = function()
-      vim.cmd([[
-                augroup vimtex_mac
-                autocmd!
-                autocmd FileType tex syntax enable
-                augroup END
-            ]])
-
       -- Special vim formatting for latex files
       vim.g["vimtex_format_enabled"] = 1
 
       -- Viewer options: One may configure the viewer either by specifying a built-in
       -- viewer method:
-      -- let g:vimtex_view_method = 'zathura'
+      vim.g["vimtex_view_method"] = "zathura"
 
       -- Or with a generic interface:
-      vim.g["vimtex_view_general_viewer"] = "okular"
-
-      vim.g["vimtex_view_general_options"] = "--unique file:@pdf#src:@line@tex"
+      -- vim.g["vimtex_view_general_viewer"] = "okular"
+      -- vim.g["vimtex_view_general_options"] = "--unique file:@pdf#src:@line@tex"
 
       -- Folding
       vim.g["vimtex_fold_enabled"] = 1
@@ -121,7 +113,8 @@ return {
       vim.g.vimtex_quickfix_mode = 0
 
       vim.g.vimtex_quickfix_ignore_filters = {
-        "Overfull \\hbox",
+        "Overfull",
+        "Underfull",
       }
 
       vim.g.vimtex_imaps_leader = "´"
@@ -232,6 +225,18 @@ return {
     config = function()
       local telescope = require("telescope")
       telescope.load_extension("zotero")
+
+      require("zotero").setup({
+        pdf_opener = "zathura",
+        ft = {
+          tex = {
+            insert_key_formatter = function(citekey)
+              return citekey
+            end,
+            locate_bib = find_bibliography,
+          },
+        },
+      })
     end,
     keys = {
       {
@@ -240,5 +245,11 @@ return {
         desc = "Citations",
       },
     },
+  },
+  {
+    "ficcdaf/academic.nvim",
+    -- optional: only load for certain filetypes
+    ft = { "markdown", "tex" },
+    lazy = false,
   },
 }

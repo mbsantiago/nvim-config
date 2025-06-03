@@ -24,7 +24,6 @@ o.termguicolors = true
 o.wrap = false
 o.showmatch = true
 o.guicursor = ""
-o.background = ""
 
 -- Folding
 o.foldcolumn = "1"
@@ -107,12 +106,15 @@ o.shortmess = o.shortmess
 -- Format options
 o.formatoptions = o.formatoptions
   + {
-    c = false,
+    q = true,
+    c = true,
     o = false, -- O and o, don't continue comments
     r = true, -- Pressing Enter will continue comments
+    t = true,
+    n = true,
   }
 
-o.shada = "'1000,<50,s10,h,n$XDG_STATE_HOME/vim/viminfo"
+-- o.shada = "'1000,<50,s10,h,n$XDG_STATE_HOME/vim/viminfo"
 
 -- Mapleader
 vim.g.mapleader = " "

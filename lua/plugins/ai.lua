@@ -1,34 +1,39 @@
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
+    "olimorris/codecompanion.nvim",
     config = function()
-      require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = "gemini",
+          },
+          inline = {
+            adapter = "gemini",
+          },
+        },
       })
     end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-  },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
     dependencies = {
-      { "zbirenbaum/copilot.lua" },
-      { "nvim-lua/plenary.nvim" },
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
     },
-    opts = {
-      prompts = {
-        Rewrite = {
-          prompt = "/COPILOT_GENERATE Enhance the writing of the following code comment. Rewrite the text to make it more clear and concise withouth changing the tone or style:",
-        }
-      }
+    keys = {
+      {
+        "<leader>ac",
+        "<cmd>CodeCompanionChat Toggle<cr>",
+        desc = "Toggle Code Companion Chat",
+      },
+      {
+        "<leader>aa",
+        "<cmd>CodeCompanionActions <cr>",
+        desc = "Toggle Code Companion Actions",
+      },
+      {
+        "<leader>a",
+        ":CodeCompanion ",
+        mode = { "v" },
+        desc = "Toggle Code Companion Chat",
+      },
     },
   },
 }

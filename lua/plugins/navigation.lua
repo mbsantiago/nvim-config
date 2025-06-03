@@ -1,18 +1,23 @@
 return {
   {
-    "enddeadroyal/symbols-outline.nvim",
-    lazy = true,
+    "stevearc/aerial.nvim",
     opts = {
-      autofold_depth = 2,
-      auto_unfold_hover = true,
+      backends = { "lsp", "treesitter", "markdown", "asciidoc", "man" },
+      filter_kind = false,
+      highlight_on_hover = true,
+      show_guides = true,
     },
-    branch = "bugfix/symbol-hover-misplacement",
-    cmd = "SymbolsOutline",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    lazy = true,
+    cmd = { "AerialToggle" },
     keys = {
       {
         "<leader>lo",
-        "<cmd>SymbolsOutline<cr>",
-        desc = "Symbols Outline",
+        "<cmd>AerialToggle<cr>",
+        desc = "Outline",
       },
     },
   },

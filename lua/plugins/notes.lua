@@ -1,148 +1,156 @@
 return {
-  {
-    "epwalsh/obsidian.nvim",
-    lazy = true,
-    ft = "markdown",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
-      "nvim-telescope/telescope.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "epwalsh/pomo.nvim",
-    },
-    config = function()
-      require("obsidian").setup({
-        workspaces = {
-          {
-            name = "notes",
-            path = "~/Documents/Notes",
-          },
-        },
-        note_frontmatter_func = function(note)
-          -- Add the title of the note as an alias.
-          if note.title then
-            note:add_alias(note.title)
-          end
-
-          local out = {
-            id = note.id,
-            aliases = note.aliases,
-            tags = note.tags,
-            date = os.date("%Y-%m-%d"),
-            time = os.date("%Y-%m-%dT%H:%M:%S"),
-          }
-
-          if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-            for k, v in pairs(note.metadata) do
-              out[k] = v
-            end
-          end
-
-          return out
-        end,
-      })
-    end,
-    cmd = {
-      "ObsidianNew",
-      "ObsidianSearch",
-      "ObsidianQuickSwitch",
-      "ObsidianTags",
-      "ObsidianToday",
-      "ObsidianTomorrow",
-      "ObsidianYesterday",
-      "ObsidianDailies",
-      "ObsidianTemplate",
-      "ObsidianWorkspace",
-    },
-    keys = {
-      {
-        "<leader>fn",
-        "<cmd>ObsidianSearch<CR>",
-        desc = "Search notes",
-      },
-      {
-        "<leader>nn",
-        "<cmd>ObsidianNew<CR>",
-        desc = "New note",
-      },
-      {
-        "<leader>nh",
-        "<cmd>ObsidianToday<CR>",
-        desc = "Open today's note",
-      },
-      {
-        "<leader>na",
-        "<cmd>ObsidianYesterday<CR>",
-        desc = "Open yesterday's note",
-      },
-      {
-        "<leader>nm",
-        "<cmd>ObsidianTomorrow<CR>",
-        desc = "Open tomorrow's note",
-      },
-      {
-        "<leader>nd",
-        "<cmd>ObsidianDailies<CR>",
-        desc = "Open daily notes",
-      },
-      {
-        "<leader>ns",
-        "<cmd>ObsidianQuickSwitch<CR>",
-        desc = "Switch workspace",
-      },
-      {
-        "<leader>nT",
-        "<cmd>ObsidianTags<CR>",
-        desc = "List tags",
-      },
-      {
-        "<leader>nt",
-        "<cmd>ObsidianTemplate<CR>",
-        desc = "Insert template",
-      },
-      {
-        "<leader>nw",
-        "<cmd>ObsidianWorkspace<CR>",
-        desc = "Switch workspace",
-      },
-      {
-        "<leader>nl",
-        "<cmd>ObsidianLink<CR>",
-        desc = "Insert link",
-        mode = "v",
-      },
-      {
-        "<leader>nL",
-        "<cmd>ObsidianBacklinks<CR>",
-        desc = "List backlinks",
-        mode = "v",
-      },
-      {
-        "<leader>nL",
-        "<cmd>ObsidianLinkNew<CR>",
-        desc = "Insert link to new note",
-        mode = "v",
-      },
-      {
-        "<leader>nl",
-        "<cmd>ObsidianLinks<CR>",
-        desc = "List links",
-      },
-      {
-        "<leader>ne",
-        "<cmd>ObsidianExtractNote<CR>",
-        desc = "Extract note",
-      },
-      {
-        "<leader>nr",
-        "<cmd>ObsidianRename<CR>",
-        desc = "Rename note",
-      },
-      {
-        "<leader>nc",
-        "<cmd>ObsidianToggleCheckbox<CR>",
-        desc = "Toggle checkbox",
-      },
-    },
-  },
+  -- {
+  --   "epwalsh/obsidian.nvim",
+  --   lazy = true,
+  --   ft = "markdown",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "epwalsh/pomo.nvim",
+  --   },
+  --   config = function()
+  --     require("obsidian").setup({
+  --       workspaces = {
+  --         {
+  --           name = "notes",
+  --           path = "~/Documents/Notes",
+  --         },
+  --       },
+  --       disable_formatter = true,
+  --       callbacks = {
+  --         -- Runs anytime you enter the buffer for a note.
+  --         enter_note = function(client, note)
+  --           local path = note.path.filename
+  --           local dirname = vim.fn.fnamemodify(path, ":p:h")
+  --           vim.fn.chdir(dirname)
+  --         end,
+  --       },
+  --       note_frontmatter_func = function(note)
+  --         -- Add the title of the note as an alias.
+  --         if note.title then
+  --           note:add_alias(note.title)
+  --         end
+  --
+  --         local out = {
+  --           id = note.id,
+  --           aliases = note.aliases,
+  --           tags = note.tags,
+  --           date = os.date("%Y-%m-%d"),
+  --           time = os.date("%Y-%m-%dT%H:%M:%S"),
+  --         }
+  --
+  --         if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+  --           for k, v in pairs(note.metadata) do
+  --             out[k] = v
+  --           end
+  --         end
+  --
+  --         return out
+  --       end,
+  --     })
+  --   end,
+  --   cmd = {
+  --     "ObsidianNew",
+  --     "ObsidianSearch",
+  --     "ObsidianQuickSwitch",
+  --     "ObsidianTags",
+  --     "ObsidianToday",
+  --     "ObsidianTomorrow",
+  --     "ObsidianYesterday",
+  --     "ObsidianDailies",
+  --     "ObsidianTemplate",
+  --     "ObsidianWorkspace",
+  --   },
+  --   keys = {
+  --     {
+  --       "<leader>fn",
+  --       "<cmd>ObsidianSearch<CR>",
+  --       desc = "Search notes",
+  --     },
+  --     {
+  --       "<leader>nn",
+  --       "<cmd>ObsidianNew<CR>",
+  --       desc = "New note",
+  --     },
+  --     {
+  --       "<leader>nh",
+  --       "<cmd>ObsidianToday<CR>",
+  --       desc = "Open today's note",
+  --     },
+  --     {
+  --       "<leader>na",
+  --       "<cmd>ObsidianYesterday<CR>",
+  --       desc = "Open yesterday's note",
+  --     },
+  --     {
+  --       "<leader>nm",
+  --       "<cmd>ObsidianTomorrow<CR>",
+  --       desc = "Open tomorrow's note",
+  --     },
+  --     {
+  --       "<leader>nd",
+  --       "<cmd>ObsidianDailies<CR>",
+  --       desc = "Open daily notes",
+  --     },
+  --     {
+  --       "<leader>ns",
+  --       "<cmd>ObsidianQuickSwitch<CR>",
+  --       desc = "Switch workspace",
+  --     },
+  --     {
+  --       "<leader>nT",
+  --       "<cmd>ObsidianTags<CR>",
+  --       desc = "List tags",
+  --     },
+  --     {
+  --       "<leader>nt",
+  --       "<cmd>ObsidianTemplate<CR>",
+  --       desc = "Insert template",
+  --     },
+  --     {
+  --       "<leader>nw",
+  --       "<cmd>ObsidianWorkspace<CR>",
+  --       desc = "Switch workspace",
+  --     },
+  --     {
+  --       "<leader>nl",
+  --       "<cmd>ObsidianLink<CR>",
+  --       desc = "Insert link",
+  --       mode = "v",
+  --     },
+  --     {
+  --       "<leader>nL",
+  --       "<cmd>ObsidianBacklinks<CR>",
+  --       desc = "List backlinks",
+  --       mode = "v",
+  --     },
+  --     {
+  --       "<leader>nL",
+  --       "<cmd>ObsidianLinkNew<CR>",
+  --       desc = "Insert link to new note",
+  --       mode = "v",
+  --     },
+  --     {
+  --       "<leader>nl",
+  --       "<cmd>ObsidianLinks<CR>",
+  --       desc = "List links",
+  --     },
+  --     {
+  --       "<leader>ne",
+  --       "<cmd>ObsidianExtractNote<CR>",
+  --       desc = "Extract note",
+  --     },
+  --     {
+  --       "<leader>nr",
+  --       "<cmd>ObsidianRename<CR>",
+  --       desc = "Rename note",
+  --     },
+  --     {
+  --       "<leader>nc",
+  --       "<cmd>ObsidianToggleCheckbox<CR>",
+  --       desc = "Toggle checkbox",
+  --     },
+  --   },
+  -- },
 }

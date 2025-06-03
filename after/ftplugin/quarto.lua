@@ -1,9 +1,5 @@
--- enable native syntax highlighting
-vim.cmd([[syntax enable]])
-
 local o = vim.opt
 
--- Wrap lines
 o.wrap = true
 o.linebreak = true
 o.conceallevel = 2

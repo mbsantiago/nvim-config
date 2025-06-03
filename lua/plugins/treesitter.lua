@@ -17,6 +17,7 @@ return {
           enable = true,
           disable = {
             "latex", -- NOTE: highlight syntax is provided by vimtex
+            "dockerfile",
           },
           additional_vim_regex_highlighting = false,
         },
@@ -156,7 +157,6 @@ return {
           "make",
           "markdown",
           "markdown_inline",
-          "muttrc",
           "proto",
           "python",
           "query",

@@ -59,7 +59,7 @@ return {
         desc = "Text in Buffer",
       },
       {
-        "<leader>fc",
+        "<leader>fC",
         "<cmd>Telescope colorscheme<cr>",
         desc = "Colorscheme/Theme",
       },

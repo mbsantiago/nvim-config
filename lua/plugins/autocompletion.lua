@@ -11,7 +11,7 @@ return {
       "tzachar/cmp-fuzzy-path",
       "tzachar/fuzzy.nvim",
       "onsails/lspkind-nvim",
-      "mbsantiago/cmp-bibtex",
+      "micangl/cmp-vimtex",
     },
     config = function()
       local cmp = require("cmp")
@@ -55,45 +55,19 @@ return {
               fallback()
             end
           end),
-
-          -- Jump forward in the snippet
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.locally_jumpable(1) then
-              luasnip.jump(1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-
-          -- Jump backward in the snippet
-          ["<C-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
         },
         -- Sources order are actually their priority order
         sources = {
           { name = "copilot", group_index = 2 },
+          { name = "vimtex" },
           { name = "lazydev" },
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
-          { name = "bibtex" },
           { name = "path" },
         },
         formatting = {
           format = function(entry, vim_item)
-            if entry.source.name == "bibtex" then
-              return require("cmp_bibtex.formatting").format(entry, vim_item)
-            end
-
             return lspkind.cmp_format({
               mode = "symbol_text",
               menu = {
@@ -102,6 +76,7 @@ return {
                 lazydev = "[nvim]",
                 path = "[path]",
                 luasnip = "[snip]",
+                vimtex = "[tex]",
                 nvim_lsp_document_symbol = "[sym]",
               },
               show_labelDetails = true,

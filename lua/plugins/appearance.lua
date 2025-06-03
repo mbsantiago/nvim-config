@@ -65,12 +65,12 @@ return {
     opts = {
       disabled_filetypes = {
         "lazy",
-        "mason",
         "help",
         "tex",
         "markdown",
         "text",
         "dashboard",
+        "snacks_dashboard",
       },
     },
   },

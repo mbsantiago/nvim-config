@@ -31,9 +31,6 @@ return {
             "filename",
             {
               "branch",
-              on_click = function()
-                _G._LAZYGIT_TOGGLE()
-              end,
             },
           },
           lualine_c = {

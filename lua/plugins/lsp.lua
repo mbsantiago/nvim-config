@@ -1,34 +1,20 @@
 return {
   {
-    "williamboman/mason.nvim",
-    lazy = true,
-    cmd = "Mason",
-    opts = {
-      PATH = "prepend",
-      ui = {
-        border = "rounded",
-      },
-    },
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = {
-      "williamboman/mason.nvim",
-    },
-    config = true,
-    lazy = true,
-    event = "VeryLazy",
-  },
-  {
     "neovim/nvim-lspconfig",
+    event = "VeryLazy",
     dependencies = {
-      "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      "jose-elias-alvarez/nvim-lsp-ts-utils",
       "aznhe21/actions-preview.nvim",
       "b0o/schemastore.nvim",
+      "jhofscheier/ltex-utils.nvim",
     },
     config = function()
+      vim.diagnostic.config({
+        virtual_lines = {
+          current_line = true,
+        },
+      })
+
       -- Setup capabilities (completion and snippets)
       local capabilities = vim.tbl_deep_extend(
         "force",
@@ -44,10 +30,9 @@ return {
         require("cmp_nvim_lsp").default_capabilities()
       )
 
-      local lspconfig = require("lspconfig")
-
       -- Configure LSPs
-      lspconfig.lua_ls.setup({
+      vim.lsp.enable("lua_ls")
+      vim.lsp.config("lua_ls", {
         capabilities = capabilities,
         settings = {
           Lua = {
@@ -60,53 +45,49 @@ return {
           },
         },
       })
-      lspconfig.tsserver.setup({
+
+      vim.lsp.enable("ts_ls")
+      vim.lsp.config("ts_ls", {
         capabilities = capabilities,
-        on_attach = function(client, _)
-          local ts_utils = require("nvim-lsp-ts-utils")
-          ts_utils.setup({})
-          ts_utils.setup_client(client)
-        end,
         flags = {
           debounce_text_changes = 500,
         },
       })
-      lspconfig.typst_lsp.setup({
+
+      vim.lsp.enable("esline")
+      vim.lsp.config("eslint", {
         capabilities = capabilities,
-        root_dir = function(path, _)
-          local root_patterns = { ".git", "main.typ" }
+      })
 
-          -- Check if path is in a git repository
-          local root_dir =
-            vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+      vim.lsp.enable("ty")
+      vim.lsp.config("ty", {
+        capabilities = capabilities,
+      })
 
-          -- If not return the original path parent
-          if root_dir == nil then
-            return vim.fn.fnamemodify(path, ":h")
-          end
+      vim.lsp.enable("tailwindcss")
+      vim.lsp.config("tailwindcss", {
+        capabilities = capabilities,
+      })
 
-          -- Otherwise return the git repository root
-          return root_dir
+      vim.lsp.enable("tinymist")
+      vim.lsp.config("tinymist", {
+        capabilities = capabilities,
+        single_file_support = true,
+        root_dir = function()
+          return vim.fn.getcwd()
         end,
         settings = {
           exportPdf = "onType",
-          experimentalFormatterMode = "on",
-          rootPath = function()
-            local path = vim.fn.expand("%:p")
-            local root_patterns = { ".git", "main.typ" }
-            local root_dir =
-              vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
-            if root_dir == nil then
-              return vim.fn.fnamemodify(path, ":h")
-            end
-            return root_dir
-          end,
         },
       })
-      lspconfig.cssls.setup({
+
+      vim.lsp.enable("cssls")
+      vim.lsp.config("cssls", {
         capabilities = capabilities,
       })
-      lspconfig.pyright.setup({
+
+      vim.lsp.enable("pyright")
+      vim.lsp.config("pyright", {
         autostart = true,
         capabilities = capabilities,
         settings = {
@@ -119,26 +100,19 @@ return {
           },
         },
       })
-      lspconfig.ruff.setup({
+
+      vim.lsp.enable("ruff")
+      vim.lsp.config("ruff", {
         capabilities = capabilities,
       })
-      lspconfig.groovyls.setup({
-        capabilities = capabilities,
-        cmd = { "groovy-language-server" },
-        root_dir = function(fname)
-          return vim.fn.getcwd()
-        end,
-      })
-      lspconfig.eslint.setup({
+
+      vim.lsp.enable("taplo")
+      vim.lsp.config("taplo", {
         capabilities = capabilities,
       })
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.taplo.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.jsonls.setup({
+
+      vim.lsp.enable("jsonls")
+      vim.lsp.config("jsonls", {
         capabilities = capabilities,
         settings = {
           json = {
@@ -147,7 +121,9 @@ return {
           },
         },
       })
-      lspconfig.yamlls.setup({
+
+      vim.lsp.enable("yamlls")
+      vim.lsp.config("yamlls", {
         capabilities = capabilities,
         settings = {
           yaml = {
@@ -159,13 +135,14 @@ return {
           },
         },
       })
-      lspconfig.astro.setup({
+
+      vim.lsp.enable("docker_compose_language_service")
+      vim.lsp.config("docker_compose_language_service", {
         capabilities = capabilities,
       })
-      lspconfig.docker_compose_language_service.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.bashls.setup({
+
+      vim.lsp.enable("bashls")
+      vim.lsp.config("bashls", {
         capabilities = capabilities,
         filetypes = { "sh", "bash" },
         settings = {
@@ -184,13 +161,24 @@ return {
           },
         },
       })
-      lspconfig.texlab.setup({
+
+      vim.lsp.enable("rust_analyzer")
+      vim.lsp.config("rust_analyzer", {
         capabilities = capabilities,
       })
-      lspconfig.markdown_oxide.setup({
+
+      vim.lsp.enable("texlab")
+      vim.lsp.config("texlab", {
         capabilities = capabilities,
       })
-      lspconfig.hyprls.setup({
+
+      vim.lsp.enable("markdown_oxide")
+      vim.lsp.config("markdown_oxide", {
+        capabilities = capabilities,
+      })
+
+      vim.lsp.enable("hyprls")
+      vim.lsp.config("hyprls", {
         capabilities = capabilities,
       })
     end,
@@ -249,11 +237,5 @@ return {
         desc = "Pin Main",
       },
     },
-  },
-  {
-    "simrat39/rust-tools.nvim",
-    config = true,
-    lazy = true,
-    ft = "rust",
   },
 }

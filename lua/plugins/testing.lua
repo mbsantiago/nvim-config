@@ -8,6 +8,7 @@ return {
       "nvim-neotest/nvim-nio",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
+      "rouge8/neotest-rust",
     },
     lazy = true,
     config = function()
@@ -25,10 +26,10 @@ return {
           open_on_run = false,
         },
         adapters = {
+          require("neotest-rust"),
           neotest_python({
-            python = ".venv/bin/python",
             dap = { justMyCode = false },
-            args = { "--log-level", "DEBUG" },
+            args = { "--log-level", "DEBUG", "--doctest-modules" },
             runner = "pytest",
           }),
           neotest_jest({}),
