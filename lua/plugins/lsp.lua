@@ -1,3 +1,19 @@
+local function get_typst_root_path(path)
+  local root_patterns = { ".git", "main.typ" }
+
+  -- Check if path is in a git repository
+  local root_dir =
+    vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+
+  -- If not return the original path parent
+  if root_dir == nil then
+    return vim.fn.fnamemodify(path, ":h")
+  end
+
+  -- Otherwise return the git repository root
+  return root_dir
+end
+
 return {
   {
     "neovim/nvim-lspconfig",

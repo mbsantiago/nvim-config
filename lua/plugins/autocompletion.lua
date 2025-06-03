@@ -11,7 +11,6 @@ return {
       "tzachar/cmp-fuzzy-path",
       "tzachar/fuzzy.nvim",
       "onsails/lspkind-nvim",
-      "micangl/cmp-vimtex",
     },
     config = function()
       local cmp = require("cmp")
