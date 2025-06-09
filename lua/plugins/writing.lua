@@ -252,4 +252,15 @@ return {
     ft = { "markdown", "tex" },
     lazy = false,
   },
+  -- For `plugins/markview.lua` users.
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+
+    -- For blink.cmp's completion
+    -- source
+    -- dependencies = {
+    --     "saghen/blink.cmp"
+    -- },
+  },
 }

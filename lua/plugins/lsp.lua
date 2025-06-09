@@ -70,7 +70,7 @@ return {
         },
       })
 
-      vim.lsp.enable("esline")
+      vim.lsp.enable("eslint")
       vim.lsp.config("eslint", {
         capabilities = capabilities,
       })
@@ -97,10 +97,10 @@ return {
         },
       })
 
-      vim.lsp.enable("cssls")
-      vim.lsp.config("cssls", {
-        capabilities = capabilities,
-      })
+      -- vim.lsp.enable("cssls")
+      -- vim.lsp.config("cssls", {
+      --   capabilities = capabilities,
+      -- })
 
       vim.lsp.enable("pyright")
       vim.lsp.config("pyright", {
@@ -152,31 +152,31 @@ return {
         },
       })
 
-      vim.lsp.enable("docker_compose_language_service")
-      vim.lsp.config("docker_compose_language_service", {
-        capabilities = capabilities,
-      })
+      -- vim.lsp.enable("docker_compose_language_service")
+      -- vim.lsp.config("docker_compose_language_service", {
+      --   capabilities = capabilities,
+      -- })
 
-      vim.lsp.enable("bashls")
-      vim.lsp.config("bashls", {
-        capabilities = capabilities,
-        filetypes = { "sh", "bash" },
-        settings = {
-          bashIde = {
-            shfmt = {
-              binaryNextLine = true,
-              caseIndent = true,
-              funcNextLine = true,
-              ignoreEditorconfig = false,
-              keepPadding = true,
-              languageDialect = "auto",
-              path = "shfmt",
-              simplifyCode = true,
-              spaceRedirects = true,
-            },
-          },
-        },
-      })
+      -- vim.lsp.enable("bashls")
+      -- vim.lsp.config("bashls", {
+      --   capabilities = capabilities,
+      --   filetypes = { "sh", "bash" },
+      --   settings = {
+      --     bashIde = {
+      --       shfmt = {
+      --         binaryNextLine = true,
+      --         caseIndent = true,
+      --         funcNextLine = true,
+      --         ignoreEditorconfig = false,
+      --         keepPadding = true,
+      --         languageDialect = "auto",
+      --         path = "shfmt",
+      --         simplifyCode = true,
+      --         spaceRedirects = true,
+      --       },
+      --     },
+      --   },
+      -- })
 
       vim.lsp.enable("rust_analyzer")
       vim.lsp.config("rust_analyzer", {
